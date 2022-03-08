@@ -44,11 +44,16 @@ public class TxActivity extends BaseActivity implements View.OnClickListener {
     private String card_name = "";
     private String card_id = "";
 
-    private String[] txvarr = {"0.1", "30", "88"};
+    private String[] txvarr = {"10", "33", "88"};
+    private String[] txvarr1 = {"0.1", "30", "88"};
+    private String[] txvarr2 = {"33", "88", "0"};
+
+
 
     private LinearLayout btn_tx_1,btn_tx_2,btn_tx_3;
     private TextView tv_txt_1,tv_txv_1,tv_txt_2,tv_txv_2,tv_txt_3,tv_txv_3;
     private int txi = 0;
+    private int first = 0;
 
 
     @Override
@@ -191,8 +196,6 @@ public class TxActivity extends BaseActivity implements View.OnClickListener {
             return;
         }
 
-
-
         double txje = TextUtil.convertToDouble(str_money, 0.0);
 
         Log.d(Tag, txi + str_money + "--" + txje);
@@ -268,6 +271,7 @@ public class TxActivity extends BaseActivity implements View.OnClickListener {
                         JSONObject jsonObject = new JSONObject(resp);
                         String status = jsonObject.getString("status");
                         String message = jsonObject.getString("message");
+                        int code = jsonObject.getInt("code");
 
                         if(status.equals("success")){
 
@@ -288,10 +292,17 @@ public class TxActivity extends BaseActivity implements View.OnClickListener {
 
                                 myToast(1002);
                             }else{
+
                                 myToast(message);
                             }
 
-                            finish();
+                            if(code == 1002){
+
+                                loadData();
+                            }else{
+
+                                finish();
+                            }
                         }
 
                     }catch (Exception e){
@@ -374,22 +385,67 @@ public class TxActivity extends BaseActivity implements View.OnClickListener {
                             et_card.setText(card_id);
                             tv_ktxje.setText(money + "");
 
-                            if(data.has("tx_money_item")){
 
-                                JSONArray txv = data.getJSONArray("tx_money_item");
+                            first = data.getInt("first");
 
-                                for(int i = 0; i < txv.length(); i ++){
+                            if(first == 1){
 
-                                    if(i > 2){
-                                        break;
+                                txvarr = txvarr1;
+
+                                if(data.has("tx_money_item")){
+
+                                    JSONArray txv = data.getJSONArray("tx_money_item");
+
+                                    for(int i = 0; i < txv.length(); i ++){
+
+                                        if(i > 2){
+                                            break;
+                                        }
+                                        txvarr[i] = txv.getString(i);
                                     }
-                                    txvarr[i] = txv.getString(i);
+                                }
+                            }else{
+                                txvarr = txvarr2;
+
+                                if(data.has("tx_money_item")){
+
+                                    JSONArray txv = data.getJSONArray("tx_money_item");
+
+                                    for(int i = 0; i < txv.length(); i ++){
+
+                                        if(i > 2){
+                                            break;
+                                        }
+                                        txvarr[i] = txv.getString(i);
+                                    }
                                 }
                             }
 
-                            tv_txv_1.setText(txvarr[0]);
-                            tv_txv_2.setText(txvarr[1]);
-                            tv_txv_3.setText(txvarr[2]);
+                            if(!txvarr[0].equals("0")){
+
+                                tv_txv_1.setText(txvarr[0]);
+                                btn_tx_1.setVisibility(View.VISIBLE);
+                            }else{
+                                btn_tx_1.setVisibility(View.GONE);
+                            }
+
+                            if(!txvarr[1].equals("0")){
+
+                                tv_txv_2.setText(txvarr[1]);
+                                btn_tx_2.setVisibility(View.VISIBLE);
+                            }else{
+                                btn_tx_2.setVisibility(View.GONE);
+                            }
+
+                            if(!txvarr[2].equals("0")){
+
+                                tv_txv_3.setText(txvarr[2]);
+                                btn_tx_3.setVisibility(View.VISIBLE);
+                            }else{
+                                btn_tx_3.setVisibility(View.GONE);
+                            }
+
+
                         }else{
 
                             if(message.isEmpty()){
