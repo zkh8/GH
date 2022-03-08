@@ -41,4 +41,18 @@ public class TextUtil {
 
         v.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
     }
+
+    public static double convertToDouble(String number, double defaultValue){
+
+        if (number.isEmpty()) {
+
+            return defaultValue;
+        }
+        try {
+            return Double.parseDouble(number);
+        } catch (Exception e) {
+
+            return defaultValue;
+        }
+    }
 }

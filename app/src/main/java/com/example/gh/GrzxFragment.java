@@ -1,14 +1,18 @@
 package com.example.gh;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.tencent.smtt.sdk.WebView;
+import com.tencent.smtt.sdk.WebViewClient;
 import com.youzan.androidsdk.YouzanSDK;
 import com.youzan.androidsdkx5.YouZanSDKX5Adapter;
 import com.youzan.androidsdkx5.YouzanBrowser;
@@ -20,6 +24,9 @@ public class GrzxFragment extends BaseFragment {
     private MainApplication mainApplication;
     private View rootView;
     private YouzanBrowser mView;
+    private int PAGE_TYPE_UNKNOWN = 0x0;
+    private int loadstatus = 0;
+
 
     public GrzxFragment() {
     }
@@ -50,6 +57,20 @@ public class GrzxFragment extends BaseFragment {
                 YouzanSDK.isDebug(true);
             }
 
+            mView.setWebViewClient(new WebViewClient(){
+                @Override
+                public void onPageFinished(WebView webView, String s) {
+                    super.onPageFinished(webView, s);
+
+                    loadstatus = 1;
+                }
+
+                @Override
+                public void onPageStarted(WebView webView, String s, Bitmap bitmap) {
+                    super.onPageStarted(webView, s, bitmap);
+                }
+            });
+
             load();
         }
         return rootView;
@@ -59,6 +80,7 @@ public class GrzxFragment extends BaseFragment {
 
         if (YouzanSDK.isReady()){
 
+            loadstatus = 1;
             mView.loadUrl(mainApplication.YZ_url_wd);
         }else{
 
@@ -68,6 +90,7 @@ public class GrzxFragment extends BaseFragment {
                 public void run() {
 
                     //myToast("开始重试");
+                    loadstatus = 1;
                     mView.loadUrl(mainApplication.YZ_url_wd);
                 }
             };
@@ -81,5 +104,17 @@ public class GrzxFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
+    }
+
+
+    public boolean onBack(){
+
+        if(mView.canGoBack()){
+
+            mView.goBack();
+
+            return true;
+        }
+        return false;
     }
 }

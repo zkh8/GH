@@ -24,9 +24,10 @@
     <string name="err_yhsx">当前用户帐号已失效</string>
     <string name="tv_mrrw">每日任务</string>
     <string name="tv_gkgg">观看广告</string>
-    <string name="tv_qdjl_tip">奖励随机现金红包</string>
+    <string name="tv_qdjl_tip">奖励免费抽奖</string>
     <string name="tv_kggtj">(0/0)</string>
     <string name="tv_wycj">我要抽奖</string>
+    <string name="tv_mfcj">免费抽奖</string>
     <string name="tv_ljdh">立即兑换</string>
     <string name="tv_jfsc">积分商城</string>
     <string name="tv_jfsc_tip">积分兑换国货</string>
@@ -58,4 +59,8 @@
     <string name="tv_zdl">我知道了</string>
     <string name="tv_ksptip">看视频免费抽奖赢</string>
     <string name="tv_kspcj">看视频抽奖</string>
+    <string name="tv_qdlx_tip">连续签到不断签，拿惊喜豪礼</string>
+    <string name="tv_mrrw_tip">(完成每日任务即可免费抽奖)</string>
+    <string name="tv_hdgz">活动规则</string>
+    <string name="tv_xy">用户协议与隐私政策</string>
 </resources>

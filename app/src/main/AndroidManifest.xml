@@ -13,6 +13,9 @@
         android:theme="@style/Theme.GH3"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".XyActivity"
+            android:exported="false" />
+        <activity
             android:name=".TxActivity"
             android:exported="false" />
         <activity

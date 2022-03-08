@@ -1,6 +1,7 @@
 package com.example.gh;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,6 +14,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -53,6 +58,7 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
 
     private List<LinearLayout> qd_layoutList = new ArrayList<LinearLayout>();
     private List<TextView> qd_tvlist = new ArrayList<TextView>();
+    private List<TextView> qd_tvvlist = new ArrayList<TextView>();
     private List<ImageView> qd_ivlist = new ArrayList<ImageView>();
     private LinearLayout btn_tx;
 
@@ -93,6 +99,8 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
 
     private void iniBtn() {
 
+        rootView.findViewById(R.id.id_btn_qdgz).setOnClickListener(this);
+
         for(int i = 0; i < 8; i ++){
 
             qd_list.add(false);
@@ -123,6 +131,14 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
         qd_tvlist.add(rootView.findViewById(R.id.id_tv_6));
         qd_tvlist.add(rootView.findViewById(R.id.id_tv_7));
 
+        qd_tvvlist.add(rootView.findViewById(R.id.id_tvv_1));
+        qd_tvvlist.add(rootView.findViewById(R.id.id_tvv_2));
+        qd_tvvlist.add(rootView.findViewById(R.id.id_tvv_3));
+        qd_tvvlist.add(rootView.findViewById(R.id.id_tvv_4));
+        qd_tvvlist.add(rootView.findViewById(R.id.id_tvv_5));
+        qd_tvvlist.add(rootView.findViewById(R.id.id_tvv_6));
+        qd_tvvlist.add(rootView.findViewById(R.id.id_tvv_7));
+
         qd_ivlist.add(rootView.findViewById(R.id.id_iv_1));
         qd_ivlist.add(rootView.findViewById(R.id.id_iv_2));
         qd_ivlist.add(rootView.findViewById(R.id.id_iv_3));
@@ -142,6 +158,10 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
         Intent intent;
 
         switch (v.getId()){
+            case R.id.id_btn_qdgz:
+
+                ss_popupWindow_view(0, 0, 0);
+                break;
             case R.id.id_btn_gg:
                 break;
             case R.id.id_btn_tx:
@@ -164,8 +184,6 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.id_btn_ljdh:
-
-                mainApplication.YZ_url_type = 1;
 
                 IndexActivity indexActivity = (IndexActivity) getActivity();
                 indexActivity.onClick(v);
@@ -242,16 +260,25 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
 
                             for(int i = 0; i < qd_arr.length(); i ++){
 
+                                if(i > 6){
+                                    break;
+                                }
+
                                 if(qd_arr.getInt(i) == 1){
 
                                     qd_layoutList.get(i).setSelected(true);
-                                    qd_ivlist.get(i).setSelected(true);
                                     qd_tvlist.get(i).setTextColor(rootActivity.getResources().getColor(R.color.white));
+                                    qd_tvvlist.get(i).setVisibility(View.GONE);
+                                    qd_ivlist.get(i).setVisibility(View.VISIBLE);
                                 }else{
 
-                                    qd_layoutList.get(i).setSelected(false);
-                                    qd_ivlist.get(i).setSelected(false);
-                                    qd_tvlist.get(i).setTextColor(rootActivity.getResources().getColor(R.color.black));
+                                    if(i < 6){
+
+                                        qd_layoutList.get(i).setSelected(false);
+                                        qd_tvlist.get(i).setTextColor(rootActivity.getResources().getColor(R.color.black));
+                                        qd_tvvlist.get(i).setVisibility(View.VISIBLE);
+                                        qd_ivlist.get(i).setVisibility(View.GONE);
+                                    }
                                 }
                             }
 
@@ -264,7 +291,7 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
 
                             if(data.getInt("qd_today") == 1){
 
-                                ss_popupWindow_view(data.getInt("gd_point"), data.getInt("gg_point"));
+                                ss_popupWindow_view(1, data.getInt("gd_point"), data.getInt("gg_point"));
                             }
                             else if(data.getInt("qd_today") == 7){
 
@@ -306,10 +333,20 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
         loadData();
     }
 
-    private void ss_popupWindow_view(int jf1, int jf2) {
+    private void ss_popupWindow_view(int ptype, int jf1, int jf2) {
 
-        View popupView = getLayoutInflater().inflate(R.layout.qd_item, null);
-        popupWindow_ss = new PopupWindow(popupView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        int lid = R.layout.qdgz_item;
+
+        int vlpW = ViewGroup.LayoutParams.MATCH_PARENT;
+        int vlpH = ViewGroup.LayoutParams.WRAP_CONTENT;
+        if(ptype == 1){
+
+            vlpH = ViewGroup.LayoutParams.WRAP_CONTENT;
+            lid = R.layout.qd_item;
+        }
+
+        View popupView = getLayoutInflater().inflate(lid, null);
+        popupWindow_ss = new PopupWindow(popupView, vlpW, vlpH);
 
         popupWindow_ss.setTouchable(true);
         popupWindow_ss.setFocusable(true);
@@ -325,25 +362,84 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
             }
         });
 
-        popupView.findViewById(R.id.id_btn_ksp).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popupWindow_ss.dismiss();
-            }
-        });
 
-        popupView.findViewById(R.id.id_btn_ok).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popupWindow_ss.dismiss();
-            }
-        });
+        if(ptype == 1){
 
-        tv_jf1 = popupView.findViewById(R.id.id_jf1);
-        tv_jf2 = popupView.findViewById(R.id.id_jf2);
 
-        tv_jf1.setText("" + jf1);
-        tv_jf2.setText("" + jf2);
+            popupView.findViewById(R.id.id_btn_ok).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    popupWindow_ss.dismiss();
+                }
+            });
+
+            popupView.findViewById(R.id.id_btn_ksp).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    popupWindow_ss.dismiss();
+                }
+            });
+
+            tv_jf1 = popupView.findViewById(R.id.id_jf1);
+            tv_jf2 = popupView.findViewById(R.id.id_jf2);
+
+            tv_jf1.setText("" + jf1);
+            tv_jf2.setText("" + jf2);
+        }else{
+
+
+
+            WebView webView = popupView.findViewById(R.id.id_webview);
+
+            //支持javascript
+            webView.getSettings().setJavaScriptEnabled(true);
+            // 设置可以支持缩放
+            webView.getSettings().setSupportZoom(true);
+            // 设置出现缩放工具
+            webView.getSettings().setBuiltInZoomControls(true);
+            //扩大比例的缩放
+            webView.getSettings().setUseWideViewPort(true);
+            //自适应屏幕
+            webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+            webView.getSettings().setLoadWithOverviewMode(true);
+
+
+            //如果不设置WebViewClient，请求会跳转系统浏览器
+            webView.setWebViewClient(new WebViewClient() {
+
+                @Override
+                public boolean shouldOverrideUrlLoading(WebView view, String url) {
+
+                    if (url.toString().contains("baidu.cn")){
+
+                        view.loadUrl("https://item.jd.com/100027401298.html");
+                        return true;
+                    }
+
+                    return false;
+                }
+
+                @Override
+                public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request)
+                {
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        if (request.getUrl().toString().contains("baidu.com")){
+                            view.loadUrl("https://item.jd.com/100027401298.html");
+                            return true;
+                        }
+                    }
+
+                    return false;
+                }
+
+            });
+
+            webView.loadUrl(mainApplication.APP_URL + "/api/signa/greement");
+            //webView.loadUrl("https://item.jd.com/100027401298.html");
+            webView.getSettings().setDisplayZoomControls(false);
+        }
+
 
         params.alpha=0.3f;
         getActivity().getWindow().setAttributes(params);

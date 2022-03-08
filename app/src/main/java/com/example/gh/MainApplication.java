@@ -12,8 +12,8 @@ public class MainApplication extends Application {
 
     private static MainApplication mApp;
 
-    public String APP_URL = "http://192.168.31.34";
-    //public String APP_URL = "https://gh.zjinghua.com";
+    //public String APP_URL = "http://192.168.31.34";
+    public String APP_URL = "https://gh.zjinghua.com";
     public String APP_TOKEN;
 
     public UserInfo userInfo;

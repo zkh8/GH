@@ -9,14 +9,18 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.gh.util.TextUtil;
 import com.example.gh.util.ViewUtil;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -40,6 +44,12 @@ public class TxActivity extends BaseActivity implements View.OnClickListener {
     private String card_name = "";
     private String card_id = "";
 
+    private String[] txvarr = {"0.1", "30", "88"};
+
+    private LinearLayout btn_tx_1,btn_tx_2,btn_tx_3;
+    private TextView tv_txt_1,tv_txv_1,tv_txt_2,tv_txv_2,tv_txt_3,tv_txv_3;
+    private int txi = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +57,7 @@ public class TxActivity extends BaseActivity implements View.OnClickListener {
         setContentView(R.layout.activity_tx);
 
         mainApplication = MainApplication.getInstance();
+
 
         iniBtn();
     }
@@ -70,6 +81,22 @@ public class TxActivity extends BaseActivity implements View.OnClickListener {
         findViewById(R.id.id_btn_qbtx).setOnClickListener(this);
         btn_save = findViewById(R.id.id_btn_save);
         btn_save.setOnClickListener(this);
+
+
+        btn_tx_1 = findViewById(R.id.id_btn_tx_1);
+        btn_tx_2 = findViewById(R.id.id_btn_tx_2);
+        btn_tx_3 = findViewById(R.id.id_btn_tx_3);
+        btn_tx_1.setOnClickListener(this);
+        btn_tx_2.setOnClickListener(this);
+        btn_tx_3.setOnClickListener(this);
+
+        tv_txt_1 = findViewById(R.id.id_txt_1);
+        tv_txt_2 = findViewById(R.id.id_txt_2);
+        tv_txt_3 = findViewById(R.id.id_txt_3);
+
+        tv_txv_1 = findViewById(R.id.id_txv_1);
+        tv_txv_2 = findViewById(R.id.id_txv_2);
+        tv_txv_3 = findViewById(R.id.id_txv_3);
     }
 
     @Override
@@ -87,6 +114,57 @@ public class TxActivity extends BaseActivity implements View.OnClickListener {
             case R.id.id_btn_save:
                 save();
                 break;
+
+            case R.id.id_btn_tx_1:
+                chgtxv(1);
+                break;
+            case R.id.id_btn_tx_2:
+                chgtxv(2);
+                break;
+            case R.id.id_btn_tx_3:
+                chgtxv(3);
+                break;
+
+        }
+    }
+
+    private void chgtxv(int i) {
+
+        txi = i;
+
+        if(i == 1){
+
+            btn_tx_1.setSelected(true);
+            btn_tx_2.setSelected(false);
+            btn_tx_3.setSelected(false);
+            tv_txt_1.setTextColor(getResources().getColor(R.color.bg_r_5));
+            tv_txv_1.setTextColor(getResources().getColor(R.color.bg_r_5));
+            tv_txt_2.setTextColor(getResources().getColor(R.color.black));
+            tv_txv_2.setTextColor(getResources().getColor(R.color.black));
+            tv_txt_3.setTextColor(getResources().getColor(R.color.black));
+            tv_txv_3.setTextColor(getResources().getColor(R.color.black));
+        }else if(i == 2){
+
+            btn_tx_1.setSelected(false);
+            btn_tx_2.setSelected(true);
+            btn_tx_3.setSelected(false);
+            tv_txt_1.setTextColor(getResources().getColor(R.color.black));
+            tv_txv_1.setTextColor(getResources().getColor(R.color.black));
+            tv_txt_2.setTextColor(getResources().getColor(R.color.bg_r_5));
+            tv_txv_2.setTextColor(getResources().getColor(R.color.bg_r_5));
+            tv_txt_3.setTextColor(getResources().getColor(R.color.black));
+            tv_txv_3.setTextColor(getResources().getColor(R.color.black));
+        }else if(i == 3){
+
+            btn_tx_1.setSelected(false);
+            btn_tx_2.setSelected(false);
+            btn_tx_3.setSelected(true);
+            tv_txt_1.setTextColor(getResources().getColor(R.color.black));
+            tv_txv_1.setTextColor(getResources().getColor(R.color.black));
+            tv_txt_2.setTextColor(getResources().getColor(R.color.black));
+            tv_txv_2.setTextColor(getResources().getColor(R.color.black));
+            tv_txt_3.setTextColor(getResources().getColor(R.color.bg_r_5));
+            tv_txv_3.setTextColor(getResources().getColor(R.color.bg_r_5));
         }
     }
 
@@ -95,6 +173,11 @@ public class TxActivity extends BaseActivity implements View.OnClickListener {
         String str_name = et_name.getText().toString().trim();
         String str_card = et_card.getText().toString().trim();
         String str_money = et_money.getText().toString().trim();
+
+        if(txi > 0){
+
+            str_money = txvarr[txi - 1];
+        }
 
         if(str_name.isEmpty()){
 
@@ -108,17 +191,21 @@ public class TxActivity extends BaseActivity implements View.OnClickListener {
             return;
         }
 
-        int txje = Integer.parseInt(str_money, 10);
 
-        if(str_money.isEmpty() || txje < 1){
 
-            myToast("提现金额不能小于1");
+        double txje = TextUtil.convertToDouble(str_money, 0.0);
+
+        Log.d(Tag, txi + str_money + "--" + txje);
+
+        if(str_money.isEmpty() || txje < 0.1){
+
+            myToast("提现金额不能 小于 0.1");
             return;
         }
 
         if(txje > money){
 
-            myToast("提现金额不能不能大小" + money);
+            myToast("提现金额不能 大于 可提现金额 " + money);
             return;
         }
 
@@ -286,6 +373,23 @@ public class TxActivity extends BaseActivity implements View.OnClickListener {
                             et_name.setText(card_name);
                             et_card.setText(card_id);
                             tv_ktxje.setText(money + "");
+
+                            if(data.has("tx_money_item")){
+
+                                JSONArray txv = data.getJSONArray("tx_money_item");
+
+                                for(int i = 0; i < txv.length(); i ++){
+
+                                    if(i > 2){
+                                        break;
+                                    }
+                                    txvarr[i] = txv.getString(i);
+                                }
+                            }
+
+                            tv_txv_1.setText(txvarr[0]);
+                            tv_txv_2.setText(txvarr[1]);
+                            tv_txv_3.setText(txvarr[2]);
                         }else{
 
                             if(message.isEmpty()){

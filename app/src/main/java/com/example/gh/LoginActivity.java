@@ -88,6 +88,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
         findViewById(R.id.id_cb).setOnClickListener(this);
         findViewById(R.id.id_save).setOnClickListener(this);
+        findViewById(R.id.id_btn_xy).setOnClickListener(this);
     }
 
     @Override
@@ -114,6 +115,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
                 et_phone.setText("");
                 et_phone.requestFocus();
+                break;
+            case R.id.id_btn_xy:
+
+                Intent intent = new Intent();
+                intent.setClass(this, XyActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent);
                 break;
         }
     }
@@ -175,9 +183,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
                 runOnUiThread(()->{
 
-
                     try{
-
                         LoadingTimes(-1);
                         LoadingDialog(false);
 
@@ -310,7 +316,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                 myToast(1002);
                             }
                         }
-
                     }catch (Exception e){
 
                         Log.d(Tag, e.getMessage());

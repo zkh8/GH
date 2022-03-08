@@ -11,6 +11,9 @@
 
 
     <color name="bg_none">#00000000</color>
+    <color name="bg_b_1">#666666</color>
+    <color name="bg_b_2">#F2F2F2</color>
+    <color name="bg_b_3">#FAFAFA</color>
     <color name="bg_b_10">#1A000000</color>
     <color name="bg_b_20">#33000000</color>
     <color name="bg_b_30">#4D000000</color>
@@ -22,6 +25,10 @@
     <color name="bg_r_2">#B00001</color>
     <color name="bg_r_3">#EA3D3F</color>
     <color name="bg_r_4">#D1302D</color>
+    <color name="bg_r_5">#EF3B3E</color>
+    <color name="bg_r_6">#FFE7E7</color>
+    <color name="bg_r_7">#EA3C3E</color>
+    <color name="bg_r_8">#FB7174</color>
     <color name="bg_y_1">#FFD600</color>
     <color name="bg_y_2">#FFEB44</color>
     <color name="bg_y_3">#FFCF0E</color>

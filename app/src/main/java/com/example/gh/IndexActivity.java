@@ -31,6 +31,10 @@ public class IndexActivity extends BaseActivity implements View.OnClickListener{
     TextView tabs_textView_current;
     private int cureent = 0;
 
+    GhscFragment fr_gh;
+    GrzxFragment fr_wd;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,9 +67,12 @@ public class IndexActivity extends BaseActivity implements View.OnClickListener{
         viewPager2 = findViewById(R.id.id_main_viewpager);
         fragments = new ArrayList<>();
 
-        fragments.add(new GhscFragment());
+        fr_gh = new GhscFragment();
+        fr_wd = new GrzxFragment();
+
+        fragments.add(fr_gh);
         fragments.add(new QdjlFragment());
-        fragments.add(new GrzxFragment());
+        fragments.add(fr_wd);
 
         //禁止左右滑动
         viewPager2.setUserInputEnabled(false);
@@ -91,8 +98,6 @@ public class IndexActivity extends BaseActivity implements View.OnClickListener{
             }
         });
 
-
-
         tabs_imageView_current.setSelected(true);
         tabs_textView_current.setTextColor(getResources().getColor(R.color.bg_r));
     }
@@ -111,6 +116,9 @@ public class IndexActivity extends BaseActivity implements View.OnClickListener{
                 mainApplication.YZ_url_type = 0;
             case R.id.id_btn_ljdh:
 
+                if(position == R.id.id_btn_ljdh){
+                    mainApplication.YZ_url_type = 1;
+                }
                 viewPager2.setCurrentItem(0,false);
             case 0:
 
@@ -134,6 +142,7 @@ public class IndexActivity extends BaseActivity implements View.OnClickListener{
 
                 tabs_imageView_current = findViewById(R.id.id_tab_img_3);
                 tabs_textView_current = findViewById(R.id.id_tab_text_3);
+                cureent = 2;
                 break;
         }
 
@@ -152,6 +161,20 @@ public class IndexActivity extends BaseActivity implements View.OnClickListener{
 
     @Override
     public void onBackPressed() {
+
+
+        if(cureent == 0){
+
+            if(fr_gh.onBack()){
+                return;
+            }
+        }
+        else if(cureent == 2){
+
+            if(fr_wd.onBack()){
+                return;
+            }
+        }
 
         long currentTime = System.currentTimeMillis();
         if((currentTime-touchTime)>=waitTime) {

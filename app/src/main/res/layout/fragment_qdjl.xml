@@ -11,18 +11,26 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="182dp">
+        android:layout_height="248.5dp">
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@mipmap/top1"
+            android:layout_height="192dp"
+            android:background="@color/bg_r_5"
             android:layout_marginBottom="20dp"/>
 
+        <ImageView
+            android:id="@+id/id_btn_qdgz"
+            android:layout_gravity="right"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/qdgz"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="31dp">
+            android:layout_marginTop="41.5dp">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -36,7 +44,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/tv_wdjf"
                     android:textColor="@color/white"
-                    android:textSize="13sp"
+                    android:textSize="12sp"
                     android:textStyle="bold"/>
 
                 <TextView
@@ -63,7 +71,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/tv_xjsy"
                     android:textColor="@color/white"
-                    android:textSize="13sp"
+                    android:textSize="12sp"
                     android:textStyle="bold"/>
 
                 <TextView
@@ -83,19 +91,28 @@
             android:layout_marginLeft="7dp"
             android:layout_marginRight="7dp"
             android:layout_marginTop="2dp"
-            android:layout_marginBottom="12dp"
+            android:layout_marginBottom="10dp"
             android:layout_width="match_parent"
-            android:layout_height="65dp"
+            android:layout_height="110.5dp"
             android:layout_gravity="bottom"
             android:background="@color/bg_b_30"
             app:cardCornerRadius="8dp"
             app:cardElevation="5dp">
 
+            <TextView
+                android:layout_marginTop="20.5dp"
+                android:layout_marginLeft="12.5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/tv_qdlx_tip"
+                android:textSize="13sp"
+                android:textColor="@color/bg_b_1"/>
+
             <LinearLayout
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:paddingLeft="7dp"
-                android:paddingRight="7dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="49.5dp"
+                android:layout_marginBottom="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center">
@@ -122,11 +139,19 @@
                             android:text="1天"
                             android:textColor="@color/black"/>
 
+                        <TextView
+                            android:id="@+id/id_tvv_1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="100"
+                            android:textColor="@color/bg_r_5"/>
+
                         <ImageView
                             android:id="@+id/id_iv_1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/bg_qd"/>
+                            android:src="@mipmap/gs"
+                            android:visibility="gone"/>
                     </LinearLayout>
 
                 </LinearLayout>
@@ -154,11 +179,19 @@
                             android:layout_height="wrap_content"
                             android:text="2天"/>
 
+                        <TextView
+                            android:id="@+id/id_tvv_2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="100"
+                            android:textColor="@color/bg_r_2"/>
+
                         <ImageView
                             android:id="@+id/id_iv_2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/bg_qd"/>
+                            android:src="@mipmap/gs"
+                            android:visibility="gone"/>
                     </LinearLayout>
 
                 </LinearLayout>
@@ -185,11 +218,19 @@
                             android:layout_height="wrap_content"
                             android:text="3天"/>
 
+                        <TextView
+                            android:id="@+id/id_tvv_3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="100"
+                            android:textColor="@color/bg_r_5"/>
+
                         <ImageView
                             android:id="@+id/id_iv_3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/bg_qd"/>
+                            android:src="@mipmap/gs"
+                            android:visibility="gone"/>
                     </LinearLayout>
 
                 </LinearLayout>
@@ -216,11 +257,19 @@
                             android:layout_height="wrap_content"
                             android:text="4天"/>
 
+                        <TextView
+                            android:id="@+id/id_tvv_4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="100"
+                            android:textColor="@color/bg_r_5"/>
+
                         <ImageView
                             android:id="@+id/id_iv_4"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/bg_qd"/>
+                            android:src="@mipmap/gs"
+                            android:visibility="gone"/>
                     </LinearLayout>
 
                 </LinearLayout>
@@ -246,11 +295,19 @@
                             android:layout_height="wrap_content"
                             android:text="5天"/>
 
+                        <TextView
+                            android:id="@+id/id_tvv_5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="100"
+                            android:textColor="@color/bg_r_5"/>
+
                         <ImageView
                             android:id="@+id/id_iv_5"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/bg_qd"/>
+                            android:src="@mipmap/gs"
+                            android:visibility="gone"/>
                     </LinearLayout>
 
                 </LinearLayout>
@@ -276,11 +333,19 @@
                             android:layout_height="wrap_content"
                             android:text="6天"/>
 
+                        <TextView
+                            android:id="@+id/id_tvv_6"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="100"
+                            android:textColor="@color/bg_r_5"/>
+
                         <ImageView
                             android:id="@+id/id_iv_6"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/bg_qd"/>
+                            android:src="@mipmap/gs"
+                            android:visibility="gone"/>
                     </LinearLayout>
 
                 </LinearLayout>
@@ -299,7 +364,7 @@
                         android:layout_height="44dp"
                         android:orientation="vertical"
                         android:gravity="center"
-                        android:background="@drawable/bg_qd_m">
+                        android:background="@drawable/bg_red_8_2">
 
                         <TextView
                             android:id="@+id/id_tv_7"
@@ -307,11 +372,19 @@
                             android:layout_height="wrap_content"
                             android:text="7天"/>
 
+                        <TextView
+                            android:id="@+id/id_tvv_7"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="100"
+                            android:textColor="@color/bg_r_5"
+                            android:visibility="gone"/>
+
                         <ImageView
                             android:id="@+id/id_iv_7"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/bg_qd"/>
+                            android:src="@mipmap/qdlh"/>
                     </LinearLayout>
 
                 </LinearLayout>
@@ -343,19 +416,26 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical">
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/lp"/>
+                    android:src="@mipmap/lp"
+                    android:visibility="gone"/>
                 <TextView
-                    android:layout_marginLeft="6.5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/tv_mrrw"
-                    android:textSize="18sp"
+                    android:textSize="14sp"
                     android:textStyle="bold"
                     android:textColor="@color/black"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tv_mrrw_tip"
+                    android:textColor="@color/bg_r_8"
+                    android:textSize="11sp"/>
             </LinearLayout>
 
 
@@ -372,15 +452,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/black"
-                        android:textSize="22sp"
+                        android:textSize="14sp"
                         android:textStyle="bold"
                         android:text="@string/tv_gkgg"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="14sp"
-                        android:textColor="@color/black"
+                        android:textSize="11sp"
+                        android:textColor="@color/bg_b_1"
                         android:text="@string/tv_qdjl_tip"/>
 
                 </LinearLayout>
@@ -391,7 +471,7 @@
                     android:layout_height="32dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:background="@drawable/bg_red_16"
+                    android:background="@drawable/bg_red_16_1"
                     android:gravity="center"
                     android:minWidth="78dp"
                     android:text="@string/tv_kggtj"
@@ -420,15 +500,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/black"
-                        android:textSize="22sp"
+                        android:textSize="14sp"
                         android:textStyle="bold"
                         android:text="@string/tv_kspcj"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="14sp"
-                        android:textColor="@color/black"
+                        android:textSize="11sp"
+                        android:textColor="@color/bg_b_1"
                         android:text="@string/tv_jfcj_tip"/>
 
                 </LinearLayout>
@@ -439,10 +519,10 @@
                     android:layout_height="32dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:background="@drawable/bg_red_16"
+                    android:background="@drawable/bg_red_16_1"
                     android:gravity="center"
                     android:minWidth="78dp"
-                    android:text="@string/tv_wycj"
+                    android:text="@string/tv_mfcj"
                     android:textColor="@color/white"
                     android:textSize="14sp" />
             </RelativeLayout>
@@ -470,15 +550,15 @@
                         android:layout_height="wrap_content"
                         android:text="@string/tv_jfsc"
                         android:textColor="@color/black"
-                        android:textSize="22sp"
+                        android:textSize="14sp"
                         android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/tv_jfsc_tip"
-                        android:textColor="@color/black"
-                        android:textSize="14sp" />
+                        android:textColor="@color/bg_b_1"
+                        android:textSize="11sp" />
 
                 </LinearLayout>
 
@@ -488,7 +568,7 @@
                     android:layout_height="32dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:background="@drawable/bg_red_16"
+                    android:background="@drawable/bg_red_16_1"
                     android:gravity="center"
                     android:minWidth="78dp"
                     android:text="@string/tv_ljdh"
