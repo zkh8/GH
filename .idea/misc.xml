@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="app/src/main/res/drawable/bg_black_8.xml" value="0.25925925925925924" />
+        <entry key="app/src/main/res/drawable/bg_cb.xml" value="0.26296296296296295" />
+        <entry key="app/src/main/res/drawable/bg_etol.xml" value="0.1935185185185185" />
+        <entry key="app/src/main/res/drawable/bg_qd.xml" value="0.2611111111111111" />
+        <entry key="app/src/main/res/drawable/bg_qd_m.xml" value="0.25925925925925924" />
+        <entry key="app/src/main/res/drawable/bg_qdjl_top.xml" value="0.2611111111111111" />
+        <entry key="app/src/main/res/drawable/bg_red_16.xml" value="0.25925925925925924" />
+        <entry key="app/src/main/res/drawable/bg_red_8.xml" value="0.25925925925925924" />
+        <entry key="app/src/main/res/drawable/bg_w_8.xml" value="0.2611111111111111" />
+        <entry key="app/src/main/res/drawable/btn_save.xml" value="0.1935185185185185" />
+        <entry key="app/src/main/res/drawable/btn_save_0.xml" value="0.1935185185185185" />
+        <entry key="app/src/main/res/drawable/btn_save_1.xml" value="0.1935185185185185" />
+        <entry key="app/src/main/res/drawable/tab_1.xml" value="0.2611111111111111" />
+        <entry key="app/src/main/res/drawable/tab_2.xml" value="0.2611111111111111" />
+        <entry key="app/src/main/res/drawable/tab_3.xml" value="0.2611111111111111" />
+        <entry key="app/src/main/res/layout/activity_cj.xml" value="0.165" />
+        <entry key="app/src/main/res/layout/activity_index.xml" value="0.31614583333333335" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_tx.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/cj_item.xml" value="0.31614583333333335" />
+        <entry key="app/src/main/res/layout/fragment_ghsc.xml" value="0.3020833333333333" />
+        <entry key="app/src/main/res/layout/fragment_grzx.xml" value="0.31614583333333335" />
+        <entry key="app/src/main/res/layout/fragment_qdjl.xml" value="0.31614583333333335" />
+        <entry key="app/src/main/res/layout/index_bottom_tab.xml" value="0.375" />
+        <entry key="app/src/main/res/layout/loading.xml" value="0.31614583333333335" />
+        <entry key="app/src/main/res/layout/qd_item.xml" value="0.171875" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="bg_w_50">#80FFFFFF</color>
+
+
+    <color name="bg_none">#00000000</color>
+    <color name="bg_b_10">#1A000000</color>
+    <color name="bg_b_20">#33000000</color>
+    <color name="bg_b_30">#4D000000</color>
+    <color name="bg_b_50">#80000000</color>
+
+
+    <color name="bg_r">@android:color/holo_red_dark</color>
+    <color name="bg_r_1">#AD1118</color>
+    <color name="bg_r_2">#B00001</color>
+    <color name="bg_r_3">#EA3D3F</color>
+    <color name="bg_r_4">#D1302D</color>
+    <color name="bg_y_1">#FFD600</color>
+    <color name="bg_y_2">#FFEB44</color>
+    <color name="bg_y_3">#FFCF0E</color>
+    <color name="bg_y_4">#FFE487</color>
+    <color name="bg_y_5">#FDD207</color>
+
+</resources>

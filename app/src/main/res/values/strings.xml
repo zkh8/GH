@@ -1,0 +1,61 @@
+<resources>
+    <string name="app_name">百姓国货</string>
+    <string name="error_net">网络出错</string>
+    <string name="tv_qsrsjh">请输入手机号</string>
+    <string name="tv_qsryzm">请输入验证码</string>
+    <string name="tv_hqsjh">获取验证码</string>
+    <string name="tv_dl">登录</string>
+    <string name="tv_dlty">登即代表您已同意</string>
+    <string name="tv_dlxy">百姓国货用户协议与隐私政策</string>
+    <string name="tv_zcgh">支持国货</string>
+    <string name="tv_qdjl">签到奖励</string>
+    <string name="tv_lhxx">利好消息</string>
+    <string name="tv_gwc">购物车</string>
+    <string name="tv_grzx">个人中心</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <string name="err_neterr">网络出错，请稍后再试</string>
+    <string name="err_syserr">系统维护，请稍后再试</string>
+    <string name="err_sesserr">授权过时，请重新登录</string>
+    <string name="err_operr">操作失败</string>
+    <string name="err_roles">权限未开通</string>
+    <string name="err_yhsx">当前用户帐号已失效</string>
+    <string name="tv_mrrw">每日任务</string>
+    <string name="tv_gkgg">观看广告</string>
+    <string name="tv_qdjl_tip">奖励随机现金红包</string>
+    <string name="tv_kggtj">(0/0)</string>
+    <string name="tv_wycj">我要抽奖</string>
+    <string name="tv_ljdh">立即兑换</string>
+    <string name="tv_jfsc">积分商城</string>
+    <string name="tv_jfsc_tip">积分兑换国货</string>
+    <string name="tv_jfcj">积分抽奖</string>
+    <string name="tv_jfcj_tip">看视频免费抽奖领红包</string>
+    <string name="tv_wdjf">我的积分</string>
+    <string name="tv_xjsy">现金收益</string>
+    <string name="tv_cjhb_88">88元优惠券</string>
+    <string name="tv_ljcj">立即\n抽奖</string>
+    <string name="tv_cjjf_88">88积分</string>
+    <string name="tv_cjyhq_88">88元优惠券</string>
+    <string name="tv_cj_gx">恭喜您获得</string>
+    <string name="tv_hd">获取</string>
+    <string name="tv_tx">提现</string>
+    <string name="tv_y">元</string>
+    <string name="tv_txz">提现至</string>
+    <string name="tv_zfb">支付宝</string>
+    <string name="tv_xm">姓名</string>
+    <string name="tv_zfbzh">支付宝账号</string>
+    <string name="tv_qsrndxm">请输入您的姓名</string>
+    <string name="tv_qsrndzfbzh">请输入您的支付宝账号</string>
+    <string name="tv_txje">提现金额</string>
+    <string name="tv_rmb_t">￥</string>
+    <string name="tv_qbtx">全部提现</string>
+    <string name="tv_ktxje">可提现金额￥</string>
+    <string name="tv_qrtx">确认提现</string>
+    <string name="tv_qdcg">签到成功</string>
+    <string name="tv_jf">积分</string>
+    <string name="tv_zdl">我知道了</string>
+    <string name="tv_ksptip">看视频免费抽奖赢</string>
+    <string name="tv_kspcj">看视频抽奖</string>
+</resources>
