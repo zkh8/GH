@@ -49,7 +49,7 @@ import okhttp3.Response;
 
 public class QdjlFragment extends BaseFragment implements View.OnClickListener {
 
-    private String Tag = "xiatao";
+    private String Tag = QdjlFragment.class.getSimpleName();
 
     private MainApplication mainApplication;
     private View rootView;
@@ -122,7 +122,7 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
             @Override
             public void onRewardedVideoAdClosed(ATAdInfo entity) {
                 Log.i(Tag, "onRewardedVideoAdClosed:\n" + entity.toString());
-//                ActivityInfoUtils.getInstance().doRecord(LoginUtils.getToken(),String.valueOf(REWARD_AD_VIDEO));
+                //todo 广告加载成功回调
                 rewardVideoAd.load();
             }
 
