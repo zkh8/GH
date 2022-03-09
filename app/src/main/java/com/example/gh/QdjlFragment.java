@@ -22,7 +22,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.anythink.core.api.ATAdInfo;
+import com.anythink.core.api.AdError;
+import com.anythink.rewardvideo.api.ATRewardVideoAd;
+import com.anythink.rewardvideo.api.ATRewardVideoExListener;
 import com.example.gh.util.DateUtil;
 import com.youzan.androidsdk.YouzanSDK;
 import com.youzan.androidsdkx5.YouZanSDKX5Adapter;
@@ -44,7 +49,7 @@ import okhttp3.Response;
 
 public class QdjlFragment extends BaseFragment implements View.OnClickListener {
 
-    private String Tag = QdjlFragment.class.getSimpleName();
+    private String Tag = "xiatao";
 
     private MainApplication mainApplication;
     private View rootView;
@@ -77,6 +82,60 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ATRewardVideoAd rewardVideoAd = new ATRewardVideoAd(getContext(), "b6228432ecaf07");
+        rewardVideoAd.load();
+        rewardVideoAd.setAdListener(new ATRewardVideoExListener() {
+
+            @Override
+            public void onDeeplinkCallback(ATAdInfo adInfo, boolean isSuccess) {
+                Log.i(Tag, "onDeeplinkCallback:" + adInfo.toString() + "--status:" + isSuccess);
+            }
+
+            @Override
+            public void onRewardedVideoAdLoaded() {
+                Log.i(Tag, "onRewardedVideoAdLoaded");
+                mRewardVideoAd = rewardVideoAd;
+//                mPresenter.requestVideoAdSuccess(atRewardVideoAd);
+            }
+
+            @Override
+            public void onRewardedVideoAdFailed(AdError errorCode) {
+                Log.i(Tag, "onRewardedVideoAdFailed error:" + errorCode.getFullErrorInfo());
+//                mPresenter.requestVideoAdError();
+            }
+
+            @Override
+            public void onRewardedVideoAdPlayStart(ATAdInfo entity) {
+                Log.i(Tag, "onRewardedVideoAdPlayStart:\n" + entity.toString());
+            }
+
+            @Override
+            public void onRewardedVideoAdPlayEnd(ATAdInfo entity) {
+                Log.i(Tag, "onRewardedVideoAdPlayEnd:\n" + entity.toString());
+            }
+
+            @Override
+            public void onRewardedVideoAdPlayFailed(AdError errorCode, ATAdInfo entity) {
+                Log.i(Tag, "onRewardedVideoAdPlayFailed error:" + errorCode.getFullErrorInfo());
+            }
+
+            @Override
+            public void onRewardedVideoAdClosed(ATAdInfo entity) {
+                Log.i(Tag, "onRewardedVideoAdClosed:\n" + entity.toString());
+//                ActivityInfoUtils.getInstance().doRecord(LoginUtils.getToken(),String.valueOf(REWARD_AD_VIDEO));
+                rewardVideoAd.load();
+            }
+
+            @Override
+            public void onRewardedVideoAdPlayClicked(ATAdInfo entity) {
+                Log.i(Tag, "onRewardedVideoAdPlayClicked:\n" + entity.toString());
+            }
+
+            @Override
+            public void onReward(ATAdInfo entity) {
+                Log.e(Tag, "onReward:\n" + entity.toString());
+            }
+        });
     }
 
     @Override
@@ -152,6 +211,8 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
         rootView.findViewById(R.id.id_btn_ljdh).setOnClickListener(this);
     }
 
+    private ATRewardVideoAd mRewardVideoAd;
+
     @Override
     public void onClick(View v) {
 
@@ -163,6 +224,11 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
                 ss_popupWindow_view(0, 0, 0);
                 break;
             case R.id.id_btn_gg:
+                if (mRewardVideoAd != null && mRewardVideoAd.isAdReady()) {
+                    mRewardVideoAd.show(getActivity());
+                } else {
+                    Toast.makeText(getContext(), "视频准备中，请稍后再试", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.id_btn_tx:
 

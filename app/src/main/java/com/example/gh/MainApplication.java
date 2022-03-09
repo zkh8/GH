@@ -1,7 +1,9 @@
 package com.example.gh;
 
 import android.app.Application;
+import android.os.Build;
 import android.util.Log;
+import android.webkit.WebView;
 
 import com.anythink.core.api.ATSDK;
 import com.example.gh.bean.UserInfo;
@@ -28,14 +30,19 @@ public class MainApplication extends Application {
     public String YZ_clientId = "302fab4a3ee5401887";
     public String YZ_appkey = "2481426c4c1742369552fc7e0f4b0a63";
     public int YZ_url_type = 0;
-    public static final String appid = "a5aa1f9deda26d";
-    public static final String appKey = "4f7b9ac17decb9babec83aac078742c7";
+    public static final String appid = "a62284309a1462";
+    public static final String appKey = "a1ec046c3a21998d901f034bb3d80f88";
 
     @Override
     public void onCreate() {
         super.onCreate();
         mApp = this;
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            String processName = getProcessName();
+            if (!getPackageName().equals(processName)) {
+                WebView.setDataDirectorySuffix(processName);
+            }
+        }
         ATSDK.setNetworkLogDebug(true);//SDK日志功能，集成测试阶段建议开启，上线前必须关闭
 
         ATSDK.init(this, appid, appKey);
