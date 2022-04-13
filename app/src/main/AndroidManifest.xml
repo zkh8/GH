@@ -13,13 +13,22 @@
         android:theme="@style/Theme.GH3"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".CjtActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SyActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AboutActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SetActivity"
+            android:exported="false" />
+        <activity
             android:name=".XyActivity"
             android:exported="false" />
         <activity
             android:name=".TxActivity"
-            android:exported="false" />
-        <activity
-            android:name=".CjActivity"
             android:exported="false" />
         <activity
             android:name=".BaseActivity"
@@ -48,6 +57,41 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+        <provider
+            android:name="com.qq.e.comm.GDTFileProvider"
+            android:authorities="${applicationId}.gdt.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/anythink_bk_gdt_file_path" />
+        </provider>
+        <provider
+            android:name="com.sigmob.sdk.SigmobFileProvider"
+            android:authorities="${applicationId}.sigprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/anythink_bk_sigmob_file_path" />
+        </provider>
+        <!--
+ targetSDKVersion >= 24时才需要添加这个provider。
+       provider的authorities属性的值为${applicationId}.sigprovider
+        -->
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
     </application>
 
     <uses-feature android:name="android.hardware.wifi.rtt" />
@@ -61,7 +105,9 @@
     <uses-permission android:name="android.permission.ACCESS_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
 </manifest>
