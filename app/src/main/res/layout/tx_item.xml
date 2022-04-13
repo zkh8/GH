@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:layout_marginTop="116dp"
+        android:layout_marginBottom="110dp"
+        android:layout_marginRight="34.5dp"
+        android:layout_marginLeft="34.5dp"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/cj_r_bg">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right">
+
+            <ImageView
+                android:layout_margin="10dp"
+                android:id="@+id/id_close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/cj_r_del"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/id_tv_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="@string/tv_cj_gx"
+            android:textColor="@color/white"
+            android:textSize="18dp"/>
+
+        <LinearLayout
+            android:id="@+id/id_ll_r"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:gravity="center|bottom"
+            android:orientation="horizontal"
+            android:paddingTop="100dp">
+
+            <TextView
+                android:id="@+id/id_txmoney"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="0"
+                android:textColor="@color/bg_y_2"
+                android:textSize="60dp" />
+
+            <TextView
+                android:id="@+id/id_cjrt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingBottom="10dp"
+                android:text="@string/tv_y"
+                android:textColor="@color/bg_y_2"
+                android:textSize="18dp" />
+        </LinearLayout>
+
+
+        <TextView
+            android:paddingRight="40dp"
+            android:paddingLeft="40dp"
+            android:id="@+id/id_btn_ok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:background="@mipmap/cj_r_btn"
+            android:gravity="center"
+            android:paddingBottom="18dp"
+            android:text="@string/tv_txzt"
+            android:textColor="@color/bg_y_3"
+            android:textSize="15dp" />
+
+    </RelativeLayout>
+
+
+
+
+</LinearLayout>

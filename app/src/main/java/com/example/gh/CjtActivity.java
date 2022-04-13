@@ -29,7 +29,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.gh.util.Utils;
-import com.example.gh.widget.NineLuckPan;
 
 import org.json.JSONObject;
 
