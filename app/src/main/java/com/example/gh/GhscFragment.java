@@ -1,6 +1,7 @@
 package com.example.gh;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 
@@ -15,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.gh.util.IntenetUtil;
@@ -40,6 +42,8 @@ public class GhscFragment extends BaseFragment {
     private int PAGE_TYPE_UNKNOWN = 0x0;
     private int loadstatus = 0;
 
+    private TextView tv_title;
+
 
     public GhscFragment() {
     }
@@ -61,31 +65,27 @@ public class GhscFragment extends BaseFragment {
 
             mainApplication = MainApplication.getInstance();
 
-            YouzanSDK.init(rootActivity, mainApplication.YZ_clientId,mainApplication.YZ_appkey, new YouZanSDKX5Adapter());
-            YouzanSDK.isDebug(true);
-
 
             mView = rootView.findViewById(R.id.id_webview);
             mView.needLoading(true);
-
-
-            mView.setWebViewClient(new WebViewClient(){
-                @Override
-                public void onPageStarted(WebView webView, String s, Bitmap bitmap) {
-                    super.onPageStarted(webView, s, bitmap);
-
-                    Log.d(Tag, "onPageStarted-----");
-                }
-            });
-
 
             mView.subscribe(new AbsShareEvent() {
                 @Override
                 public void call(Context context, GoodsShareModel goodsShareModel) {
 
-                    Log.d(Tag, "AbsShareEvent-----");
+                    String content = goodsShareModel.getDesc() + " " + goodsShareModel.getLink();
+                    Intent sendIntent = new Intent();
+                    sendIntent.setAction(Intent.ACTION_SEND);
+                    sendIntent.putExtra(Intent.EXTRA_TEXT, content);
+                    sendIntent.putExtra(Intent.EXTRA_SUBJECT, goodsShareModel.getTitle());
+                    sendIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    sendIntent.setType("text/plain");
+                    startActivity(sendIntent);
                 }
             });
+
+            tv_title = rootView.findViewById(R.id.id_title);
+            tv_title.setText("百姓国货");
 
 
             c_url = mainApplication.YZ_url_index;
@@ -108,9 +108,11 @@ public class GhscFragment extends BaseFragment {
             if(url_type == 0){
 
                 c_url = mainApplication.YZ_url_index;
+                tv_title.setText("百姓国货");
             }else if(url_type == 1){
 
                 c_url = mainApplication.YZ_url_jfsc;
+                tv_title.setText("积分商城");
             }
             load();
         }
@@ -143,7 +145,6 @@ public class GhscFragment extends BaseFragment {
 
     public boolean onBack(){
 
-
         if(mView.canGoBack()){
 
             mView.goBack();
@@ -154,6 +155,7 @@ public class GhscFragment extends BaseFragment {
 
                     mainApplication.YZ_url_type = 0;
                     url_type = mainApplication.YZ_url_type;
+                    tv_title.setText("百姓国货");
                 }
             }
 

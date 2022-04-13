@@ -34,6 +34,10 @@ public class BaseActivity extends AppCompatActivity {
 
     public void myToast(String msg){
 
+        if(isFinishing()){
+            return;
+        }
+
         if(mToast != null){
 
             mToast.cancel();
@@ -139,6 +143,11 @@ public class BaseActivity extends AppCompatActivity {
         myThread.start();
     }
     private void LoadingDialogShow(){
+
+        if(isFinishing()){
+
+            return;
+        }
 
         Log.d(Tag, "LoadingDialogShow:" + loadingTimes);
 

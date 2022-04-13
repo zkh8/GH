@@ -35,33 +35,35 @@
             android:layout_centerInParent="true"
             android:text="@string/tv_cj_gx"
             android:textColor="@color/white"
-            android:textSize="18sp"/>
+            android:textSize="18dp"/>
 
         <LinearLayout
             android:id="@+id/id_ll_r"
-            android:paddingTop="100dp"
-            android:layout_centerVertical="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:gravity="center|bottom"
             android:orientation="horizontal"
-            android:gravity="center|bottom">
+            android:paddingTop="100dp">
+
             <TextView
                 android:id="@+id/id_cjr"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="60sp"
-                android:textColor="@color/bg_y_2"
                 android:gravity="center"
-                android:text="0"/>
+                android:text="0"
+                android:textColor="@color/bg_y_2"
+                android:textSize="60dp" />
+
             <TextView
                 android:id="@+id/id_cjrt"
-                android:paddingBottom="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:textColor="@color/bg_y_2"
                 android:gravity="center"
-                android:text="@string/tv_y"/>
+                android:paddingBottom="10dp"
+                android:text="@string/tv_y"
+                android:textColor="@color/bg_y_2"
+                android:textSize="18dp" />
         </LinearLayout>
 
 
@@ -74,9 +76,9 @@
             android:background="@mipmap/cj_r_btn"
             android:gravity="center"
             android:paddingBottom="18dp"
-            android:text="@string/tv_hd"
+            android:text="@string/tv_kxsx"
             android:textColor="@color/bg_y_3"
-            android:textSize="18sp" />
+            android:textSize="18dp" />
 
     </RelativeLayout>
 

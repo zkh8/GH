@@ -5,9 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".TxActivity">
+    tools:context=".TxActivity"
+    android:id="@+id/id_tx_main">
 
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="44dp"
@@ -33,10 +42,21 @@
             android:layout_height="match_parent"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:text="@string/tv_tx"
+            android:text="@string/tv_tdsy"
             android:textColor="@color/black"
-            android:textSize="18sp"
+            android:textSize="18dp"
             android:textStyle="bold" />
+
+
+        <TextView
+            android:id="@+id/id_btn_symx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="@string/tv_symx"
+            android:textSize="18dp"
+            android:textColor="@color/black" />
 
     </RelativeLayout>
 
@@ -52,12 +72,13 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/tv_txz"
-                android:textSize="15sp"
-                android:textColor="@color/white"/>
+                android:textColor="@color/white"
+                android:textSize="15dp" />
 
             <ImageView
                 android:layout_toLeftOf="@+id/id_tv_zfb"
@@ -72,7 +93,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/tv_zfb"
                 android:textColor="@color/bg_y_4"
-                android:textSize="17sp"/>
+                android:textSize="17dp"/>
         </RelativeLayout>
 
         <LinearLayout
@@ -84,7 +105,7 @@
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:text="@string/tv_xm"
-                android:textSize="15sp"
+                android:textSize="15dp"
                 android:textColor="@color/white"/>
 
             <EditText
@@ -97,7 +118,7 @@
                 android:hint="@string/tv_qsrndxm"
                 android:textColorHint="@color/bg_w_50"
                 android:textColor="@color/bg_w_50"
-                android:textSize="15sp"
+                android:textSize="15dp"
                 android:background="@color/bg_none"/>
         </LinearLayout>
 
@@ -110,7 +131,7 @@
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:text="@string/tv_zfbzh"
-                android:textSize="15sp"
+                android:textSize="15dp"
                 android:textColor="@color/white"/>
 
             <EditText
@@ -123,7 +144,7 @@
                 android:hint="@string/tv_qsrndzfbzh"
                 android:textColorHint="@color/bg_w_50"
                 android:textColor="@color/bg_w_50"
-                android:textSize="15sp"
+                android:textSize="15dp"
                 android:background="@color/bg_none"/>
         </LinearLayout>
 
@@ -147,11 +168,50 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tv_ktxje"
+                    android:textSize="18dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"/>
+                <TextView
+                    android:paddingRight="2dp"
+                    android:paddingLeft="2dp"
+                    android:id="@+id/id_ktxje"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:text="0"
+                    android:textSize="20dp"
+                    android:textColor="@color/bg_r_3"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tv_rmb"
+                    android:textSize="18dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/bg_r_3"
+                    android:paddingTop="4dp"/>
+            </LinearLayout>
+
+            <View
+                android:layout_marginTop="14.5dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/bg_b_10"/>
+
             <TextView
+                android:layout_marginTop="17dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/tv_txje"
-                android:textSize="18sp"
+                android:textSize="15dp"
                 android:textColor="@color/black"/>
             
             <RelativeLayout
@@ -162,15 +222,6 @@
                 android:gravity="bottom"
                 android:visibility="gone">
 
-                <TextView
-                    android:layout_alignParentBottom="true"
-                    android:id="@+id/id_tv_rmb_t"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/tv_rmb_t"
-                    android:textSize="18sp"
-                    android:textColor="@color/black"
-                    android:paddingBottom="10dp"/>
 
                 <EditText
                     android:id="@+id/id_txje"
@@ -186,17 +237,27 @@
                     android:maxLines="1"
                     android:text="0"
                     android:textColor="@color/black"
-                    android:textSize="45sp" />
+                    android:textSize="45dp" />
 
                 <TextView
+                    android:layout_toRightOf="@+id/id_tv_rmb_t"
                     android:id="@+id/id_btn_qbtx"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
                     android:layout_alignParentBottom="true"
                     android:text="@string/tv_qbtx"
                     android:textColor="@color/bg_r_3"
-                    android:textSize="18sp" />
+                    android:textSize="18dp" />
+
+                <TextView
+                    android:layout_alignParentRight="true"
+                    android:id="@+id/id_tv_rmb_t"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tv_rmb_t"
+                    android:textSize="18dp"
+                    android:textColor="@color/black"
+                    android:paddingBottom="10dp"/>
             </RelativeLayout>
 
             <LinearLayout
@@ -206,124 +267,108 @@
                 android:gravity="bottom">
 
                 <LinearLayout
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:gravity="center"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content">
 
                     <LinearLayout
                         android:id="@+id/id_btn_tx_1"
-                        android:layout_width="93dp"
+                        android:layout_width="match_parent"
                         android:layout_height="47dp"
                         android:gravity="center"
                         android:background="@drawable/btn_tx"
                         android:baselineAligned="true">
-                        <TextView
-                            android:id="@+id/id_txt_1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/tv_rmb_t"
-                            android:textSize="11sp"
-                            android:textColor="@color/black"
-                            android:paddingTop="4dp"/>
                         <TextView
                             android:id="@+id/id_txv_1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0.1"
-                            android:textSize="20sp"
+                            android:textSize="20dp"
                             android:textStyle="bold"
                             android:textColor="@color/black"/>
+                        <TextView
+                            android:id="@+id/id_txt_1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/tv_rmb"
+                            android:textSize="14dp"
+                            android:textColor="@color/black"
+                            android:paddingTop="4dp"/>
                     </LinearLayout>
 
                 </LinearLayout>
 
                 <LinearLayout
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:gravity="center"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content">
                     <LinearLayout
                         android:id="@+id/id_btn_tx_2"
-                        android:layout_width="93dp"
+                        android:layout_width="match_parent"
                         android:layout_height="47dp"
                         android:gravity="center"
                         android:background="@drawable/btn_tx"
                         android:baselineAligned="true">
-                        <TextView
-                            android:id="@+id/id_txt_2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/tv_rmb_t"
-                            android:textSize="11sp"
-                            android:textColor="@color/black"
-                            android:paddingTop="4dp"/>
                         <TextView
                             android:id="@+id/id_txv_2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0.1"
-                            android:textSize="20sp"
+                            android:textSize="20dp"
                             android:textStyle="bold"
                             android:textColor="@color/black"/>
+                        <TextView
+                            android:id="@+id/id_txt_2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/tv_rmb"
+                            android:textSize="14dp"
+                            android:textColor="@color/black"
+                            android:paddingTop="4dp"/>
                     </LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:gravity="center"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content">
                     <LinearLayout
                         android:id="@+id/id_btn_tx_3"
-                        android:layout_width="93dp"
+                        android:layout_width="match_parent"
                         android:layout_height="47dp"
                         android:gravity="center"
                         android:background="@drawable/btn_tx"
                         android:baselineAligned="true">
                         <TextView
-                            android:id="@+id/id_txt_3"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/tv_rmb_t"
-                            android:textSize="11sp"
-                            android:textColor="@color/black"
-                            android:paddingTop="4dp"/>
-                        <TextView
                             android:id="@+id/id_txv_3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0.1"
-                            android:textSize="20sp"
+                            android:textSize="20dp"
                             android:textStyle="bold"
                             android:textColor="@color/black"/>
+                        <TextView
+                            android:id="@+id/id_txt_3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/tv_rmb"
+                            android:textSize="14dp"
+                            android:textColor="@color/black"
+                            android:paddingTop="4dp"/>
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
 
-            <View
-                android:layout_marginTop="14.5dp"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/bg_b_10"/>
 
-
-            <LinearLayout
-                android:layout_marginTop="17dp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/tv_ktxje"
-                    android:textSize="15sp"
-                    android:textColor="@color/black"/>
-                <TextView
-                    android:id="@+id/id_ktxje"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="0"
-                    android:textSize="15sp"
-                    android:textColor="@color/black"/>
-            </LinearLayout>
 
 
 
@@ -341,5 +386,37 @@
         android:text="@string/tv_qrtx"
         android:textColor="@color/bg_y_5"
         android:paddingBottom="18dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="12dp"
+        android:layout_marginBottom="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="5dp"
+            android:text="@string/tv_txgz"
+            android:textSize="16dp"
+            android:textColor="@color/black"/>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none">
+
+            <TextView
+                android:id="@+id/tv_rule"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"/>
+
+        </ScrollView>
+
+    </LinearLayout>
+    </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

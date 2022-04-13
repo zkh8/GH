@@ -8,28 +8,55 @@
         <entry key="app/src/main/res/drawable/bg_etol.xml" value="0.1935185185185185" />
         <entry key="app/src/main/res/drawable/bg_qd.xml" value="0.2611111111111111" />
         <entry key="app/src/main/res/drawable/bg_qd_m.xml" value="0.25925925925925924" />
+        <entry key="app/src/main/res/drawable/bg_qd_m_2.xml" value="0.24537037037037038" />
         <entry key="app/src/main/res/drawable/bg_qdjl_top.xml" value="0.2611111111111111" />
         <entry key="app/src/main/res/drawable/bg_red_16.xml" value="0.25925925925925924" />
+        <entry key="app/src/main/res/drawable/bg_red_16_0.xml" value="0.24537037037037038" />
+        <entry key="app/src/main/res/drawable/bg_red_16_1.xml" value="0.24537037037037038" />
+        <entry key="app/src/main/res/drawable/bg_red_20.xml" value="0.2212962962962963" />
         <entry key="app/src/main/res/drawable/bg_red_8.xml" value="0.25925925925925924" />
+        <entry key="app/src/main/res/drawable/bg_red_8_1.xml" value="0.25555555555555554" />
+        <entry key="app/src/main/res/drawable/bg_red_8_2.xml" value="0.25555555555555554" />
         <entry key="app/src/main/res/drawable/bg_w_8.xml" value="0.2611111111111111" />
+        <entry key="app/src/main/res/drawable/bg_while_30.xml" value="0.5" />
+        <entry key="app/src/main/res/drawable/bg_while_8.xml" value="0.24537037037037038" />
+        <entry key="app/src/main/res/drawable/bg_y_8.xml" value="0.25" />
+        <entry key="app/src/main/res/drawable/btn_lottery.xml" value="0.2074074074074074" />
+        <entry key="app/src/main/res/drawable/btn_lottery_item.xml" value="0.2564814814814815" />
         <entry key="app/src/main/res/drawable/btn_save.xml" value="0.1935185185185185" />
         <entry key="app/src/main/res/drawable/btn_save_0.xml" value="0.1935185185185185" />
         <entry key="app/src/main/res/drawable/btn_save_1.xml" value="0.1935185185185185" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.2212962962962963" />
+        <entry key="app/src/main/res/drawable/start_lottery_disable_bg.xml" value="0.2212962962962963" />
+        <entry key="app/src/main/res/drawable/start_lottery_enable_bg.xml" value="0.2212962962962963" />
+        <entry key="app/src/main/res/drawable/start_lottery_normal_bg.xml" value="0.2564814814814815" />
         <entry key="app/src/main/res/drawable/tab_1.xml" value="0.2611111111111111" />
         <entry key="app/src/main/res/drawable/tab_2.xml" value="0.2611111111111111" />
         <entry key="app/src/main/res/drawable/tab_3.xml" value="0.2611111111111111" />
+        <entry key="app/src/main/res/drawable/top_bg_img.xml" value="0.2074074074074074" />
+        <entry key="app/src/main/res/layout/activity_about.xml" value="0.3020833333333333" />
         <entry key="app/src/main/res/layout/activity_cj.xml" value="0.165" />
+        <entry key="app/src/main/res/layout/activity_cjn.xml" value="0.171875" />
+        <entry key="app/src/main/res/layout/activity_cjt.xml" value="0.3020833333333333" />
         <entry key="app/src/main/res/layout/activity_index.xml" value="0.31614583333333335" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/activity_tx.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_set.xml" value="0.31614583333333335" />
+        <entry key="app/src/main/res/layout/activity_sy.xml" value="0.4035433070866142" />
+        <entry key="app/src/main/res/layout/activity_tx.xml" value="0.18981481481481483" />
+        <entry key="app/src/main/res/layout/activity_xy.xml" value="0.175" />
         <entry key="app/src/main/res/layout/cj_item.xml" value="0.31614583333333335" />
-        <entry key="app/src/main/res/layout/fragment_ghsc.xml" value="0.3020833333333333" />
+        <entry key="app/src/main/res/layout/fragment_ghsc.xml" value="0.165" />
         <entry key="app/src/main/res/layout/fragment_grzx.xml" value="0.31614583333333335" />
-        <entry key="app/src/main/res/layout/fragment_qdjl.xml" value="0.31614583333333335" />
+        <entry key="app/src/main/res/layout/fragment_qdjl.xml" value="0.25" />
         <entry key="app/src/main/res/layout/index_bottom_tab.xml" value="0.375" />
+        <entry key="app/src/main/res/layout/list_foot.xml" value="0.31614583333333335" />
         <entry key="app/src/main/res/layout/loading.xml" value="0.31614583333333335" />
+        <entry key="app/src/main/res/layout/progress.xml" value="0.171875" />
         <entry key="app/src/main/res/layout/qd_item.xml" value="0.171875" />
+        <entry key="app/src/main/res/layout/qdgz_item.xml" value="0.20462962962962963" />
+        <entry key="app/src/main/res/layout/symx_item.xml" value="0.31614583333333335" />
+        <entry key="app/src/main/res/layout/tx_item.xml" value="0.45" />
       </map>
     </option>
   </component>

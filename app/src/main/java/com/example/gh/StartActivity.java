@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import com.example.gh.bean.UserInfo;
+
 public class StartActivity extends AppCompatActivity {
 
     @Override
@@ -33,16 +35,30 @@ public class StartActivity extends AppCompatActivity {
 
                         SharedPreferences sharedPreferences = getSharedPreferences("share_login", MODE_PRIVATE);
                         String token = sharedPreferences.getString("token", "");
+                        String uuid = sharedPreferences.getString("uuid", "");
 
                         Boolean auto = sharedPreferences.getBoolean("auto", false);
                         int login_at = sharedPreferences.getInt("login_at", 0);
 
                         app.APP_TOKEN = token;
+                        app.UUID = uuid;
 
                         long timecurrentTimeMillis = System.currentTimeMillis();
 
                         if(auto && login_at + app.login_times > timecurrentTimeMillis / 1000){
 
+
+                            sharedPreferences.getInt("id", 0);
+                            sharedPreferences.getString("phone", "");
+                            sharedPreferences.getString("yz_open_id", "");
+                            sharedPreferences.getString("yz_account_id", "");
+
+                            app.userInfo = new UserInfo();
+                            app.userInfo.id = sharedPreferences.getInt("id", 0);
+                            app.userInfo.phone = sharedPreferences.getString("phone", "");
+                            app.userInfo.yz_open_id = sharedPreferences.getString("yz_open_id", "");
+                            app.userInfo.yz_account_id = sharedPreferences.getString("yz_account_id", "");
+                            
                             it = new Intent(getApplicationContext(), IndexActivity.class);
                         }else{
 

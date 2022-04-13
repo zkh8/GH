@@ -3,13 +3,18 @@ package com.example.gh;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.example.gh.util.TextUtil;
@@ -35,9 +40,11 @@ public class TxActivity extends BaseActivity implements View.OnClickListener {
 
     private MainApplication mainApplication;
 
+    private PopupWindow popupWindow_ss = null;
+    private WindowManager.LayoutParams params;
 
     private EditText et_name, et_card, et_money;
-    private TextView tv_ktxje, btn_save;
+    private TextView tv_ktxje, btn_save, tv_rule;
 
     private int money_max = 0;
     private Double money = 0.0;
@@ -48,12 +55,12 @@ public class TxActivity extends BaseActivity implements View.OnClickListener {
     private String[] txvarr1 = {"0.1", "30", "88"};
     private String[] txvarr2 = {"33", "88", "0"};
 
-
-
     private LinearLayout btn_tx_1,btn_tx_2,btn_tx_3;
-    private TextView tv_txt_1,tv_txv_1,tv_txt_2,tv_txv_2,tv_txt_3,tv_txv_3;
+    private TextView tv_txt_1,tv_txv_1,tv_txt_2,tv_txv_2,tv_txt_3,tv_txv_3, btn_symx;
     private int txi = 0;
     private int first = 0;
+
+    private boolean posting = false;
 
 
     @Override
@@ -63,6 +70,7 @@ public class TxActivity extends BaseActivity implements View.OnClickListener {
 
         mainApplication = MainApplication.getInstance();
 
+        params = getWindow().getAttributes();
 
         iniBtn();
     }
@@ -81,6 +89,9 @@ public class TxActivity extends BaseActivity implements View.OnClickListener {
         et_money.addTextChangedListener(new TxActivity.MyTextWatcher(et_money));
 
         tv_ktxje = findViewById(R.id.id_ktxje);
+
+        btn_symx = findViewById(R.id.id_btn_symx);
+        btn_symx.setOnClickListener(this);
 
         findViewById(R.id.id_btn_back).setOnClickListener(this);
         findViewById(R.id.id_btn_qbtx).setOnClickListener(this);
@@ -102,6 +113,8 @@ public class TxActivity extends BaseActivity implements View.OnClickListener {
         tv_txv_1 = findViewById(R.id.id_txv_1);
         tv_txv_2 = findViewById(R.id.id_txv_2);
         tv_txv_3 = findViewById(R.id.id_txv_3);
+
+        tv_rule = findViewById(R.id.tv_rule);
     }
 
     @Override
@@ -111,6 +124,15 @@ public class TxActivity extends BaseActivity implements View.OnClickListener {
 
             case R.id.id_btn_back:
                 finish();
+                break;
+            case R.id.id_btn_symx:
+
+
+                Intent intent = new Intent();
+                intent.setClass(this, SyActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+
                 break;
             case R.id.id_btn_qbtx:
 
@@ -129,7 +151,6 @@ public class TxActivity extends BaseActivity implements View.OnClickListener {
             case R.id.id_btn_tx_3:
                 chgtxv(3);
                 break;
-
         }
     }
 
@@ -175,6 +196,8 @@ public class TxActivity extends BaseActivity implements View.OnClickListener {
 
     private void save() {
 
+        Log.d(Tag, "save");
+
         String str_name = et_name.getText().toString().trim();
         String str_card = et_card.getText().toString().trim();
         String str_money = et_money.getText().toString().trim();
@@ -182,6 +205,10 @@ public class TxActivity extends BaseActivity implements View.OnClickListener {
         if(txi > 0){
 
             str_money = txvarr[txi - 1];
+        }else{
+
+            myToast("请选择提现金额");
+            return;
         }
 
         if(str_name.isEmpty()){
@@ -200,6 +227,7 @@ public class TxActivity extends BaseActivity implements View.OnClickListener {
 
         Log.d(Tag, txi + str_money + "--" + txje);
 
+
         if(str_money.isEmpty() || txje < 0.1){
 
             myToast("提现金额不能 小于 0.1");
@@ -212,6 +240,8 @@ public class TxActivity extends BaseActivity implements View.OnClickListener {
             return;
         }
 
+
+        posting = true;
 
         LoadingTimes(1);
         LoadingDialog(true);
@@ -238,6 +268,8 @@ public class TxActivity extends BaseActivity implements View.OnClickListener {
 
                 runOnUiThread(()->{
 
+                    posting = false;
+
                     LoadingTimes(-1);
                     LoadingDialog(false);
                     myToast(1000);
@@ -254,6 +286,7 @@ public class TxActivity extends BaseActivity implements View.OnClickListener {
 
                 runOnUiThread(()->{
 
+                    posting = false;
 
                     try {
 
@@ -280,12 +313,31 @@ public class TxActivity extends BaseActivity implements View.OnClickListener {
                             money = data.getDouble("money");
                             card_name = data.getString("card_name");
                             card_id = data.getString("card_id");
+                            String txmoney = data.getString("txmoney");
+
+                            int tx_status = data.getInt("status");
 
                             et_name.setText(card_name);
                             et_card.setText(card_id);
                             tv_ktxje.setText(money + "");
 
-                            myToast("已提交提现审核");
+                            if(!message.isEmpty()){
+
+                                myToast(message);
+                            }else if(tx_status == 3){
+
+                                myToast("提现失败");
+                            }else if(tx_status == 2){
+
+                                myToast("已成功提现");
+                                ss_popupWindow_view(txmoney);
+                            }else if(tx_status == 1){
+
+                                myToast("提现已取消");
+                            }else{
+
+                                myToast("提现已提交审核");
+                            }
                         }else{
 
                             if(message.isEmpty()){
@@ -299,9 +351,6 @@ public class TxActivity extends BaseActivity implements View.OnClickListener {
                             if(code == 1002){
 
                                 loadData();
-                            }else{
-
-                                finish();
                             }
                         }
 
@@ -446,6 +495,10 @@ public class TxActivity extends BaseActivity implements View.OnClickListener {
                             }
 
 
+                            if(data.has("rules")){
+                                tv_rule.setText(data.getString("rules"));
+                            }
+
                         }else{
 
                             if(message.isEmpty()){
@@ -534,6 +587,88 @@ public class TxActivity extends BaseActivity implements View.OnClickListener {
         public void hideOneInputMethod(){
 
             ViewUtil.hideOneInputMethod(TxActivity.this, mView);
+        }
+    }
+
+    long waitTime = 2000;
+    long touchTime = 0;
+
+    @Override
+    public void onBackPressed() {
+
+        long currentTime = System.currentTimeMillis();
+
+        if(posting){
+
+            if(currentTime - touchTime > waitTime) {
+
+                myToast("再按一次退出");
+            }else{
+
+                finish();
+            }
+            touchTime = currentTime;
+        }else{
+            finish();
+        }
+    }
+
+
+    private void ss_popupWindow_view(String value) {
+
+        if(isFinishing()){
+
+            Log.d(Tag, "ss_popupWindow_view --activity des");
+            return;
+        }
+
+        View popupView = getLayoutInflater().inflate(R.layout.tx_item, null);
+        popupWindow_ss = new PopupWindow(popupView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        popupWindow_ss.setTouchable(true);
+        popupWindow_ss.setFocusable(true);
+        popupWindow_ss.setOutsideTouchable(false);
+        popupWindow_ss.setBackgroundDrawable(null);
+
+        popupWindow_ss.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+
+                params.alpha=1f;
+                getWindow().setAttributes(params);
+            }
+        });
+
+        popupView.findViewById(R.id.id_close).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                popupWindow_ss.dismiss();
+            }
+        });
+
+
+        popupView.findViewById(R.id.id_btn_ok).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow_ss.dismiss();
+            }
+        });
+
+        ((TextView)popupView.findViewById(R.id.id_txmoney)).setText(value);
+
+        params.alpha=0.3f;
+        getWindow().setAttributes(params);
+        popupWindow_ss.showAtLocation(findViewById(R.id.id_tx_main), Gravity.CENTER, 0, 0);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if(popupWindow_ss != null && popupWindow_ss.isShowing()){
+
+            popupWindow_ss.dismiss();
         }
     }
 }

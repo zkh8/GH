@@ -68,7 +68,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         et_yzm = findViewById(R.id.id_yzm);
         btn_hqyzm = findViewById(R.id.id_btn_yzm);
 
-
         btn_hqyzm.setOnClickListener((View)->{
 
             String phone = et_phone.getText().toString().trim();
@@ -89,6 +88,44 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         findViewById(R.id.id_cb).setOnClickListener(this);
         findViewById(R.id.id_save).setOnClickListener(this);
         findViewById(R.id.id_btn_xy).setOnClickListener(this);
+
+
+        SharedPreferences sharedPreferences = getSharedPreferences("share_login", MODE_PRIVATE);
+        String phone = sharedPreferences.getString("phone", "");
+        String token = sharedPreferences.getString("token", "");
+
+        Boolean auto = sharedPreferences.getBoolean("auto", false);
+        int login_at = sharedPreferences.getInt("login_at", 0);
+        String uuid = sharedPreferences.getString("uuid", "");
+
+        long timecurrentTimeMillis = System.currentTimeMillis();
+
+        if(auto && login_at + mainApplication.login_times > timecurrentTimeMillis / 1000){
+
+            mainApplication.APP_TOKEN = token;
+            mainApplication.UUID = uuid;
+
+            Thread myThread = new Thread() {//创建子线程
+                @Override
+                public void run() {
+                    try {
+                        sleep(1000);
+
+                        if(!isFinishing()){
+
+                            loginOk();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
+            myThread.start();
+        }else{
+
+            form_sid = UUID.randomUUID().toString();
+            mainApplication.UUID = form_sid;
+        }
     }
 
     @Override
@@ -206,8 +243,23 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                             userInfo.id = customers.getInt("id");
                             userInfo.phone = customers.getString("phone");
                             userInfo.login_at = customers.getInt("login_at");
+                            userInfo.yz_open_id = customers.getString("yz_open_id");
+                            userInfo.yz_account_id = customers.getString("yz_account_id");
 
                             mainApplication.userInfo = userInfo;
+
+                            SharedPreferences sharedPreferences = getSharedPreferences("share_login", MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                            editor.putInt("id", userInfo.id);
+                            editor.putString("phone", userInfo.phone);
+                            editor.putInt("login_at", userInfo.login_at);
+                            editor.putString("yz_open_id", userInfo.yz_open_id);
+                            editor.putString("yz_account_id", userInfo.yz_account_id);
+                            editor.putBoolean("auto", true);
+                            editor.putString("token", mainApplication.APP_TOKEN);
+                            editor.putString("uuid", mainApplication.UUID);
+                            editor.commit();
 
                             loginOk();
                         }else{
@@ -239,12 +291,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         startActivity(intent);
     }
 
-
     private void loadVC(String phone) {
-
-        form_sid = UUID.randomUUID().toString();
-
-        mainApplication.UUID = form_sid;
 
         LoadingTimes(1);
         LoadingDialog(true);
