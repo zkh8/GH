@@ -8,6 +8,7 @@ import android.webkit.WebView;
 import com.anythink.core.api.ATSDK;
 
 import com.example.gh.bean.UserInfo;
+import com.umeng.commonsdk.UMConfigure;
 import com.youzan.androidsdk.YouzanSDK;
 import com.youzan.androidsdkx5.YouZanSDKX5Adapter;
 
@@ -53,6 +54,7 @@ public class MainApplication extends Application {
                 WebView.setDataDirectorySuffix(processName);
             }
         }
+        UMConfigure.init(getApplicationContext(), "625e29b530a4f67780a97bf7", "Umeng", UMConfigure.DEVICE_TYPE_PHONE, "");
         ATSDK.setNetworkLogDebug(true);//SDK日志功能，集成测试阶段建议开启，上线前必须关闭
         ATSDK.init(this, appid, appKey);
 
