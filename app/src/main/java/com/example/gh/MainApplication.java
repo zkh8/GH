@@ -18,7 +18,8 @@ public class MainApplication extends Application {
     private static MainApplication mApp;
 
     //public String APP_URL = "http://192.168.31.34";
-    public String APP_URL = "https://gh.zjinghua.com";
+//    public String APP_URL = "https://gh.zjinghua.com";
+    public String APP_URL = "https://youzan.aiyunlu.cn";
     public String APP_TOKEN;
 
     public UserInfo userInfo;
@@ -35,7 +36,7 @@ public class MainApplication extends Application {
 
     public String YZ_clientId = "fcec8ddb56f16a25e4";
     public String YZ_client_secret = "189e26122e1709421110f82edfdf2fda";
-    public String YZ_appkey = "161a6bd242274e6595dc0d844a31ffe7";
+    public String YZ_appkey = "eea5475e33ee46a3af7f815a675edce3";
     public int YZ_url_type = 0;
 
     public static final String appid = "a62284309a1462";

@@ -6,7 +6,7 @@ android {
     compileSdk 30
 
     defaultConfig {
-        applicationId "com.example.gh"
+        applicationId "com.yunlu.bxgh"
         minSdk 23
         targetSdk 30
         versionCode 1
@@ -30,7 +30,7 @@ android {
         release {
             keyAlias 'key0'
             keyPassword '123123'
-            storeFile file('/Users/zkh/AndroidStudioProjects/GH/key/Untitled') //签名文件的位置
+            storeFile file('C:\\code\\bxgh_android\\GH\\key\\Untitled') //签名文件的位置
             storePassword '123123'
         }
     }
