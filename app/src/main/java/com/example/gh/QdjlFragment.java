@@ -18,6 +18,7 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -28,6 +29,11 @@ import com.anythink.core.api.AdError;
 import com.anythink.rewardvideo.api.ATRewardVideoAd;
 import com.anythink.rewardvideo.api.ATRewardVideoExListener;
 import com.example.gh.util.DateUtil;
+import com.example.gh.view.NativeView;
+import com.mango.wakeupsdk.ManGoSDK;
+import com.mango.wakeupsdk.open.error.ErrorMessage;
+import com.mango.wakeupsdk.open.listener.OnRewardVideoListener;
+import com.mango.wakeupsdk.provider.SdkProviderType;
 import com.youzan.androidsdk.YouzanSDK;
 import com.youzan.androidsdkx5.YouZanSDKX5Adapter;
 
@@ -42,8 +48,10 @@ import java.util.Random;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class QdjlFragment extends BaseFragment implements View.OnClickListener {
@@ -135,7 +143,6 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
                 Log.i(Tag, "onRewardedVideoAdPlayEnd:\n" + entity.toString());
 
 
-
             }
 
             @Override
@@ -165,7 +172,7 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
 
     private void savePoint(String arg) {
 
-        if(lposttime > DateUtil.getTimes()){
+        if (lposttime > DateUtil.getTimes()) {
 
             return;
         }
@@ -192,7 +199,7 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
 
-                rootActivity.runOnUiThread(()->{
+                rootActivity.runOnUiThread(() -> {
 
                     LoadingTimes(-1);
                     LoadingDialog(false);
@@ -208,14 +215,14 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
                 Log.d(Tag, url);
                 Log.d(Tag, resp);
 
-                rootActivity.runOnUiThread(()->{
+                rootActivity.runOnUiThread(() -> {
 
                     try {
 
                         LoadingTimes(-1);
                         LoadingDialog(false);
 
-                        if(resp.equals("login")){
+                        if (resp.equals("login")) {
 
                             sessLogout();
                             return;
@@ -226,12 +233,12 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
                         String message = jsonObject.getString("message");
                         int code = jsonObject.getInt("code");
 
-                        if(code == 1000){
+                        if (code == 1000) {
                             sessLogout(code);
                             return;
                         }
 
-                        if(status.equals("success")){
+                        if (status.equals("success")) {
 
                             JSONObject data = jsonObject.getJSONObject("data");
 
@@ -243,7 +250,7 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
 
                             tv_gg.setText("(" + data.getInt("gg") + "/" + data.getInt("gg_max") + ")");
 
-                            if(data.getInt("addlucks") > 0){
+                            if (data.getInt("addlucks") > 0) {
 
                                 myToast("恭喜您获得 " + data.getInt("addlucks") + " 次抽奖机会");
 
@@ -261,20 +268,20 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
                                 */
                             }
 
-                            if(data.getInt("addpoints") > 0){
+                            if (data.getInt("addpoints") > 0) {
 
                                 loadData();
                             }
 
-                        }else{
+                        } else {
 
-                            if(message.isEmpty()){
+                            if (message.isEmpty()) {
                                 myToast(1002);
-                            }else{
+                            } else {
                                 myToast(message);
                             }
                         }
-                    }catch (Exception e){
+                    } catch (Exception e) {
 
                         e.printStackTrace();
 
@@ -291,7 +298,7 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        if(rootView == null){
+        if (rootView == null) {
 
             rootActivity = (AppCompatActivity) getActivity();
 
@@ -301,16 +308,19 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
 
             params = getActivity().getWindow().getAttributes();
 
+            new NativeView(getContext(), (FrameLayout) rootView.findViewById(R.id.banner_layout));
+
             iniBtn();
         }
         return rootView;
     }
 
+
     private void iniBtn() {
 
         rootView.findViewById(R.id.id_btn_qdgz).setOnClickListener(this);
 
-        for(int i = 0; i < 8; i ++){
+        for (int i = 0; i < 8; i++) {
 
             qd_list.add(false);
         }
@@ -375,24 +385,71 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
         Intent intent;
         IndexActivity indexActivity;
 
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.id_btn_qdgz:
-
                 ss_popupWindow_view(0, 0, 0);
                 break;
             case R.id.id_btn_gg:
+                if (c_gg == c_gg_max) {
 
-                if(c_gg == c_gg_max){
-
-                    myToast("当天观看广告机会已用完，请明天再来");
+                    myToast("当天观看视频机会已用完，请明天再来");
                     return;
                 }
                 //savePoint("看广告");
-                if (mRewardVideoAd != null && mRewardVideoAd.isAdReady()) {
-                    mRewardVideoAd.show(getActivity());
+                if (c_gg > 2) {
+                    ManGoSDK.getInstance().rewardVideo(getActivity(), "10312", new OnRewardVideoListener() {
+                        @Override
+                        public void onLoad(SdkProviderType type) {
+                            System.out.println(type.getName() + "==============>onLoad");
+                        }
+
+                        @Override
+                        public void onShow(SdkProviderType type, int sdkId) {
+                        }
+
+                        @Override
+                        public void onClick(SdkProviderType type, int sdkId) {
+                        }
+
+                        @Override
+                        public void onPlayFinished(SdkProviderType type, int sdkId) {
+                            System.out.println(type.getName() + "==============>onPlayFinished");
+                        }
+
+                        @Override
+                        public void onDownloadFinished(SdkProviderType type, int sdkId) {
+                        }
+
+                        @Override
+                        public void onInstallFinished(SdkProviderType type, int sdkId) {
+                        }
+
+                        @Override
+                        public void onLeftApplication(SdkProviderType type, int sdkId) {
+                        }
+
+                        @Override
+                        public void onClose(SdkProviderType type) {
+                            savePoint(type.getName());
+                        }
+
+                        @Override
+                        public void onReward(SdkProviderType type) {
+                        }
+
+                        @Override
+                        public void onError(SdkProviderType type, ErrorMessage message) {
+                        }
+                    });
                 } else {
-                    myToast("视频准备中，请稍后再试");
+                    if (mRewardVideoAd != null && mRewardVideoAd.isAdReady()) {
+                        mRewardVideoAd.show(getActivity());
+                    } else {
+                        myToast("视频准备中，请稍后再试");
+                    }
                 }
+
+
                 break;
             case R.id.id_btn_tx:
 
@@ -407,12 +464,12 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case R.id.id_btn_cj:
 
-                if(lucks < 1){
+                if (lucks < 1) {
 
-                    if(c_gg == c_gg_max){
+                    if (c_gg == c_gg_max) {
 
                         myToast("当天抽奖次数已用完，请明天再来");
-                    }else{
+                    } else {
 
                         myToast("观看 视频广告 可获取抽奖机会");
                     }
@@ -436,9 +493,9 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
         }
     }
 
-    private void sign(){
+    private void sign() {
 
-        if(signtime > DateUtil.getTimes()){
+        if (signtime > DateUtil.getTimes()) {
 
             myToast("签到中，请稍后");
             return;
@@ -465,7 +522,7 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
 
-                rootActivity.runOnUiThread(()->{
+                rootActivity.runOnUiThread(() -> {
 
                     LoadingTimes(-1);
                     LoadingDialog(false);
@@ -481,14 +538,14 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
                 Log.d(Tag, url);
                 Log.d(Tag, resp);
 
-                rootActivity.runOnUiThread(()->{
+                rootActivity.runOnUiThread(() -> {
 
                     try {
 
                         LoadingTimes(-1);
                         LoadingDialog(false);
 
-                        if(resp.equals("login")){
+                        if (resp.equals("login")) {
 
                             sessLogout();
                             return;
@@ -499,32 +556,32 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
                         String message = jsonObject.getString("message");
                         int code = jsonObject.getInt("code");
 
-                        if(code == 1000){
+                        if (code == 1000) {
                             sessLogout(code);
                             return;
                         }
 
-                        if(status.equals("success")){
+                        if (status.equals("success")) {
 
                             JSONObject data = jsonObject.getJSONObject("data");
 
                             JSONArray qd_arr = data.getJSONArray("qd_list");
 
-                            for(int i = 0; i < qd_arr.length(); i ++){
+                            for (int i = 0; i < qd_arr.length(); i++) {
 
-                                if(i > 6){
+                                if (i > 6) {
                                     break;
                                 }
 
-                                if(qd_arr.getInt(i) == 1){
+                                if (qd_arr.getInt(i) == 1) {
 
                                     qd_layoutList.get(i).setSelected(true);
                                     qd_tvlist.get(i).setTextColor(rootActivity.getResources().getColor(R.color.white));
                                     qd_tvvlist.get(i).setVisibility(View.GONE);
                                     qd_ivlist.get(i).setVisibility(View.VISIBLE);
-                                }else{
+                                } else {
 
-                                    if(i < 6){
+                                    if (i < 6) {
 
                                         qd_layoutList.get(i).setSelected(false);
                                         qd_tvlist.get(i).setTextColor(rootActivity.getResources().getColor(R.color.black));
@@ -541,14 +598,13 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
                             tv_xjsy.setText("" + data.getDouble("money"));
                             tv_gg.setText("(" + data.getInt("gg") + "/" + data.getInt("gg_max") + ")");
 
-                            if(true || data.getInt("qd_today") == 1){
+                            if (true || data.getInt("qd_today") == 1) {
 
                                 btn_ljqd.setEnabled(false);
                                 btn_ljqd.setText(rootActivity.getResources().getString(R.string.tv_jryqd));
 
                                 ss_popupWindow_view(1, data.getInt("gd_point"), data.getInt("gg_point"));
-                            }
-                            else if(data.getInt("qd_today") == 7){
+                            } else if (data.getInt("qd_today") == 7) {
 
                                 btn_ljqd.setEnabled(false);
                                 btn_ljqd.setText(rootActivity.getResources().getString(R.string.tv_jryqd));
@@ -565,23 +621,23 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
                                 startActivity(intent);
                             }
 
-                            if(data.getInt("qd_lxts") > 0){
+                            if (data.getInt("qd_lxts") > 0) {
 
                                 tv_lxqdts.setText("您已连续签到 " + data.getInt("qd_lxts") + " 天");
-                            }else{
+                            } else {
 
                                 tv_lxqdts.setText("");
                             }
 
-                        }else{
+                        } else {
 
-                            if(message.isEmpty()){
+                            if (message.isEmpty()) {
                                 myToast(1002);
-                            }else{
+                            } else {
                                 myToast(message);
                             }
                         }
-                    }catch (Exception e){
+                    } catch (Exception e) {
 
                         e.printStackTrace();
 
@@ -595,9 +651,9 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
     }
 
 
-    private void loadData(){
+    private void loadData() {
 
-        if(lloadtime > DateUtil.getTimes()){
+        if (lloadtime > DateUtil.getTimes()) {
 
             return;
         }
@@ -623,7 +679,7 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
 
-                rootActivity.runOnUiThread(()->{
+                rootActivity.runOnUiThread(() -> {
 
                     LoadingTimes(-1);
                     LoadingDialog(false);
@@ -639,14 +695,14 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
                 Log.d(Tag, url);
                 Log.d(Tag, resp);
 
-                rootActivity.runOnUiThread(()->{
+                rootActivity.runOnUiThread(() -> {
 
                     try {
 
                         LoadingTimes(-1);
                         LoadingDialog(false);
 
-                        if(resp.equals("login")){
+                        if (resp.equals("login")) {
 
                             sessLogout();
                             return;
@@ -657,29 +713,29 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
                         String message = jsonObject.getString("message");
                         int code = jsonObject.getInt("code");
 
-                        if(code == 1000){
+                        if (code == 1000) {
                             sessLogout(code);
                             return;
                         }
 
-                        if(status.equals("success")){
+                        if (status.equals("success")) {
 
                             JSONObject data = jsonObject.getJSONObject("data");
 
                             JSONArray qd_arr = data.getJSONArray("qd_list");
 
-                            for(int i = 0; i < qd_arr.length(); i ++){
+                            for (int i = 0; i < qd_arr.length(); i++) {
 
-                                if(i == 6){
+                                if (i == 6) {
 
-                                    if(qd_arr.getInt(i) == 1){
+                                    if (qd_arr.getInt(i) == 1) {
 
                                         qd_layoutList.get(i).setSelected(true);
                                         qd_tvlist.get(i).setTextColor(rootActivity.getResources().getColor(R.color.white));
                                         //qd_tvvlist.get(i).setVisibility(View.GONE);
                                         qd_ivlist.get(i).setVisibility(View.GONE);
                                         qd_ivlist.get(i + 1).setVisibility(View.VISIBLE);
-                                    }else{
+                                    } else {
 
                                         qd_layoutList.get(i).setSelected(false);
                                         qd_tvlist.get(i).setTextColor(rootActivity.getResources().getColor(R.color.black));
@@ -691,13 +747,13 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
                                     break;
                                 }
 
-                                if(qd_arr.getInt(i) == 1){
+                                if (qd_arr.getInt(i) == 1) {
 
                                     qd_layoutList.get(i).setSelected(true);
                                     qd_tvlist.get(i).setTextColor(rootActivity.getResources().getColor(R.color.white));
                                     qd_tvvlist.get(i).setVisibility(View.GONE);
                                     qd_ivlist.get(i).setVisibility(View.VISIBLE);
-                                }else{
+                                } else {
 
                                     qd_layoutList.get(i).setSelected(false);
                                     qd_tvlist.get(i).setTextColor(rootActivity.getResources().getColor(R.color.black));
@@ -716,22 +772,22 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
 
                             tv_gg.setText("(" + data.getInt("gg") + "/" + data.getInt("gg_max") + ")");
 
-                            if(data.getInt("qd_today") == 1){
+                            if (data.getInt("qd_today") == 1) {
 
                                 btn_ljqd.setEnabled(false);
                                 btn_ljqd.setText(rootActivity.getResources().getString(R.string.tv_jryqd));
                                 Log.d(Tag, "---------v 1-----");
-                            }else{
+                            } else {
                                 Log.d(Tag, "---------v 0-----");
                                 btn_ljqd.setEnabled(true);
                                 btn_ljqd.setText(rootActivity.getResources().getString(R.string.tv_ljqd));
                             }
 
 
-                            if(data.getInt("qd_lxts") > 0){
+                            if (data.getInt("qd_lxts") > 0) {
 
                                 tv_lxqdts.setText("您已连续签到 " + data.getInt("qd_lxts") + " 天");
-                            }else{
+                            } else {
 
                                 tv_lxqdts.setText("");
                             }
@@ -740,41 +796,41 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
                             tv_ggtip.setText("奖励" + data.getInt("gg_zjf") + "积分，以及免费抽奖次数");
 
 
-                            if(data.has("rules")){
+                            if (data.has("rules")) {
 
                                 qdgzstr = data.getString("rules");
                             }
 
 
-                            if(data.has("sync")){
+                            if (data.has("sync")) {
                                 //积分未同步
-                                if(data.getInt("sync") == 0){
+                                if (data.getInt("sync") == 0) {
 
                                     loadSync();
                                 }
                             }
 
-                            if(data.has("qd_point")){
+                            if (data.has("qd_point")) {
 
-                                if(qd_point != data.getInt("qd_point")){
+                                if (qd_point != data.getInt("qd_point")) {
 
                                     qd_point = data.getInt("qd_point");
 
-                                    for(int i = 0; i < 7; i ++){
+                                    for (int i = 0; i < 7; i++) {
 
                                         qd_tvvlist.get(i).setText("" + qd_point);
                                     }
                                 }
                             }
-                        }else{
+                        } else {
 
-                            if(message.isEmpty()){
+                            if (message.isEmpty()) {
                                 myToast(1002);
-                            }else{
+                            } else {
                                 myToast(message);
                             }
                         }
-                    }catch (Exception e){
+                    } catch (Exception e) {
 
                         e.printStackTrace();
 
@@ -789,7 +845,7 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
 
     private void loadSync() {
 
-        if(lsynctime > DateUtil.getTimes()){
+        if (lsynctime > DateUtil.getTimes()) {
 
             return;
         }
@@ -815,7 +871,7 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
 
-                rootActivity.runOnUiThread(()->{
+                rootActivity.runOnUiThread(() -> {
 
                     //LoadingTimes(-1);
                     //LoadingDialog(false);
@@ -831,14 +887,14 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
                 Log.d(Tag, url);
                 Log.d(Tag, resp);
 
-                rootActivity.runOnUiThread(()->{
+                rootActivity.runOnUiThread(() -> {
 
                     try {
 
                         //LoadingTimes(-1);
                         //LoadingDialog(false);
 
-                        if(resp.equals("login")){
+                        if (resp.equals("login")) {
 
                             sessLogout();
                             return;
@@ -849,22 +905,22 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
                         String message = jsonObject.getString("message");
                         int code = jsonObject.getInt("code");
 
-                        if(code == 1000){
+                        if (code == 1000) {
                             sessLogout(code);
                             return;
                         }
 
-                        if(status.equals("success")){
+                        if (status.equals("success")) {
 
-                        }else{
+                        } else {
 
-                            if(message.isEmpty()){
+                            if (message.isEmpty()) {
                                 myToast(1002);
-                            }else{
+                            } else {
                                 myToast(message);
                             }
                         }
-                    }catch (Exception e){
+                    } catch (Exception e) {
 
                         e.printStackTrace();
 
@@ -889,7 +945,7 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
 
         int vlpW = ViewGroup.LayoutParams.MATCH_PARENT;
         int vlpH = ViewGroup.LayoutParams.WRAP_CONTENT;
-        if(ptype == 1){
+        if (ptype == 1) {
 
             vlpH = ViewGroup.LayoutParams.WRAP_CONTENT;
             lid = R.layout.qd_item;
@@ -907,13 +963,13 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
             @Override
             public void onDismiss() {
 
-                params.alpha=1f;
+                params.alpha = 1f;
                 getActivity().getWindow().setAttributes(params);
             }
         });
 
 
-        if(ptype == 1){
+        if (ptype == 1) {
 
 
             popupView.findViewById(R.id.id_btn_ok).setOnClickListener(new View.OnClickListener() {
@@ -938,10 +994,11 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
 
             tv_jf1 = popupView.findViewById(R.id.id_jf1);
             tv_jf2 = popupView.findViewById(R.id.id_jf2);
+            new NativeView(getContext(), (FrameLayout) popupView.findViewById(R.id.sign_banner_layout));
 
             tv_jf1.setText("+" + jf1);
             tv_jf2.setText("" + jf2);
-        }else {
+        } else {
 
 
             WebView webView = popupView.findViewById(R.id.id_webview);
@@ -1008,7 +1065,7 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
                 //webView.loadUrl("https://item.jd.com/100027401298.html");
                 webView.getSettings().setDisplayZoomControls(false);
 
-            }else{
+            } else {
 
                 webView.setVisibility(View.GONE);
                 tv_qdgz.setVisibility(View.VISIBLE);
@@ -1017,7 +1074,7 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
         }
 
 
-        params.alpha=0.3f;
+        params.alpha = 0.3f;
         getActivity().getWindow().setAttributes(params);
         popupWindow_ss.showAtLocation(rootView.findViewById(R.id.id_qd_main), Gravity.CENTER, 0, 0);
     }

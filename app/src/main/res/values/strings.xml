@@ -23,7 +23,7 @@
     <string name="err_roles">权限未开通</string>
     <string name="err_yhsx">当前用户帐号已失效</string>
     <string name="tv_mrrw">每日任务</string>
-    <string name="tv_gkgg">观看广告</string>
+    <string name="tv_gkgg">观看视频</string>
     <string name="tv_qdjl_tip">奖励积分，以及免费抽奖次数</string>
     <string name="tv_kggtj">(0/0)</string>
     <string name="tv_wycj">我要抽奖</string>

@@ -2,21 +2,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
+    android:layout_gravity="center"
     android:layout_marginLeft="24.5dp"
     android:layout_marginRight="24.5dp"
     android:background="@mipmap/qd1"
-    android:layout_gravity="center">
+    android:orientation="vertical">
 
     <TextView
-        android:layout_marginTop="113dp"
-        android:layout_gravity="center_horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="113dp"
         android:text="@string/tv_qdcg"
-        android:textSize="19.37dp"
         android:textColor="@color/bg_r_4"
-        android:textStyle="bold"/>
+        android:textSize="19.37dp"
+        android:textStyle="bold" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,25 +28,26 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="0"
-            android:textSize="60.67dp"
-            android:textColor="@color/bg_r_4"/>
+            android:textColor="@color/bg_r_4"
+            android:textSize="60.67dp" />
+
         <TextView
-            android:layout_marginLeft="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/tv_jf"
+            android:layout_marginLeft="5dp"
             android:layout_marginBottom="5dp"
-            android:textColor="@color/bg_r_4"/>
+            android:text="@string/tv_jf"
+            android:textColor="@color/bg_r_4" />
     </LinearLayout>
 
 
     <LinearLayout
         android:id="@+id/id_btn_ksp"
-        android:layout_marginTop="60dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@mipmap/qd3"
         android:layout_gravity="center"
+        android:layout_marginTop="60dp"
+        android:background="@mipmap/qd3"
         android:gravity="center">
 
         <TextView
@@ -54,49 +55,45 @@
             android:layout_height="wrap_content"
             android:text="@string/tv_ksptip"
             android:textColor="@color/bg_r_4"
-            android:textSize="14dp"/>
+            android:textSize="14dp" />
+
         <TextView
             android:id="@+id/id_jf2"
-            android:paddingLeft="2dp"
-            android:paddingRight="2dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"
             android:text="0"
             android:textColor="@color/bg_r_4"
-            android:textSize="14dp"/>
+            android:textSize="14dp" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/tv_jf"
             android:textColor="@color/bg_r_4"
-            android:textSize="14dp"/>
+            android:textSize="14dp" />
     </LinearLayout>
-
-
 
 
     <TextView
         android:id="@+id/id_btn_ok"
-        android:layout_marginTop="12.5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@mipmap/qd2"
         android:layout_gravity="center"
-        android:text="@string/tv_zdl"
+        android:layout_marginTop="12.5dp"
+        android:background="@mipmap/qd2"
         android:gravity="center"
+        android:text="@string/tv_zdl"
         android:textColor="@color/white"
-        android:textSize="14dp"/>
+        android:textSize="14dp" />
 
-    <LinearLayout
-        android:layout_margin="24dp"
+    <FrameLayout
+        android:id="@+id/sign_banner_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <ImageView
-            android:id="@+id/id_gg"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@mipmap/gg1"/>
-    </LinearLayout>
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginRight="20dp"></FrameLayout>
 
 </LinearLayout>

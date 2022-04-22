@@ -6,13 +6,13 @@ import android.util.Log;
 import android.webkit.WebView;
 
 import com.anythink.core.api.ATSDK;
-
 import com.example.gh.bean.UserInfo;
+import com.mango.wakeupsdk.ManGoSDK;
+import com.mango.wakeupsdk.open.error.ErrorMessage;
+import com.mango.wakeupsdk.open.listener.OnInitListener;
 import com.umeng.commonsdk.UMConfigure;
 import com.youzan.androidsdk.YouzanSDK;
 import com.youzan.androidsdkx5.YouZanSDKX5Adapter;
-
-import java.util.UUID;
 
 public class MainApplication extends Application {
 
@@ -54,6 +54,16 @@ public class MainApplication extends Application {
                 WebView.setDataDirectorySuffix(processName);
             }
         }
+        ManGoSDK.getInstance().init(this, "sbnsNtRkyh", "efgQRSTZhijKopqr2345", new OnInitListener() {
+            @Override
+            public void onSuccess() {
+                //初始化成功
+            }
+            @Override
+            public void onFail(ErrorMessage message) {
+                //初始化失败，请打印ErrorMessage对象，提供错误码
+            }
+        });
         UMConfigure.init(getApplicationContext(), "625e29b530a4f67780a97bf7", "Umeng", UMConfigure.DEVICE_TYPE_PHONE, "");
         ATSDK.setNetworkLogDebug(true);//SDK日志功能，集成测试阶段建议开启，上线前必须关闭
         ATSDK.init(this, appid, appKey);
