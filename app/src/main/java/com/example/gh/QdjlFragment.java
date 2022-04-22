@@ -135,7 +135,7 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
                 Log.i(Tag, "onRewardedVideoAdPlayEnd:\n" + entity.toString());
 
 
-                savePoint(entity.toString());
+
             }
 
             @Override
@@ -148,6 +148,7 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
                 Log.i(Tag, "onRewardedVideoAdClosed:\n" + entity.toString());
                 //广告加载成功回调
                 rewardVideoAd.load();
+                savePoint(entity.toString());
             }
 
             @Override
