@@ -17,11 +17,18 @@ import com.anythink.core.api.ATAdInfo;
 import com.anythink.core.api.ATMediationRequestInfo;
 import com.anythink.core.api.AdError;
 import com.anythink.splashad.api.ATSplashAd;
+import com.anythink.splashad.api.ATSplashAdExtraInfo;
 import com.anythink.splashad.api.ATSplashAdListener;
 import com.anythink.splashad.api.IATSplashEyeAd;
+import com.mango.wakeupsdk.ManGoSDK;
+import com.mango.wakeupsdk.open.error.ErrorMessage;
+import com.mango.wakeupsdk.open.listener.OnInitListener;
+import com.mango.wakeupsdk.open.listener.OnSplashAdListener;
+import com.mango.wakeupsdk.provider.SdkProviderType;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -36,103 +43,110 @@ public class SplashActivity extends Activity implements ATSplashAdListener {
         setContentView(R.layout.activity_splash);
 
         container = findViewById(R.id.splash_ad_container);
-//            ManGoSDK.getInstance().init(getApplicationContext(), mango_appid, mango_appKey, new OnInitListener() {
-//                @Override
-//                public void onSuccess() {
-//                    Log.e(TAG,"初始化成功==============>");
-//                    ManGoSDK.getInstance().splashAdTwice(SplashActivity.this, container, "10253", new OnSplashAdListener() {
-//                        @Override
-//                        public void onLoad(SdkProviderType type) {
-//
-//                        }
-//
-//                        @Override
-//                        public void onShow(SdkProviderType type, int sdkId) {
-//
-//                        }
-//
-//                        @Override
-//                        public void onClick(SdkProviderType type, int sdkId) {
-//
-//                        }
-//
-//                        @Override
-//                        public void onDownloadFinished(SdkProviderType type, int sdkId) {
-//
-//                        }
-//
-//                        @Override
-//                        public void onInstallFinished(SdkProviderType type, int sdkId) {
-//
-//                        }
-//
-//                        @Override
-//                        public void onLeftApplication(SdkProviderType type, int sdkId) {
-//
-//                        }
-//
-//                        @Override
-//                        public void onClose(SdkProviderType type) {
-//                            container.removeAllViews();
-//                            jumpToMainActivity();
-//                        }
-//
-//                        @Override
-//                        public void onError(SdkProviderType type, ErrorMessage message) {
-//                            jumpToMainActivity();
-//                            Log.e(TAG,"==============>" + message.toString());
-//                        }
-//                    });
-//                }
-//
-//                @Override
-//                public void onFail(ErrorMessage message) {
-//                    Log.e(TAG,"初始化失败==============>");
-//                }
-//            });
+        Random rd = new Random();
+        int temp = rd.nextInt(2);
 
-        String placementId = "b625e3330752f3";
-        ViewGroup.LayoutParams layoutParams = container.getLayoutParams();
-        Configuration cf = getResources().getConfiguration();
+        if (temp == 1) {
+            ManGoSDK.getInstance().init(getApplicationContext(), "sbnsNtRkyh", "efgQRSTZhijKopqr2345", new OnInitListener() {
+                @Override
+                public void onSuccess() {
+                    Log.e(TAG, "初始化成功==============>");
+                    ManGoSDK.getInstance().splashAdTwice(SplashActivity.this, container, "10313", new OnSplashAdListener() {
+                        @Override
+                        public void onLoad(SdkProviderType type) {
 
-        int ori = cf.orientation;
+                        }
 
-        /**You should set size to the layout param.**/
-        if (ori == Configuration.ORIENTATION_LANDSCAPE) {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
-            layoutParams.width = (int) (getResources().getDisplayMetrics().widthPixels * 0.9);
-            layoutParams.height = getResources().getDisplayMetrics().heightPixels;
-        } else if (ori == Configuration.ORIENTATION_PORTRAIT) {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
-            layoutParams.width = getResources().getDisplayMetrics().widthPixels;
-            layoutParams.height = (int) (getResources().getDisplayMetrics().heightPixels * 0.85);
+                        @Override
+                        public void onShow(SdkProviderType type, int sdkId) {
+
+                        }
+
+                        @Override
+                        public void onClick(SdkProviderType type, int sdkId) {
+
+                        }
+
+                        @Override
+                        public void onDownloadFinished(SdkProviderType type, int sdkId) {
+
+                        }
+
+                        @Override
+                        public void onInstallFinished(SdkProviderType type, int sdkId) {
+
+                        }
+
+                        @Override
+                        public void onLeftApplication(SdkProviderType type, int sdkId) {
+
+                        }
+
+                        @Override
+                        public void onClose(SdkProviderType type) {
+                            container.removeAllViews();
+                            jumpToMainActivity();
+                        }
+
+                        @Override
+                        public void onError(SdkProviderType type, ErrorMessage message) {
+                            jumpToMainActivity();
+                            Log.e(TAG, "==============>" + message.toString());
+                        }
+                    });
+                }
+
+                @Override
+                public void onFail(ErrorMessage message) {
+                    Log.e(TAG, "初始化失败==============>");
+                }
+            });
+
         } else {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
-            layoutParams.width = getResources().getDisplayMetrics().widthPixels;
-            layoutParams.height = (int) (getResources().getDisplayMetrics().heightPixels * 0.85);
+            String placementId = "b625e3330752f3";
+            ViewGroup.LayoutParams layoutParams = container.getLayoutParams();
+            Configuration cf = getResources().getConfiguration();
+
+            int ori = cf.orientation;
+
+            /**You should set size to the layout param.**/
+            if (ori == Configuration.ORIENTATION_LANDSCAPE) {
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
+                layoutParams.width = (int) (getResources().getDisplayMetrics().widthPixels * 0.9);
+                layoutParams.height = getResources().getDisplayMetrics().heightPixels;
+            } else if (ori == Configuration.ORIENTATION_PORTRAIT) {
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
+                layoutParams.width = getResources().getDisplayMetrics().widthPixels;
+                layoutParams.height = (int) (getResources().getDisplayMetrics().heightPixels * 0.85);
+            } else {
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
+                layoutParams.width = getResources().getDisplayMetrics().widthPixels;
+                layoutParams.height = (int) (getResources().getDisplayMetrics().heightPixels * 0.85);
+            }
+
+            ATMediationRequestInfo atMediationRequestInfo = null;
+
+            splashAd = new ATSplashAd(this, placementId, atMediationRequestInfo, this, 5000);
+
+            Map<String, Object> localMap = new HashMap<>();
+            localMap.put(ATAdConst.KEY.AD_WIDTH, layoutParams.width);
+            localMap.put(ATAdConst.KEY.AD_HEIGHT, layoutParams.height);
+
+            // Only for GDT (true: open download dialog, false: download directly)
+            localMap.put(ATAdConst.KEY.AD_CLICK_CONFIRM_STATUS, true);
+
+            splashAd.setLocalExtra(localMap);
+
+            if (splashAd.isAdReady()) {
+                Log.i(TAG, "SplashAd is ready to show.");
+                splashAd.show(this, container);
+            } else {
+                Log.i(TAG, "SplashAd isn't ready to show, start to request.");
+                splashAd.loadAd();
+            }
+            ATSplashAd.checkSplashDefaultConfigList(this, placementId, null);
         }
 
-        ATMediationRequestInfo atMediationRequestInfo = null;
-
-        splashAd = new ATSplashAd(this, placementId, atMediationRequestInfo, this, 5000);
-
-        Map<String, Object> localMap = new HashMap<>();
-        localMap.put(ATAdConst.KEY.AD_WIDTH, layoutParams.width);
-        localMap.put(ATAdConst.KEY.AD_HEIGHT, layoutParams.height);
-
-        // Only for GDT (true: open download dialog, false: download directly)
-        localMap.put(ATAdConst.KEY.AD_CLICK_CONFIRM_STATUS, true);
-
-        splashAd.setLocalExtra(localMap);
-
-        if (splashAd.isAdReady()) {
-            Log.i(TAG, "SplashAd is ready to show.");
-            splashAd.show(this, container);
-        } else {
-            Log.i(TAG, "SplashAd isn't ready to show, start to request.");
-            splashAd.loadAd();
-        }
-        ATSplashAd.checkSplashDefaultConfigList(this, placementId, null);
 
     }
 
@@ -144,9 +158,15 @@ public class SplashActivity extends Activity implements ATSplashAdListener {
     }
 
 
+
     @Override
-    public void onAdLoaded() {
+    public void onAdLoaded(boolean b) {
         splashAd.show(this, container);
+    }
+
+    @Override
+    public void onAdLoadTimeout() {
+
     }
 
     @Override
@@ -166,10 +186,11 @@ public class SplashActivity extends Activity implements ATSplashAdListener {
     }
 
     @Override
-    public void onAdDismiss(ATAdInfo atAdInfo, IATSplashEyeAd iatSplashEyeAd) {
+    public void onAdDismiss(ATAdInfo atAdInfo, ATSplashAdExtraInfo atSplashAdExtraInfo) {
         Log.i(TAG, "onAdDismiss:\n" + atAdInfo.toString());
         jumpToMainActivity();
     }
+
 
 
     boolean hasHandleJump = false;

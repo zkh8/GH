@@ -386,7 +386,7 @@ public class IndexActivity extends BaseActivity implements View.OnClickListener{
 
         //7.0以上安卓系统安装app需要通过fileProvider（需要在AndroidManifest.xml声明）
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            data = FileProvider.getUriForFile(this, "com.example.gh.provider", file);
+            data = FileProvider.getUriForFile(this, "com.yunlu.bxgh.provider", file);
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             Log.d(Tag,"installApk 7.0data:" + data);
         } else {

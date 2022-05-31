@@ -9,15 +9,14 @@ android {
         applicationId "com.yunlu.bxgh"
         minSdk 23
         targetSdk 30
-        versionCode 1
-        versionName "1.6.13"
+        versionCode 3
+        versionName "1.6.15"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         ndk {
             abiFilters 'armeabi-v7a', 'x86', 'arm64-v8a', 'x86_64', 'armeabi'
-        }
-    }
+        }    }
 
     sourceSets {
         main {

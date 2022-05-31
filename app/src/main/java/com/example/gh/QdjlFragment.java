@@ -1,5 +1,6 @@
 package com.example.gh;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.anythink.core.api.ATAdInfo;
+import com.anythink.core.api.ATNetworkConfirmInfo;
 import com.anythink.core.api.AdError;
 import com.anythink.rewardvideo.api.ATRewardVideoAd;
 import com.anythink.rewardvideo.api.ATRewardVideoExListener;
@@ -114,60 +116,87 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
         ATRewardVideoAd rewardVideoAd = new ATRewardVideoAd(getContext(), "b6228432ecaf07");
         rewardVideoAd.load();
         rewardVideoAd.setAdListener(new ATRewardVideoExListener() {
+            @Override
+            public void onDeeplinkCallback(ATAdInfo atAdInfo, boolean b) {
+                Log.i(Tag, "onDeeplinkCallback:" + atAdInfo.toString() + "--status:" + b);
+            }
 
             @Override
-            public void onDeeplinkCallback(ATAdInfo adInfo, boolean isSuccess) {
-                Log.i(Tag, "onDeeplinkCallback:" + adInfo.toString() + "--status:" + isSuccess);
+            public void onDownloadConfirm(Context context, ATAdInfo atAdInfo, ATNetworkConfirmInfo atNetworkConfirmInfo) {
+
+            }
+
+            @Override
+            public void onRewardedVideoAdAgainPlayStart(ATAdInfo atAdInfo) {
+
+            }
+
+            @Override
+            public void onRewardedVideoAdAgainPlayEnd(ATAdInfo atAdInfo) {
+
+            }
+
+            @Override
+            public void onRewardedVideoAdAgainPlayFailed(AdError adError, ATAdInfo atAdInfo) {
+
+            }
+
+            @Override
+            public void onRewardedVideoAdAgainPlayClicked(ATAdInfo atAdInfo) {
+
+            }
+
+            @Override
+            public void onAgainReward(ATAdInfo atAdInfo) {
+
             }
 
             @Override
             public void onRewardedVideoAdLoaded() {
                 Log.i(Tag, "onRewardedVideoAdLoaded");
                 mRewardVideoAd = rewardVideoAd;
-//                mPresenter.requestVideoAdSuccess(atRewardVideoAd);
             }
 
             @Override
-            public void onRewardedVideoAdFailed(AdError errorCode) {
-                Log.i(Tag, "onRewardedVideoAdFailed error:" + errorCode.getFullErrorInfo());
-//                mPresenter.requestVideoAdError();
+            public void onRewardedVideoAdFailed(AdError adError) {
+                Log.i(Tag, "onRewardedVideoAdFailed error:" + adError.getFullErrorInfo());
             }
 
             @Override
-            public void onRewardedVideoAdPlayStart(ATAdInfo entity) {
-                Log.i(Tag, "onRewardedVideoAdPlayStart:\n" + entity.toString());
+            public void onRewardedVideoAdPlayStart(ATAdInfo atAdInfo) {
+                Log.i(Tag, "onRewardedVideoAdPlayStart:\n" + atAdInfo.toString());
             }
 
             @Override
-            public void onRewardedVideoAdPlayEnd(ATAdInfo entity) {
-                Log.i(Tag, "onRewardedVideoAdPlayEnd:\n" + entity.toString());
-
-
+            public void onRewardedVideoAdPlayEnd(ATAdInfo atAdInfo) {
+                Log.i(Tag, "onRewardedVideoAdPlayEnd:\n" + atAdInfo.toString());
             }
 
             @Override
-            public void onRewardedVideoAdPlayFailed(AdError errorCode, ATAdInfo entity) {
-                Log.i(Tag, "onRewardedVideoAdPlayFailed error:" + errorCode.getFullErrorInfo());
+            public void onRewardedVideoAdPlayFailed(AdError adError, ATAdInfo atAdInfo) {
+                Log.i(Tag, "onRewardedVideoAdPlayFailed error:" + adError.getFullErrorInfo());
             }
 
             @Override
-            public void onRewardedVideoAdClosed(ATAdInfo entity) {
-                Log.i(Tag, "onRewardedVideoAdClosed:\n" + entity.toString());
+            public void onRewardedVideoAdClosed(ATAdInfo atAdInfo) {
+                Log.i(Tag, "onRewardedVideoAdClosed:\n" + atAdInfo.toString());
                 //广告加载成功回调
                 rewardVideoAd.load();
-                savePoint(entity.toString());
+                savePoint(atAdInfo.toString());
             }
 
             @Override
-            public void onRewardedVideoAdPlayClicked(ATAdInfo entity) {
-                Log.i(Tag, "onRewardedVideoAdPlayClicked:\n" + entity.toString());
+            public void onRewardedVideoAdPlayClicked(ATAdInfo atAdInfo) {
+                Log.i(Tag, "onRewardedVideoAdPlayClicked:\n" + atAdInfo.toString());
             }
 
             @Override
-            public void onReward(ATAdInfo entity) {
-                Log.e(Tag, "onReward:\n" + entity.toString());
+            public void onReward(ATAdInfo atAdInfo) {
+                Log.e(Tag, "onReward:\n" + atAdInfo.toString());
             }
         });
+
+
     }
 
     private void savePoint(String arg) {
@@ -445,7 +474,52 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
                     if (mRewardVideoAd != null && mRewardVideoAd.isAdReady()) {
                         mRewardVideoAd.show(getActivity());
                     } else {
-                        myToast("视频准备中，请稍后再试");
+                        ManGoSDK.getInstance().rewardVideo(getActivity(), "10312", new OnRewardVideoListener() {
+                            @Override
+                            public void onLoad(SdkProviderType type) {
+                                System.out.println(type.getName() + "==============>onLoad");
+                            }
+
+                            @Override
+                            public void onShow(SdkProviderType type, int sdkId) {
+                            }
+
+                            @Override
+                            public void onClick(SdkProviderType type, int sdkId) {
+                            }
+
+                            @Override
+                            public void onPlayFinished(SdkProviderType type, int sdkId) {
+                                System.out.println(type.getName() + "==============>onPlayFinished");
+                            }
+
+                            @Override
+                            public void onDownloadFinished(SdkProviderType type, int sdkId) {
+                            }
+
+                            @Override
+                            public void onInstallFinished(SdkProviderType type, int sdkId) {
+                            }
+
+                            @Override
+                            public void onLeftApplication(SdkProviderType type, int sdkId) {
+                            }
+
+                            @Override
+                            public void onClose(SdkProviderType type) {
+                                savePoint(type.getName());
+                            }
+
+                            @Override
+                            public void onReward(SdkProviderType type) {
+                            }
+
+                            @Override
+                            public void onError(SdkProviderType type, ErrorMessage message) {
+                                myToast("视频准备中，请稍后再试");
+                            }
+                        });
+//                        myToast("视频准备中，请稍后再试");
                     }
                 }
 
