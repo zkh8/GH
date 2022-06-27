@@ -8,16 +8,23 @@
     tools:context=".IndexActivity">
 
     <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/id_main_viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:id="@+id/id_main_viewpager"
         tools:ignore="MissingConstraints" />
 
-    <include layout="@layout/index_bottom_tab"
+    <include
         android:id="@+id/bottom_tab"
-        android:layout_height="60dp"
+        layout="@layout/index_bottom_tab"
         android:layout_width="match_parent"
-        android:layout_gravity="bottom"/>
+        android:layout_height="60dp"
+        android:layout_gravity="bottom" />
+
+    <com.youzan.androidsdkx5.YouzanBrowser
+        android:id="@+id/id_webview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"></com.youzan.androidsdkx5.YouzanBrowser>
 
 </LinearLayout>

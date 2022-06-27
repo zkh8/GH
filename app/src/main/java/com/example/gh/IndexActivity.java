@@ -28,6 +28,9 @@ import android.widget.Toast;
 import com.example.gh.adapter.IndexFragmentAdapter;
 import com.example.gh.util.DateUtil;
 import com.example.gh.util.DownloadUtil;
+import com.youzan.androidsdk.YouzanSDK;
+import com.youzan.androidsdkx5.YouZanSDKX5Adapter;
+import com.youzan.androidsdkx5.YouzanBrowser;
 
 import org.json.JSONObject;
 
@@ -49,6 +52,7 @@ public class IndexActivity extends BaseActivity implements View.OnClickListener{
 
     private MainApplication mainApplication;
 
+    private YouzanBrowser mView;
     ViewPager2 viewPager2;
     List<LinearLayout> tabs_linearLayout = new ArrayList<>();
     private ArrayList<Fragment> fragments;
@@ -73,6 +77,7 @@ public class IndexActivity extends BaseActivity implements View.OnClickListener{
         setContentView(R.layout.activity_index);
 
         mainApplication = MainApplication.getInstance();
+        iniWeb();
         iniView();
     }
 
@@ -512,5 +517,16 @@ public class IndexActivity extends BaseActivity implements View.OnClickListener{
                 });
             }
         });
+    }
+
+
+
+    private void iniWeb(){
+
+        mView = findViewById(R.id.id_webview);
+        mView.needLoading(true);
+
+        YouzanSDK.init(this, mainApplication.YZ_clientId,mainApplication.YZ_appkey, new YouZanSDKX5Adapter());
+        YouzanSDK.isDebug(true);
     }
 }
