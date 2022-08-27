@@ -44,14 +44,15 @@ public class SplashActivity extends Activity implements ATSplashAdListener {
 
         container = findViewById(R.id.splash_ad_container);
         Random rd = new Random();
-        int temp = rd.nextInt(2);
+//        int temp = rd.nextInt(2);
+        int temp = 1;
 
         if (temp == 1) {
             ManGoSDK.getInstance().init(getApplicationContext(), "sbnsNtRkyh", "efgQRSTZhijKopqr2345", new OnInitListener() {
                 @Override
                 public void onSuccess() {
                     Log.e(TAG, "初始化成功==============>");
-                    ManGoSDK.getInstance().splashAdTwice(SplashActivity.this, container, "10313", new OnSplashAdListener() {
+                    ManGoSDK.getInstance().splashAd(SplashActivity.this, container, "10313", new OnSplashAdListener() {
                         @Override
                         public void onLoad(SdkProviderType type) {
 
@@ -85,7 +86,7 @@ public class SplashActivity extends Activity implements ATSplashAdListener {
                         @Override
                         public void onClose(SdkProviderType type) {
                             container.removeAllViews();
-                            jumpToMainActivity();
+                            jumpWhenCanClick();
                         }
 
                         @Override
@@ -98,7 +99,7 @@ public class SplashActivity extends Activity implements ATSplashAdListener {
 
                 @Override
                 public void onFail(ErrorMessage message) {
-                    Log.e(TAG, "初始化失败==============>");
+                    Log.e(TAG, "初始化失败==============>" + message.toString());
                 }
             });
 
@@ -150,6 +151,17 @@ public class SplashActivity extends Activity implements ATSplashAdListener {
 
     }
 
+    public boolean canJumpImmediately = false;
+
+    private void jumpWhenCanClick() {
+        Log.d("BeiZisDemo", "jumpWhenCanClick canJumpImmediately== " + canJumpImmediately);
+        if (canJumpImmediately) {
+            startActivity(new Intent(SplashActivity.this, StartActivity.class));
+            finish();
+        } else {
+            canJumpImmediately = true;
+        }
+    }
 
     private void toNext() {
         Intent mainIntent = new Intent(SplashActivity.this, StartActivity.class);
@@ -157,11 +169,25 @@ public class SplashActivity extends Activity implements ATSplashAdListener {
         startActivity(mainIntent);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (canJumpImmediately) {
+            jumpToMainActivity();
+        }
+        canJumpImmediately = true;
+    }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        canJumpImmediately = false;
+    }
 
     @Override
     public void onAdLoaded(boolean b) {
         splashAd.show(this, container);
+        jumpWhenCanClick();
     }
 
     @Override
@@ -190,7 +216,6 @@ public class SplashActivity extends Activity implements ATSplashAdListener {
         Log.i(TAG, "onAdDismiss:\n" + atAdInfo.toString());
         jumpToMainActivity();
     }
-
 
 
     boolean hasHandleJump = false;

@@ -19,6 +19,10 @@ import android.widget.TextView;
 
 import com.example.gh.util.TextUtil;
 import com.example.gh.util.ViewUtil;
+import com.mango.wakeupsdk.ManGoSDK;
+import com.mango.wakeupsdk.open.error.ErrorMessage;
+import com.mango.wakeupsdk.open.listener.OnInterstitialAdListener;
+import com.mango.wakeupsdk.provider.SdkProviderType;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -55,8 +59,8 @@ public class TxActivity extends BaseActivity implements View.OnClickListener {
     private String[] txvarr1 = {"0.1", "30", "88"};
     private String[] txvarr2 = {"33", "88", "0"};
 
-    private LinearLayout btn_tx_1,btn_tx_2,btn_tx_3;
-    private TextView tv_txt_1,tv_txv_1,tv_txt_2,tv_txv_2,tv_txt_3,tv_txv_3, btn_symx;
+    private LinearLayout btn_tx_1, btn_tx_2, btn_tx_3;
+    private TextView tv_txt_1, tv_txv_1, tv_txt_2, tv_txv_2, tv_txt_3, tv_txv_3, btn_symx;
     private int txi = 0;
     private int first = 0;
 
@@ -73,6 +77,58 @@ public class TxActivity extends BaseActivity implements View.OnClickListener {
         params = getWindow().getAttributes();
 
         iniBtn();
+        interstitialAd();
+    }
+
+    private void interstitialAd() {
+        ManGoSDK.getInstance().interstitialAd(this, "10362", new
+                OnInterstitialAdListener() {
+                    @Override
+                    public void onLoad(SdkProviderType sdkProviderType) {
+                        //广告加载成功
+                    }
+
+                    @Override
+                    public void onShow(SdkProviderType sdkProviderType, int i) {
+                        //广告曝光
+                    }
+
+                    @Override
+                    public void onClick(SdkProviderType sdkProviderType, int i) {
+                        //广告点击
+                    }
+
+                    @Override
+                    public void onPlayFinished(SdkProviderType sdkProviderType, int i) {
+                        //视频广告播放完成
+                    }
+
+                    @Override
+                    public void onDownloadFinished(SdkProviderType sdkProviderType, int i) {
+                        //应用下载完成
+                    }
+
+                    @Override
+                    public void onInstallFinished(SdkProviderType sdkProviderType, int i) {
+                        //应用安装完成
+                    }
+
+                    @Override
+                    public void onLeftApplication(SdkProviderType sdkProviderType, int i) {
+                        //点击广告后跳转至第三方应用
+                    }
+
+                    @Override
+                    public void onClose(SdkProviderType sdkProviderType) {
+                        //广告关闭
+                    }
+
+                    @Override
+                    public void onError(SdkProviderType sdkProviderType, ErrorMessage
+                            errorMessage) {
+                        //广告拉取失败，请打印ErrorMessage对象，提供错误码
+                    }
+                });
     }
 
     @Override
@@ -120,7 +176,7 @@ public class TxActivity extends BaseActivity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
 
-        switch (v.getId()){
+        switch (v.getId()) {
 
             case R.id.id_btn_back:
                 finish();
@@ -158,7 +214,7 @@ public class TxActivity extends BaseActivity implements View.OnClickListener {
 
         txi = i;
 
-        if(i == 1){
+        if (i == 1) {
 
             btn_tx_1.setSelected(true);
             btn_tx_2.setSelected(false);
@@ -169,7 +225,7 @@ public class TxActivity extends BaseActivity implements View.OnClickListener {
             tv_txv_2.setTextColor(getResources().getColor(R.color.black));
             tv_txt_3.setTextColor(getResources().getColor(R.color.black));
             tv_txv_3.setTextColor(getResources().getColor(R.color.black));
-        }else if(i == 2){
+        } else if (i == 2) {
 
             btn_tx_1.setSelected(false);
             btn_tx_2.setSelected(true);
@@ -180,7 +236,7 @@ public class TxActivity extends BaseActivity implements View.OnClickListener {
             tv_txv_2.setTextColor(getResources().getColor(R.color.bg_r_5));
             tv_txt_3.setTextColor(getResources().getColor(R.color.black));
             tv_txv_3.setTextColor(getResources().getColor(R.color.black));
-        }else if(i == 3){
+        } else if (i == 3) {
 
             btn_tx_1.setSelected(false);
             btn_tx_2.setSelected(false);
@@ -202,22 +258,22 @@ public class TxActivity extends BaseActivity implements View.OnClickListener {
         String str_card = et_card.getText().toString().trim();
         String str_money = et_money.getText().toString().trim();
 
-        if(txi > 0){
+        if (txi > 0) {
 
             str_money = txvarr[txi - 1];
-        }else{
+        } else {
 
             myToast("请选择提现金额");
             return;
         }
 
-        if(str_name.isEmpty()){
+        if (str_name.isEmpty()) {
 
             myToast(et_name.getHint().toString());
             return;
         }
 
-        if(str_card.isEmpty()){
+        if (str_card.isEmpty()) {
 
             myToast(et_card.getHint().toString());
             return;
@@ -228,13 +284,13 @@ public class TxActivity extends BaseActivity implements View.OnClickListener {
         Log.d(Tag, txi + str_money + "--" + txje);
 
 
-        if(str_money.isEmpty() || txje < 0.1){
+        if (str_money.isEmpty() || txje < 0.1) {
 
             myToast("提现金额不能 小于 0.1");
             return;
         }
 
-        if(txje > money){
+        if (txje > money) {
 
             myToast("提现金额不能 大于 可提现金额 " + money);
             return;
@@ -266,7 +322,7 @@ public class TxActivity extends BaseActivity implements View.OnClickListener {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
 
-                runOnUiThread(()->{
+                runOnUiThread(() -> {
 
                     posting = false;
 
@@ -284,7 +340,7 @@ public class TxActivity extends BaseActivity implements View.OnClickListener {
 
                 Log.d(Tag, resp);
 
-                runOnUiThread(()->{
+                runOnUiThread(() -> {
 
                     posting = false;
 
@@ -293,7 +349,7 @@ public class TxActivity extends BaseActivity implements View.OnClickListener {
                         LoadingTimes(-1);
                         LoadingDialog(false);
 
-                        if(resp.equals("login")){
+                        if (resp.equals("login")) {
 
                             sessLogout();
                             return;
@@ -306,7 +362,7 @@ public class TxActivity extends BaseActivity implements View.OnClickListener {
                         String message = jsonObject.getString("message");
                         int code = jsonObject.getInt("code");
 
-                        if(status.equals("success")){
+                        if (status.equals("success")) {
 
                             JSONObject data = jsonObject.getJSONObject("data");
 
@@ -321,40 +377,40 @@ public class TxActivity extends BaseActivity implements View.OnClickListener {
                             et_card.setText(card_id);
                             tv_ktxje.setText(money + "");
 
-                            if(!message.isEmpty()){
+                            if (!message.isEmpty()) {
 
                                 myToast(message);
-                            }else if(tx_status == 3){
+                            } else if (tx_status == 3) {
 
                                 myToast("提现失败");
-                            }else if(tx_status == 2){
+                            } else if (tx_status == 2) {
 
                                 myToast("已成功提现");
                                 ss_popupWindow_view(txmoney);
-                            }else if(tx_status == 1){
+                            } else if (tx_status == 1) {
 
                                 myToast("提现已取消");
-                            }else{
+                            } else {
 
                                 myToast("提现已提交审核");
                             }
-                        }else{
+                        } else {
 
-                            if(message.isEmpty()){
+                            if (message.isEmpty()) {
 
                                 myToast(1002);
-                            }else{
+                            } else {
 
                                 myToast(message);
                             }
 
-                            if(code == 1002){
+                            if (code == 1002) {
 
                                 loadData();
                             }
                         }
 
-                    }catch (Exception e){
+                    } catch (Exception e) {
 
                         e.printStackTrace();
 
@@ -366,7 +422,7 @@ public class TxActivity extends BaseActivity implements View.OnClickListener {
         });
     }
 
-    private void loadData(){
+    private void loadData() {
 
         LoadingTimes(1);
         LoadingDialog(true);
@@ -388,7 +444,7 @@ public class TxActivity extends BaseActivity implements View.OnClickListener {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
 
-                runOnUiThread(()->{
+                runOnUiThread(() -> {
 
                     LoadingTimes(-1);
                     LoadingDialog(false);
@@ -404,12 +460,12 @@ public class TxActivity extends BaseActivity implements View.OnClickListener {
 
                 Log.d(Tag, resp);
 
-                runOnUiThread(()->{
+                runOnUiThread(() -> {
 
                     LoadingTimes(-1);
                     LoadingDialog(false);
 
-                    if(resp.equals("login")){
+                    if (resp.equals("login")) {
 
                         sessLogout();
                         return;
@@ -421,7 +477,7 @@ public class TxActivity extends BaseActivity implements View.OnClickListener {
                         String status = jsonObject.getString("status");
                         String message = jsonObject.getString("message");
 
-                        if(status.equals("success")){
+                        if (status.equals("success")) {
 
                             JSONObject data = jsonObject.getJSONObject("data");
 
@@ -437,32 +493,32 @@ public class TxActivity extends BaseActivity implements View.OnClickListener {
 
                             first = data.getInt("first");
 
-                            if(first == 1){
+                            if (first == 1) {
 
                                 txvarr = txvarr1;
 
-                                if(data.has("tx_money_item")){
+                                if (data.has("tx_money_item")) {
 
                                     JSONArray txv = data.getJSONArray("tx_money_item");
 
-                                    for(int i = 0; i < txv.length(); i ++){
+                                    for (int i = 0; i < txv.length(); i++) {
 
-                                        if(i > 2){
+                                        if (i > 2) {
                                             break;
                                         }
                                         txvarr[i] = txv.getString(i);
                                     }
                                 }
-                            }else{
+                            } else {
                                 txvarr = txvarr2;
 
-                                if(data.has("tx_money_item")){
+                                if (data.has("tx_money_item")) {
 
                                     JSONArray txv = data.getJSONArray("tx_money_item");
 
-                                    for(int i = 0; i < txv.length(); i ++){
+                                    for (int i = 0; i < txv.length(); i++) {
 
-                                        if(i > 2){
+                                        if (i > 2) {
                                             break;
                                         }
                                         txvarr[i] = txv.getString(i);
@@ -470,48 +526,48 @@ public class TxActivity extends BaseActivity implements View.OnClickListener {
                                 }
                             }
 
-                            if(!txvarr[0].equals("0")){
+                            if (!txvarr[0].equals("0")) {
 
                                 tv_txv_1.setText(txvarr[0]);
                                 btn_tx_1.setVisibility(View.VISIBLE);
-                            }else{
+                            } else {
                                 btn_tx_1.setVisibility(View.GONE);
                             }
 
-                            if(!txvarr[1].equals("0")){
+                            if (!txvarr[1].equals("0")) {
 
                                 tv_txv_2.setText(txvarr[1]);
                                 btn_tx_2.setVisibility(View.VISIBLE);
-                            }else{
+                            } else {
                                 btn_tx_2.setVisibility(View.GONE);
                             }
 
-                            if(!txvarr[2].equals("0")){
+                            if (!txvarr[2].equals("0")) {
 
                                 tv_txv_3.setText(txvarr[2]);
                                 btn_tx_3.setVisibility(View.VISIBLE);
-                            }else{
+                            } else {
                                 btn_tx_3.setVisibility(View.GONE);
                             }
 
 
-                            if(data.has("rules")){
+                            if (data.has("rules")) {
                                 tv_rule.setText(data.getString("rules"));
                             }
 
-                        }else{
+                        } else {
 
-                            if(message.isEmpty()){
+                            if (message.isEmpty()) {
 
                                 myToast(1002);
-                            }else{
+                            } else {
                                 myToast(message);
                             }
 
                             finish();
                         }
 
-                    }catch (Exception e){
+                    } catch (Exception e) {
 
                         e.printStackTrace();
 
@@ -541,20 +597,22 @@ public class TxActivity extends BaseActivity implements View.OnClickListener {
         }
 
         // 在编辑框的输入文本变化前触发
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
 
         // 在编辑框的输入文本变化时触发
-        public void onTextChanged(CharSequence s, int start, int before, int count) {}
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        }
 
         // 在编辑框的输入文本变化后触发
         public void afterTextChanged(Editable s) {
             String str = s.toString();
 
-            if(mView.getId() == R.id.id_txje){
+            if (mView.getId() == R.id.id_txje) {
 
-                if(str.length() > 0){
+                if (str.length() > 0) {
 
-                    if(Integer.parseInt(str, 10) > money_max){
+                    if (Integer.parseInt(str, 10) > money_max) {
 
                         mView.setText(money_max + "");
                     }
@@ -562,29 +620,29 @@ public class TxActivity extends BaseActivity implements View.OnClickListener {
             }
         }
 
-        public void chgV(View v1, View v2, boolean visible){
+        public void chgV(View v1, View v2, boolean visible) {
 
 
-            if(visible){
+            if (visible) {
 
                 v1.setVisibility(View.VISIBLE);
 
-                if(v2 != null){
+                if (v2 != null) {
 
                     v2.setVisibility(View.VISIBLE);
                 }
-            }else{
+            } else {
 
                 v1.setVisibility(View.GONE);
 
-                if(v2 != null){
+                if (v2 != null) {
 
                     v2.setVisibility(View.GONE);
                 }
             }
         }
 
-        public void hideOneInputMethod(){
+        public void hideOneInputMethod() {
 
             ViewUtil.hideOneInputMethod(TxActivity.this, mView);
         }
@@ -598,17 +656,17 @@ public class TxActivity extends BaseActivity implements View.OnClickListener {
 
         long currentTime = System.currentTimeMillis();
 
-        if(posting){
+        if (posting) {
 
-            if(currentTime - touchTime > waitTime) {
+            if (currentTime - touchTime > waitTime) {
 
                 myToast("再按一次退出");
-            }else{
+            } else {
 
                 finish();
             }
             touchTime = currentTime;
-        }else{
+        } else {
             finish();
         }
     }
@@ -616,7 +674,7 @@ public class TxActivity extends BaseActivity implements View.OnClickListener {
 
     private void ss_popupWindow_view(String value) {
 
-        if(isFinishing()){
+        if (isFinishing()) {
 
             Log.d(Tag, "ss_popupWindow_view --activity des");
             return;
@@ -634,7 +692,7 @@ public class TxActivity extends BaseActivity implements View.OnClickListener {
             @Override
             public void onDismiss() {
 
-                params.alpha=1f;
+                params.alpha = 1f;
                 getWindow().setAttributes(params);
             }
         });
@@ -655,9 +713,9 @@ public class TxActivity extends BaseActivity implements View.OnClickListener {
             }
         });
 
-        ((TextView)popupView.findViewById(R.id.id_txmoney)).setText(value);
+        ((TextView) popupView.findViewById(R.id.id_txmoney)).setText(value);
 
-        params.alpha=0.3f;
+        params.alpha = 0.3f;
         getWindow().setAttributes(params);
         popupWindow_ss.showAtLocation(findViewById(R.id.id_tx_main), Gravity.CENTER, 0, 0);
     }
@@ -666,7 +724,7 @@ public class TxActivity extends BaseActivity implements View.OnClickListener {
     protected void onDestroy() {
         super.onDestroy();
 
-        if(popupWindow_ss != null && popupWindow_ss.isShowing()){
+        if (popupWindow_ss != null && popupWindow_ss.isShowing()) {
 
             popupWindow_ss.dismiss();
         }

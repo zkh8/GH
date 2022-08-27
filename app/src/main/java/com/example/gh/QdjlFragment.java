@@ -28,12 +28,15 @@ import android.widget.TextView;
 import com.anythink.core.api.ATAdInfo;
 import com.anythink.core.api.ATNetworkConfirmInfo;
 import com.anythink.core.api.AdError;
+import com.anythink.interstitial.api.ATInterstitial;
+import com.anythink.interstitial.api.ATInterstitialListener;
 import com.anythink.rewardvideo.api.ATRewardVideoAd;
 import com.anythink.rewardvideo.api.ATRewardVideoExListener;
 import com.example.gh.util.DateUtil;
 import com.example.gh.view.NativeView;
 import com.mango.wakeupsdk.ManGoSDK;
 import com.mango.wakeupsdk.open.error.ErrorMessage;
+import com.mango.wakeupsdk.open.listener.OnInterstitialAdListener;
 import com.mango.wakeupsdk.open.listener.OnRewardVideoListener;
 import com.mango.wakeupsdk.provider.SdkProviderType;
 import com.youzan.androidsdk.YouzanSDK;
@@ -109,10 +112,62 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
     public QdjlFragment() {
     }
 
+    private void interstitialAd() {
+        ManGoSDK.getInstance().interstitialAd(getActivity(), "10362", new
+                OnInterstitialAdListener() {
+                    @Override
+                    public void onLoad(SdkProviderType sdkProviderType) {
+                        //广告加载成功
+                    }
+
+                    @Override
+                    public void onShow(SdkProviderType sdkProviderType, int i) {
+                        //广告曝光
+                    }
+
+                    @Override
+                    public void onClick(SdkProviderType sdkProviderType, int i) {
+                        //广告点击
+                    }
+
+                    @Override
+                    public void onPlayFinished(SdkProviderType sdkProviderType, int i) {
+                        //视频广告播放完成
+                    }
+
+                    @Override
+                    public void onDownloadFinished(SdkProviderType sdkProviderType, int i) {
+                        //应用下载完成
+                    }
+
+                    @Override
+                    public void onInstallFinished(SdkProviderType sdkProviderType, int i) {
+                        //应用安装完成
+                    }
+
+                    @Override
+                    public void onLeftApplication(SdkProviderType sdkProviderType, int i) {
+                        //点击广告后跳转至第三方应用
+                    }
+
+                    @Override
+                    public void onClose(SdkProviderType sdkProviderType) {
+                        //广告关闭
+                    }
+
+                    @Override
+                    public void onError(SdkProviderType sdkProviderType, ErrorMessage
+                            errorMessage) {
+                        //广告拉取失败，请打印ErrorMessage对象，提供错误码
+                        Log.e("xiatao", "++++" + errorMessage.toString());
+                    }
+                });
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        interstitialAd();
         ATRewardVideoAd rewardVideoAd = new ATRewardVideoAd(getContext(), "b6228432ecaf07");
         rewardVideoAd.load();
         rewardVideoAd.setAdListener(new ATRewardVideoExListener() {

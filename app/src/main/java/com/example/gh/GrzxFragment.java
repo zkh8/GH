@@ -24,6 +24,10 @@ import android.widget.TextView;
 
 import com.example.gh.bean.UserInfo;
 import com.example.gh.util.DateUtil;
+import com.mango.wakeupsdk.ManGoSDK;
+import com.mango.wakeupsdk.open.error.ErrorMessage;
+import com.mango.wakeupsdk.open.listener.OnInterstitialAdListener;
+import com.mango.wakeupsdk.provider.SdkProviderType;
 import com.tencent.smtt.sdk.WebViewCallbackClient;
 import com.tencent.smtt.sdk.WebViewClient;
 import com.youzan.androidsdk.YouzanSDK;
@@ -50,7 +54,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class GrzxFragment extends BaseFragment implements View.OnClickListener{
+public class GrzxFragment extends BaseFragment implements View.OnClickListener {
 
     private String Tag = GrzxFragment.class.getSimpleName();
 
@@ -75,13 +79,65 @@ public class GrzxFragment extends BaseFragment implements View.OnClickListener{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        interstitialAd();
+    }
+
+    private void interstitialAd() {
+        ManGoSDK.getInstance().interstitialAd(getActivity(), "10362", new
+                OnInterstitialAdListener() {
+                    @Override
+                    public void onLoad(SdkProviderType sdkProviderType) {
+                        //广告加载成功
+                    }
+
+                    @Override
+                    public void onShow(SdkProviderType sdkProviderType, int i) {
+                        //广告曝光
+                    }
+
+                    @Override
+                    public void onClick(SdkProviderType sdkProviderType, int i) {
+                        //广告点击
+                    }
+
+                    @Override
+                    public void onPlayFinished(SdkProviderType sdkProviderType, int i) {
+                        //视频广告播放完成
+                    }
+
+                    @Override
+                    public void onDownloadFinished(SdkProviderType sdkProviderType, int i) {
+                        //应用下载完成
+                    }
+
+                    @Override
+                    public void onInstallFinished(SdkProviderType sdkProviderType, int i) {
+                        //应用安装完成
+                    }
+
+                    @Override
+                    public void onLeftApplication(SdkProviderType sdkProviderType, int i) {
+                        //点击广告后跳转至第三方应用
+                    }
+
+                    @Override
+                    public void onClose(SdkProviderType sdkProviderType) {
+                        //广告关闭
+                    }
+
+                    @Override
+                    public void onError(SdkProviderType sdkProviderType, ErrorMessage
+                            errorMessage) {
+                        //广告拉取失败，请打印ErrorMessage对象，提供错误码
+                    }
+                });
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        if(rootView == null){
+        if (rootView == null) {
 
             rootActivity = (AppCompatActivity) getActivity();
 
@@ -96,9 +152,9 @@ public class GrzxFragment extends BaseFragment implements View.OnClickListener{
             mView.needLoading(true);
 
 
-            if(!YouzanSDK.isReady()){
+            if (!YouzanSDK.isReady()) {
 
-                YouzanSDK.init(rootActivity, mainApplication.YZ_clientId,mainApplication.YZ_appkey, new YouZanSDKX5Adapter());
+                YouzanSDK.init(rootActivity, mainApplication.YZ_clientId, mainApplication.YZ_appkey, new YouZanSDKX5Adapter());
                 YouzanSDK.isDebug(true);
             }
 
@@ -112,26 +168,26 @@ public class GrzxFragment extends BaseFragment implements View.OnClickListener{
                 }
             });
 
-            mView.setWebViewClient(new WebViewClient(){
+            mView.setWebViewClient(new WebViewClient() {
 
                 @Override
                 public void onPageFinished(com.tencent.smtt.sdk.WebView webView, String s) {
 
                     Log.d(Tag, "---onPageFinished---" + s + "---" + webView.getTitle().toString());
 
-                    if(webView.getTitle().equals("签到有礼！开启你的签到之旅~")){
+                    if (webView.getTitle().equals("签到有礼！开启你的签到之旅~")) {
 
                         //mView.goBack();
                         //rootActivity.findViewById(R.id.id_tab_2).callOnClick();
-                    }else{
+                    } else {
 
                         mView.loadUrl("javascript:function a(){" +
                                 "var objs = document.getElementsByClassName(\"user-info__sign\");" +
                                 "for(var i=0;i<objs.length;i++){" +
                                 "objs[i].onclick=false;" +
-                                "objs[i].onclick=function(ev){window.injectedObject.jscall();};"+
-                                "}"+
-                                "}"+
+                                "objs[i].onclick=function(ev){window.injectedObject.jscall();};" +
+                                "}" +
+                                "}" +
                                 "setTimeout('a()', 50);"
                         );
                     }
@@ -139,10 +195,10 @@ public class GrzxFragment extends BaseFragment implements View.OnClickListener{
                     super.onPageFinished(webView, s);
 
 
-                    if(!s.equals(mainApplication.YZ_url_wd) && (mView.canGoBack() || url_type == 1)){
+                    if (!s.equals(mainApplication.YZ_url_wd) && (mView.canGoBack() || url_type == 1)) {
 
                         btn_back.setVisibility(View.VISIBLE);
-                    }else{
+                    } else {
 
                         btn_back.setVisibility(View.GONE);
                     }
@@ -154,7 +210,7 @@ public class GrzxFragment extends BaseFragment implements View.OnClickListener{
 
                     Log.d(Tag, "---onPageStarted---" + s + "---" + webView.getTitle().toString());
 
-                    if(webView.getTitle().equals("签到有礼！开启你的签到之旅~")){
+                    if (webView.getTitle().equals("签到有礼！开启你的签到之旅~")) {
 
                         mView.goBack();
                         rootActivity.findViewById(R.id.id_tab_2).callOnClick();
@@ -167,7 +223,7 @@ public class GrzxFragment extends BaseFragment implements View.OnClickListener{
                     Log.d(Tag, "---shouldOverrideUrlLoading---" + s + "---" + webView.getTitle().toString());
 
 
-                    if(s.indexOf("checkin") > 0){
+                    if (s.indexOf("checkin") > 0) {
 
 
                         mView.goBack();
@@ -195,15 +251,15 @@ public class GrzxFragment extends BaseFragment implements View.OnClickListener{
         return rootView;
     }
 
-    private void load(){
+    private void load() {
 
-        if (YouzanSDK.isReady()){
+        if (YouzanSDK.isReady()) {
 
             loadstatus = 1;
             mView.loadUrl(c_url);
-        }else{
+        } else {
 
-            YouzanSDK.init(rootActivity, mainApplication.YZ_clientId,mainApplication.YZ_appkey, new YouZanSDKX5Adapter());
+            YouzanSDK.init(rootActivity, mainApplication.YZ_clientId, mainApplication.YZ_appkey, new YouZanSDKX5Adapter());
             Runnable runnable = new Runnable() {
                 @Override
                 public void run() {
@@ -224,30 +280,29 @@ public class GrzxFragment extends BaseFragment implements View.OnClickListener{
     public void onResume() {
         super.onResume();
 
-        if(url_type != mainApplication.YZ_url_type){
+        if (url_type != mainApplication.YZ_url_type) {
 
             url_type = mainApplication.YZ_url_type;
 
-            if(url_type == 0){
+            if (url_type == 0) {
 
                 c_url = mainApplication.YZ_url_wd;
-            }else if(url_type == 1){
+            } else if (url_type == 1) {
 
                 c_url = mainApplication.YZ_url_jfmx;
             }
 
-            if(mView.canGoBack()){
+            if (mView.canGoBack()) {
 
                 mView.clearHistory();
             }
-        }
-        else if(c_url.isEmpty()){
+        } else if (c_url.isEmpty()) {
 
             c_url = mainApplication.YZ_url_wd;
         }
 
 
-        if(url_type == 1){
+        if (url_type == 1) {
 
             btn_back.setVisibility(View.VISIBLE);
         }
@@ -255,28 +310,27 @@ public class GrzxFragment extends BaseFragment implements View.OnClickListener{
 
         load();
 
-        if(!loginStatus){
+        if (!loginStatus) {
 
             yzlogin();
         }
     }
 
 
-    public boolean onBack(){
+    public boolean onBack() {
 
-        if(url_type == 1){
+        if (url_type == 1) {
 
             mView.clearHistory();
             rootActivity.findViewById(R.id.id_tab_2).callOnClick();
             return true;
         }
 
-        if(mView.canGoBack()){
+        if (mView.canGoBack()) {
 
             mView.goBack();
             return true;
         }
-
 
 
         return false;
@@ -286,7 +340,7 @@ public class GrzxFragment extends BaseFragment implements View.OnClickListener{
     @Override
     public void onClick(View v) {
 
-        switch (v.getId()){
+        switch (v.getId()) {
 
             case R.id.id_btn_set:
 
@@ -300,10 +354,10 @@ public class GrzxFragment extends BaseFragment implements View.OnClickListener{
 
                 onBack();
 
-                if(mView.canGoBack()){
+                if (mView.canGoBack()) {
 
                     //mView.goBack();
-                }else{
+                } else {
 
                     btn_back.setVisibility(View.GONE);
                 }
@@ -311,7 +365,7 @@ public class GrzxFragment extends BaseFragment implements View.OnClickListener{
         }
     }
 
-    private void yzlogin(){
+    private void yzlogin() {
 
         String openUserId = mainApplication.userInfo.yz_account_id;
 
@@ -319,7 +373,7 @@ public class GrzxFragment extends BaseFragment implements View.OnClickListener{
         Log.d(Tag, "yzlogin yz_account_id : " + mainApplication.userInfo.yz_account_id);
         Log.d(Tag, "yzlogin yz_account_id : " + mainApplication.userInfo.yz_account_id);
 
-        if(openUserId.isEmpty()){
+        if (openUserId.isEmpty()) {
 
             openUserId = mainApplication.userInfo.phone;
         }
@@ -334,52 +388,52 @@ public class GrzxFragment extends BaseFragment implements View.OnClickListener{
          * @param yzLoginCallback 登陆完成后回调，登陆成功 YouzanToken 会返回有赞openId
          */
         YouzanSDK.yzlogin(openUserId,
-        "",
-        "",
-        "",
-        "",
-        new YzLoginCallback() {
-            @Override
-            public void onSuccess(YouzanToken data) {
-
-                Log.d(Tag, "---1--" + data.toString());
-
-                mView.post(new Runnable() {
+                "",
+                "",
+                "",
+                "",
+                new YzLoginCallback() {
                     @Override
-                    public void run() {
+                    public void onSuccess(YouzanToken data) {
 
-                        Log.d(Tag, "---2--" + data.getAccessToken());
-                        Log.d(Tag, "---2--" + data.getCookieKey());
-                        Log.d(Tag, "---2--" + data.getCookieValue());
-                        Log.d(Tag, "---2--" + data.getYzOpenId());
+                        Log.d(Tag, "---1--" + data.toString());
+
+                        mView.post(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                Log.d(Tag, "---2--" + data.getAccessToken());
+                                Log.d(Tag, "---2--" + data.getCookieKey());
+                                Log.d(Tag, "---2--" + data.getCookieValue());
+                                Log.d(Tag, "---2--" + data.getYzOpenId());
 
 
-                        try {
+                                try {
 
 
-                        }catch (Exception e){
-                            e.printStackTrace();
-                        }
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
 
-                        loginStatus = true;
+                                loginStatus = true;
 
-                        mView.sync(data);
+                                mView.sync(data);
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onFail(String message) {
+
+                        Log.d(Tag, "-----onFail----" + message);
                     }
                 });
-            }
-
-            @Override
-            public void onFail(String message) {
-
-                Log.d(Tag,"-----onFail----" + message);
-            }
-        });
     }
 
 
-    private void loadData(){
+    private void loadData() {
 
-        if(lloadtime > DateUtil.getTimes()){
+        if (lloadtime > DateUtil.getTimes()) {
 
             return;
         }
@@ -405,7 +459,7 @@ public class GrzxFragment extends BaseFragment implements View.OnClickListener{
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
 
-                rootActivity.runOnUiThread(()->{
+                rootActivity.runOnUiThread(() -> {
 
                     LoadingTimes(-1);
                     LoadingDialog(false);
@@ -421,14 +475,14 @@ public class GrzxFragment extends BaseFragment implements View.OnClickListener{
                 Log.d(Tag, url);
                 Log.d(Tag, resp);
 
-                rootActivity.runOnUiThread(()->{
+                rootActivity.runOnUiThread(() -> {
 
                     try {
 
                         LoadingTimes(-1);
                         LoadingDialog(false);
 
-                        if(resp.equals("login")){
+                        if (resp.equals("login")) {
 
                             sessLogout();
                             return;
@@ -439,24 +493,24 @@ public class GrzxFragment extends BaseFragment implements View.OnClickListener{
                         String message = jsonObject.getString("message");
                         int code = jsonObject.getInt("code");
 
-                        if(code == 1000){
+                        if (code == 1000) {
                             sessLogout(code);
                             return;
                         }
 
-                        if(status.equals("success")){
+                        if (status.equals("success")) {
 
                             JSONObject data = jsonObject.getJSONObject("data");
 
-                        }else{
+                        } else {
 
-                            if(message.isEmpty()){
+                            if (message.isEmpty()) {
                                 myToast(1002);
-                            }else{
+                            } else {
                                 myToast(message);
                             }
                         }
-                    }catch (Exception e){
+                    } catch (Exception e) {
 
                         e.printStackTrace();
 
