@@ -10,7 +10,7 @@ android {
         minSdk 23
         targetSdk 30
         versionCode 4
-        versionName "1.6.16"
+        versionName "1.6.17"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -29,7 +29,7 @@ android {
         release {
             keyAlias 'key0'
             keyPassword '123123'
-            storeFile file('C:\\code\\bxgh_android\\GH\\key\\Untitled') //签名文件的位置
+            storeFile file('D:\\code_new\\bxgh_android\\GH\\key\\Untitled') //签名文件的位置
             storePassword '123123'
         }
     }

@@ -55,7 +55,7 @@ public class GhscFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        interstitialAd();
+//        interstitialAd();
     }
 
     private void interstitialAd() {
