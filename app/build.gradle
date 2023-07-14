@@ -2,6 +2,8 @@ plugins {
     id 'com.android.application'
 }
 
+apply from: '../MobSDK.gradle'
+
 android {
     compileSdk 30
 
@@ -49,6 +51,29 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 }
+
+MobSDK {
+    appKey "35610dd563b1f"
+    appSecret "e6fe5164b34a1b9c9a98bd5138181e08"
+    ShareSDK {
+        loopShare true
+        devInfo {
+            Wechat {
+                appId "wxcf44b583c7d026d6"
+                appSecret "e6fe5164b34a1b9c9a98bd5138181e08"
+            }
+            WechatFavorite {
+                appId "wxcf44b583c7d026d6"
+                appSecret "e6fe5164b34a1b9c9a98bd5138181e08"
+            }
+            WechatMoments {
+                appId "wxcf44b583c7d026d6"
+                appSecret "e6fe5164b34a1b9c9a98bd5138181e08"
+            }
+        }
+    }
+}
+
 
 dependencies {
     implementation fileTree(include: ['*.jar', '*.aar'], dir: 'advertisement_libs')

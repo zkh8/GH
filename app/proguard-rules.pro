@@ -126,3 +126,8 @@
     public static **[] values();
     public static ** valueOf(java.lang.String);
 }
+
+-keep class cn.sharesdk.**{*;}
+-keep class com.mob.**{*;}
+-dontwarn com.mob.**
+-dontwarn cn.sharesdk.**

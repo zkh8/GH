@@ -1,0 +1,32 @@
+apply plugin: 'com.mob.sdk'
+
+MobSDK {
+    appKey "35610dd563b1f"
+    appSecret "e6fe5164b34a1b9c9a98bd5138181e08"
+    ShareSDK {
+        loopShare true
+        devInfo {
+            Wechat {
+                appId "wxcf44b583c7d026d6"
+                appSecret "e6fe5164b34a1b9c9a98bd5138181e08"
+            }
+            WechatFavorite {
+                appId "wxcf44b583c7d026d6"
+                appSecret "e6fe5164b34a1b9c9a98bd5138181e08"
+            }
+            WechatMoments {
+                appId "wxcf44b583c7d026d6"
+                appSecret "e6fe5164b34a1b9c9a98bd5138181e08"
+            }
+        }
+    }
+
+    permissions {
+        //exclude "android.permission.READ_PHONE_STATE"
+        //exclude "android.permission.QUERY_ALL_PACKAGES"
+        //exclude "android.permission.CHANGE_WIFI_STATE"
+    }
+    //在MobSDK{}配置代码块中最后一行添加配置：MobConfigEndTag true
+    //maven Cdn的部分网络节点有污染 这个是切换了备用
+    //MobConfigEndTag true
+}
