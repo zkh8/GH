@@ -10,6 +10,7 @@ import com.example.gh.bean.UserInfo;
 import com.mango.wakeupsdk.ManGoSDK;
 import com.mango.wakeupsdk.open.error.ErrorMessage;
 import com.mango.wakeupsdk.open.listener.OnInitListener;
+import com.mob.MobSDK;
 import com.umeng.commonsdk.UMConfigure;
 import com.youzan.androidsdk.YouzanSDK;
 import com.youzan.androidsdkx5.YouZanSDKX5Adapter;
@@ -54,6 +55,9 @@ public class MainApplication extends Application {
                 WebView.setDataDirectorySuffix(processName);
             }
         }
+
+        //动态提交mob隐私协议
+        MobSDK.submitPolicyGrantResult(true);
         ManGoSDK.getInstance().init(this, "sbnsNtRkyh", "efgQRSTZhijKopqr2345", new OnInitListener() {
             @Override
             public void onSuccess() {

@@ -12,7 +12,7 @@ android {
         minSdkVersion 23
         targetSdkVersion 30
         versionCode 4
-        versionName "1.6.17"
+        versionName "1.6.16"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -55,6 +55,29 @@ android {
     }
 }
 
+MobSDK {
+    appKey "35610dd563b1f"
+    appSecret "fb9e7af1959316c31dbb48eaf6352260"
+    ShareSDK {
+        loopShare true
+        devInfo {
+            Wechat {
+                appId "wxcf44b583c7d026d6"
+                appSecret "fb9e7af1959316c31dbb48eaf6352260"
+            }
+            WechatFavorite {
+                appId "wxcf44b583c7d026d6"
+                appSecret "fb9e7af1959316c31dbb48eaf6352260"
+            }
+            WechatMoments {
+                appId "wxcf44b583c7d026d6"
+                appSecret "fb9e7af1959316c31dbb48eaf6352260"
+            }
+        }
+    }
+}
+
+
 dependencies {
     implementation fileTree(include: ['*.jar', '*.aar'], dir: 'advertisement_libs')
     implementation 'com.umeng.umsdk:common:9.4.7'// 必选
@@ -76,4 +99,5 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.7'
     implementation 'com.squareup.okhttp3:okhttp:4.9.1'
     implementation 'com.github.bumptech.glide:glide:4.12.0'
+    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
 }

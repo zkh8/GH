@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -23,7 +24,9 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.anythink.core.api.ATAdInfo;
 import com.anythink.core.api.ATNetworkConfirmInfo;
@@ -32,6 +35,7 @@ import com.anythink.interstitial.api.ATInterstitial;
 import com.anythink.interstitial.api.ATInterstitialListener;
 import com.anythink.rewardvideo.api.ATRewardVideoAd;
 import com.anythink.rewardvideo.api.ATRewardVideoExListener;
+import com.example.gh.bean.ArticleListBean;
 import com.example.gh.util.DateUtil;
 import com.example.gh.view.NativeView;
 import com.mango.wakeupsdk.ManGoSDK;
@@ -39,6 +43,10 @@ import com.mango.wakeupsdk.open.error.ErrorMessage;
 import com.mango.wakeupsdk.open.listener.OnInterstitialAdListener;
 import com.mango.wakeupsdk.open.listener.OnRewardVideoListener;
 import com.mango.wakeupsdk.provider.SdkProviderType;
+import com.mob.MobSDK;
+import com.tencent.mm.opensdk.modelbiz.WXLaunchMiniProgram;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.youzan.androidsdk.YouzanSDK;
 import com.youzan.androidsdkx5.YouZanSDKX5Adapter;
 
@@ -47,9 +55,14 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
+import cn.sharesdk.framework.Platform;
+import cn.sharesdk.framework.PlatformActionListener;
+import cn.sharesdk.onekeyshare.OnekeyShare;
+import cn.sharesdk.wechat.moments.WechatMoments;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
@@ -66,6 +79,8 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
     private MainApplication mainApplication;
     private View rootView;
 
+    private ArticleListBean mArticleListBean;
+
 
     private PopupWindow popupWindow_ss = null;
     private WindowManager.LayoutParams params;
@@ -77,6 +92,9 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
     private List<TextView> qd_tvvlist = new ArrayList<TextView>();
     private List<ImageView> qd_ivlist = new ArrayList<ImageView>();
     private LinearLayout btn_tx;
+
+    private RelativeLayout mReadLayout, mFriendCircleLayout;
+    private View mReadLine, mFriendCircleLine;
 
     private TextView tv_wdjf;
     private TextView tv_xjsy;
@@ -91,6 +109,8 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
     private int c_gg = 0, c_gg_max = 0;
 
     private ATRewardVideoAd mRewardVideoAd;
+
+    private String mBxghWxMiniprogram;
 
     private int lloadtime = 0;
     private int lloadDataInterval = 5;
@@ -167,6 +187,7 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mArticleListBean = new ArticleListBean();
         interstitialAd();
         ATRewardVideoAd rewardVideoAd = new ATRewardVideoAd(getContext(), "b6228432ecaf07");
         rewardVideoAd.load();
@@ -409,6 +430,12 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
             qd_list.add(false);
         }
 
+        mReadLayout = rootView.findViewById(R.id.read_layout);
+        mFriendCircleLayout = rootView.findViewById(R.id.share_friend_circle_layout);
+        mReadLine = rootView.findViewById(R.id.read_layout_line);
+        mFriendCircleLine = rootView.findViewById(R.id.share_friend_circle_line);
+
+
         btn_tx = rootView.findViewById(R.id.id_btn_tx);
         btn_tx.setOnClickListener(this);
 
@@ -459,6 +486,8 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
 
         rootView.findViewById(R.id.id_btn_gg).setOnClickListener(this);
         rootView.findViewById(R.id.id_btn_cj).setOnClickListener(this);
+        rootView.findViewById(R.id.share_friend_circle).setOnClickListener(this);
+        rootView.findViewById(R.id.read_news).setOnClickListener(this);
         rootView.findViewById(R.id.id_btn_ljdh).setOnClickListener(this);
     }
 
@@ -591,6 +620,15 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
 
                 sign();
                 break;
+
+            case R.id.share_friend_circle:
+                shareWechatCircle();
+                break;
+            case R.id.read_news:
+                if (!TextUtils.isEmpty(mBxghWxMiniprogram)) {
+                    toWechatApplet(mBxghWxMiniprogram);
+                }
+                break;
             case R.id.id_btn_cj:
 
                 if (lucks < 1) {
@@ -620,6 +658,54 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
                 indexActivity.onClick(v);
                 break;
         }
+    }
+
+    private void toWechatApplet(String wechatId) {
+        String appId = "wxcf44b583c7d026d6"; // 填移动应用(App)的 AppId，非小程序的 AppID
+        IWXAPI api = WXAPIFactory.createWXAPI(getContext(), appId);
+
+        WXLaunchMiniProgram.Req req = new WXLaunchMiniProgram.Req();
+        req.userName = wechatId; // 填小程序原始id
+        req.path = "";                  ////拉起小程序页面的可带参路径，不填默认拉起小程序首页，对于小游戏，可以只传入 query 部分，来实现传参效果，如：传入 "?foo=bar"。
+        req.miniprogramType = WXLaunchMiniProgram.Req.MINIPTOGRAM_TYPE_RELEASE;// 可选打开 开发版，体验版和正式版
+        api.sendReq(req);
+
+//        ActivityInfoUtils.getInstance().doRecord(LoginUtils.getToken(), String.valueOf(WX_MINI));
+    }
+
+    private void shareWechatCircle() {
+        if (mArticleListBean == null) {
+            return;
+        }
+        OnekeyShare oks = new OnekeyShare();
+        //指定分享的平台，如果为空，还是会调用九宫格的平台列表界面
+        oks.setPlatform(WechatMoments.NAME);
+        // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
+        oks.setTitle(mArticleListBean.getTitle());
+
+        oks.setImageUrl(mArticleListBean.getImg());
+        // url仅在微信（包括好友和朋友圈）中使用
+        oks.setUrl(mArticleListBean.getJump_url());
+
+        oks.setCallback(new PlatformActionListener() {
+            @Override
+            public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
+                Toast.makeText(getContext(), "分享成功了", Toast.LENGTH_SHORT);
+//                ActivityInfoUtils.getInstance().doRecord(LoginUtils.getToken(), String.valueOf(SHARE_NEWS));
+            }
+
+            @Override
+            public void onError(Platform platform, int i, Throwable throwable) {
+                Toast.makeText(getContext(), "分享失败", Toast.LENGTH_SHORT);
+            }
+
+            @Override
+            public void onCancel(Platform platform, int i) {
+                Toast.makeText(getContext(), "取消分享", Toast.LENGTH_SHORT);
+            }
+        });
+        //启动分享
+        oks.show(MobSDK.getContext());
     }
 
     private void sign() {
@@ -972,6 +1058,134 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
         });
     }
 
+    private void getBxghArticleList() {
+
+
+        String url = "http://59.110.13.31/api/activity/bxghArticleList";
+
+        OkHttpClient client = new OkHttpClient();
+
+
+        Request request = new Request.Builder()
+                .url(url).build();
+
+        Call call = client.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+
+                rootActivity.runOnUiThread(() -> {
+                    myToast(1000);
+                    mFriendCircleLayout.setVisibility(View.GONE);
+                    mFriendCircleLine.setVisibility(View.GONE);
+                });
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+
+                String resp = response.body().string();
+
+                Log.d(Tag, url);
+                Log.d(Tag, resp);
+
+                rootActivity.runOnUiThread(() -> {
+
+                    try {
+
+                        JSONObject jsonObject = new JSONObject(resp);
+                        JSONArray data = jsonObject.getJSONArray("data");
+                        int code = jsonObject.getInt("code");
+
+                        if (code != 0) {
+                            return;
+                        }
+
+                        if (data != null && !data.isNull(0)) {
+                            mFriendCircleLayout.setVisibility(View.VISIBLE);
+                            mFriendCircleLine.setVisibility(View.VISIBLE);
+
+                            JSONObject o = data.getJSONObject(0);
+                            mArticleListBean.setTitle(o.getString("title"));
+                            mArticleListBean.setImg(o.getString("img"));
+                            mArticleListBean.setJump_url(o.getString("jump_url"));
+
+                        }
+                    } catch (Exception e) {
+
+                        e.printStackTrace();
+
+                        Log.d(Tag, "onResponse " + e.getMessage());
+
+                        myToast(1001);
+                    }
+                });
+            }
+        });
+    }
+
+    private void getWxMiniProgram() {
+
+
+        String url = "http://59.110.13.31/api/activity/wxMiniProgram";
+
+        OkHttpClient client = new OkHttpClient();
+
+
+        Request request = new Request.Builder()
+                .url(url).build();
+
+        Call call = client.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+
+                rootActivity.runOnUiThread(() -> {
+                    myToast(1000);
+                    mReadLayout.setVisibility(View.GONE);
+                    mReadLine.setVisibility(View.GONE);
+                });
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+
+                String resp = response.body().string();
+
+                Log.d(Tag, url);
+                Log.d(Tag, resp);
+
+                rootActivity.runOnUiThread(() -> {
+
+                    try {
+
+                        JSONObject jsonObject = new JSONObject(resp);
+                        JSONObject data = jsonObject.getJSONObject("data");
+                        int code = jsonObject.getInt("code");
+
+                        if (code != 0) {
+                            return;
+                        }
+
+                        if (data != null && !data.isNull("bxgh_wx_miniprogram")) {
+                            mReadLayout.setVisibility(View.VISIBLE);
+                            mReadLine.setVisibility(View.VISIBLE);
+                            mBxghWxMiniprogram = data.getString("bxgh_wx_miniprogram");
+                        }
+                    } catch (Exception e) {
+
+                        e.printStackTrace();
+
+                        Log.d(Tag, "onResponse " + e.getMessage());
+
+                        myToast(1001);
+                    }
+                });
+            }
+        });
+    }
+
+
     private void loadSync() {
 
         if (lsynctime > DateUtil.getTimes()) {
@@ -1066,6 +1280,9 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
     public void onResume() {
         super.onResume();
         loadData();
+        getWxMiniProgram();
+        getBxghArticleList();
+
     }
 
     private void ss_popupWindow_view(int ptype, int jf1, int jf2) {

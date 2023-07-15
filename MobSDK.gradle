@@ -2,21 +2,21 @@ apply plugin: 'com.mob.sdk'
 
 MobSDK {
     appKey "35610dd563b1f"
-    appSecret "85112703e23695439782e4950061322e"
+    appSecret "fb9e7af1959316c31dbb48eaf6352260"
     ShareSDK {
         loopShare true
         devInfo {
             Wechat {
-                appId "wx1001da2620a33f89"
-                appSecret "87b0ea807c20bf010f8ce66de78335be"
+                appId "wxcf44b583c7d026d6"
+                appSecret "fb9e7af1959316c31dbb48eaf6352260"
             }
             WechatFavorite {
-                appId "wx1001da2620a33f89"
-                appSecret "87b0ea807c20bf010f8ce66de78335be"
+                appId "wxcf44b583c7d026d6"
+                appSecret "fb9e7af1959316c31dbb48eaf6352260"
             }
             WechatMoments {
-                appId "wx1001da2620a33f89"
-                appSecret "87b0ea807c20bf010f8ce66de78335be"
+                appId "wxcf44b583c7d026d6"
+                appSecret "fb9e7af1959316c31dbb48eaf6352260"
             }
         }
     }
