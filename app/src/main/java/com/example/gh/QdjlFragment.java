@@ -93,8 +93,8 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
     private List<ImageView> qd_ivlist = new ArrayList<ImageView>();
     private LinearLayout btn_tx;
 
-    private RelativeLayout mReadLayout, mFriendCircleLayout;
-    private View mReadLine, mFriendCircleLine;
+    private RelativeLayout mFriendCircleLayout;
+    private View mFriendCircleLine;
 
     private TextView tv_wdjf;
     private TextView tv_xjsy;
@@ -430,9 +430,7 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
             qd_list.add(false);
         }
 
-        mReadLayout = rootView.findViewById(R.id.read_layout);
         mFriendCircleLayout = rootView.findViewById(R.id.share_friend_circle_layout);
-        mReadLine = rootView.findViewById(R.id.read_layout_line);
         mFriendCircleLine = rootView.findViewById(R.id.share_friend_circle_line);
 
 
@@ -487,7 +485,6 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
         rootView.findViewById(R.id.id_btn_gg).setOnClickListener(this);
         rootView.findViewById(R.id.id_btn_cj).setOnClickListener(this);
         rootView.findViewById(R.id.share_friend_circle).setOnClickListener(this);
-        rootView.findViewById(R.id.read_news).setOnClickListener(this);
         rootView.findViewById(R.id.id_btn_ljdh).setOnClickListener(this);
     }
 
@@ -509,7 +506,7 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
                     return;
                 }
                 //savePoint("看广告");
-                if (c_gg > 2) {
+                if (c_gg > 1) {
                     ManGoSDK.getInstance().rewardVideo(getActivity(), "10312", new OnRewardVideoListener() {
                         @Override
                         public void onLoad(SdkProviderType type) {
@@ -623,11 +620,6 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
 
             case R.id.share_friend_circle:
                 shareWechatCircle();
-                break;
-            case R.id.read_news:
-                if (!TextUtils.isEmpty(mBxghWxMiniprogram)) {
-                    toWechatApplet(mBxghWxMiniprogram);
-                }
                 break;
             case R.id.id_btn_cj:
 
@@ -1142,8 +1134,6 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
 
                 rootActivity.runOnUiThread(() -> {
                     myToast(1000);
-                    mReadLayout.setVisibility(View.GONE);
-                    mReadLine.setVisibility(View.GONE);
                 });
             }
 
@@ -1168,8 +1158,6 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
                         }
 
                         if (data != null && !data.isNull("bxgh_wx_miniprogram")) {
-                            mReadLayout.setVisibility(View.VISIBLE);
-                            mReadLine.setVisibility(View.VISIBLE);
                             mBxghWxMiniprogram = data.getString("bxgh_wx_miniprogram");
                         }
                     } catch (Exception e) {

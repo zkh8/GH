@@ -598,48 +598,6 @@
                     android:background="@color/bg_b_10"
                     android:visibility="gone" />
 
-                <RelativeLayout
-                    android:id="@+id/read_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="26dp"
-                    android:visibility="gone">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="阅读资讯"
-                            android:textColor="@color/black"
-                            android:textSize="16dp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="阅读资讯"
-                            android:textColor="@color/bg_b_1"
-                            android:textSize="12dp" />
-
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/read_news"
-                        android:layout_width="wrap_content"
-                        android:layout_height="32dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:background="@drawable/bg_red_16_1"
-                        android:gravity="center"
-                        android:minWidth="78dp"
-                        android:text="阅读"
-                        android:textColor="@color/white"
-                        android:textSize="13dp" />
-                </RelativeLayout>
 
                 <View
                     android:id="@+id/read_layout_line"
