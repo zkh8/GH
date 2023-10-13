@@ -131,3 +131,37 @@
 -keep class com.mob.**{*;}
 -dontwarn com.mob.**
 -dontwarn cn.sharesdk.**
+
+#混淆优化，同时不主动合并代码
+-optimizationpasses 5
+-optimizations !code/simplification/arithmetic,!field/*,!class/merging/*
+-keepattributes SourceFile,LineNumberTable,InnerClasses
+#忽略警告
+-ignorewarnings
+
+# 可以直接写在一行
+-keepattributes Signature, Deprecated, *Annotation*, EnclosingMethod
+-dontwarn okio.**
+-dontwarn com.squareup.okhttp.**
+-dontwarn okhttp3.**
+-dontwarn javax.annotation.**
+-dontwarn com.android.volley.toolbox.**
+-dontwarn android.support.v4.**
+-dontwarn android.support.v7.**
+-dontwarn io.bugtags.**
+
+
+-keep public class android.support.v4.**
+-keep public class android.support.v7.**
+
+
+-keepclassmembers class * implements android.os.Parcelable {
+    public static final ** CREATOR;
+}
+
+#保证是独立的jar,没有任何项目引用,如果不写就会认为我们所有的代码是无用的,从而把所有的代码压缩掉,导出一个空的jar
+-dontshrink
+#保护泛型
+-keepattributes Signature
+
+-printmapping ..//outputs/mapping.txt

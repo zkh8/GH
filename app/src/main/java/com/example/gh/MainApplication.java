@@ -7,6 +7,7 @@ import android.webkit.WebView;
 
 import com.anythink.core.api.ATSDK;
 import com.example.gh.bean.UserInfo;
+import com.mango.bidding.ManGoMobi;
 import com.mango.wakeupsdk.ManGoSDK;
 import com.mango.wakeupsdk.open.error.ErrorMessage;
 import com.mango.wakeupsdk.open.listener.OnInitListener;
@@ -58,16 +59,7 @@ public class MainApplication extends Application {
 
         //动态提交mob隐私协议
         MobSDK.submitPolicyGrantResult(true);
-        ManGoSDK.getInstance().init(this, "sbnsNtRkyh", "efgQRSTZhijKopqr2345", new OnInitListener() {
-            @Override
-            public void onSuccess() {
-                //初始化成功
-            }
-            @Override
-            public void onFail(ErrorMessage message) {
-                //初始化失败，请打印ErrorMessage对象，提供错误码
-            }
-        });
+        ManGoMobi.getInstance().init(this,"31560");
         UMConfigure.init(getApplicationContext(), "625e29b530a4f67780a97bf7", "Umeng", UMConfigure.DEVICE_TYPE_PHONE, "");
         ATSDK.setNetworkLogDebug(true);//SDK日志功能，集成测试阶段建议开启，上线前必须关闭
         ATSDK.init(this, appid, appKey);

@@ -4,12 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -28,27 +22,29 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.anythink.core.api.ATAdConst;
 import com.anythink.core.api.ATAdInfo;
 import com.anythink.core.api.ATNetworkConfirmInfo;
 import com.anythink.core.api.AdError;
-import com.anythink.interstitial.api.ATInterstitial;
-import com.anythink.interstitial.api.ATInterstitialListener;
+import com.anythink.nativead.api.ATNative;
+import com.anythink.nativead.api.ATNativeAdView;
+import com.anythink.nativead.api.ATNativeNetworkListener;
+import com.anythink.nativead.api.NativeAd;
+import com.anythink.network.gdt.GDTATConst;
 import com.anythink.rewardvideo.api.ATRewardVideoAd;
 import com.anythink.rewardvideo.api.ATRewardVideoExListener;
 import com.example.gh.bean.ArticleListBean;
 import com.example.gh.util.DateUtil;
-import com.example.gh.view.NativeView;
-import com.mango.wakeupsdk.ManGoSDK;
+import com.mango.bidding.ManGoMobi;
 import com.mango.wakeupsdk.open.error.ErrorMessage;
-import com.mango.wakeupsdk.open.listener.OnInterstitialAdListener;
-import com.mango.wakeupsdk.open.listener.OnRewardVideoListener;
-import com.mango.wakeupsdk.provider.SdkProviderType;
 import com.mob.MobSDK;
+import com.qq.e.ads.nativ.ADSize;
 import com.tencent.mm.opensdk.modelbiz.WXLaunchMiniProgram;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
-import com.youzan.androidsdk.YouzanSDK;
-import com.youzan.androidsdkx5.YouZanSDKX5Adapter;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -57,7 +53,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
+import java.util.Map;
 
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
@@ -66,10 +62,8 @@ import cn.sharesdk.wechat.moments.WechatMoments;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
-import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class QdjlFragment extends BaseFragment implements View.OnClickListener {
@@ -133,55 +127,42 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
     }
 
     private void interstitialAd() {
-        ManGoSDK.getInstance().interstitialAd(getActivity(), "10362", new
-                OnInterstitialAdListener() {
-                    @Override
-                    public void onLoad(SdkProviderType sdkProviderType) {
-                        //广告加载成功
-                    }
+        ManGoMobi.getInstance().interstitialAd(getActivity(), "7477721173899665", new com.mango.bidding.listener.OnInterstitialAdListener() {
+            @Override
+            public void onLoad() {
 
-                    @Override
-                    public void onShow(SdkProviderType sdkProviderType, int i) {
-                        //广告曝光
-                    }
+            }
 
-                    @Override
-                    public void onClick(SdkProviderType sdkProviderType, int i) {
-                        //广告点击
-                    }
+            @Override
+            public void onShow() {
 
-                    @Override
-                    public void onPlayFinished(SdkProviderType sdkProviderType, int i) {
-                        //视频广告播放完成
-                    }
+            }
 
-                    @Override
-                    public void onDownloadFinished(SdkProviderType sdkProviderType, int i) {
-                        //应用下载完成
-                    }
+            @Override
+            public void onClick() {
 
-                    @Override
-                    public void onInstallFinished(SdkProviderType sdkProviderType, int i) {
-                        //应用安装完成
-                    }
+            }
 
-                    @Override
-                    public void onLeftApplication(SdkProviderType sdkProviderType, int i) {
-                        //点击广告后跳转至第三方应用
-                    }
+            @Override
+            public void onPlayFinished() {
 
-                    @Override
-                    public void onClose(SdkProviderType sdkProviderType) {
-                        //广告关闭
-                    }
+            }
 
-                    @Override
-                    public void onError(SdkProviderType sdkProviderType, ErrorMessage
-                            errorMessage) {
-                        //广告拉取失败，请打印ErrorMessage对象，提供错误码
-                        Log.e("xiatao", "++++" + errorMessage.toString());
-                    }
-                });
+            @Override
+            public void onLeftApplication() {
+
+            }
+
+            @Override
+            public void onClose() {
+
+            }
+
+            @Override
+            public void onError(ErrorMessage errorMessage) {
+
+            }
+        });
     }
 
     @Override
@@ -413,12 +394,13 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
 
             params = getActivity().getWindow().getAttributes();
 
-            new NativeView(getContext(), (FrameLayout) rootView.findViewById(R.id.banner_layout));
+//            new NativeView(getContext(), (FrameLayout) rootView.findViewById(R.id.banner_layout));
 
             iniBtn();
         }
         return rootView;
     }
+
 
 
     private void iniBtn() {
@@ -507,100 +489,86 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
                 }
                 //savePoint("看广告");
                 if (c_gg > 1) {
-                    ManGoSDK.getInstance().rewardVideo(getActivity(), "10312", new OnRewardVideoListener() {
+
+                    ManGoMobi.getInstance().rewardVideo(getActivity(), "6619561118182211", new com.mango.bidding.listener.OnRewardVideoListener() {
                         @Override
-                        public void onLoad(SdkProviderType type) {
-                            System.out.println(type.getName() + "==============>onLoad");
+                        public void onLoad() {
+
                         }
 
                         @Override
-                        public void onShow(SdkProviderType type, int sdkId) {
+                        public void onShow() {
+
                         }
 
                         @Override
-                        public void onClick(SdkProviderType type, int sdkId) {
+                        public void onClick() {
+
                         }
 
                         @Override
-                        public void onPlayFinished(SdkProviderType type, int sdkId) {
-                            System.out.println(type.getName() + "==============>onPlayFinished");
+                        public void onPlayFinished() {
+
                         }
 
                         @Override
-                        public void onDownloadFinished(SdkProviderType type, int sdkId) {
+                        public void onClose() {
+                            savePoint("rewardVideo");
                         }
 
                         @Override
-                        public void onInstallFinished(SdkProviderType type, int sdkId) {
+                        public void onReward() {
+
                         }
 
                         @Override
-                        public void onLeftApplication(SdkProviderType type, int sdkId) {
-                        }
-
-                        @Override
-                        public void onClose(SdkProviderType type) {
-                            savePoint(type.getName());
-                        }
-
-                        @Override
-                        public void onReward(SdkProviderType type) {
-                        }
-
-                        @Override
-                        public void onError(SdkProviderType type, ErrorMessage message) {
+                        public void onError(ErrorMessage errorMessage) {
+                            Log.e("xiatao","+++"+errorMessage.message);
+                            myToast("视频准备中，请稍后再试");
                         }
                     });
+
                 } else {
                     if (mRewardVideoAd != null && mRewardVideoAd.isAdReady()) {
                         mRewardVideoAd.show(getActivity());
                     } else {
-                        ManGoSDK.getInstance().rewardVideo(getActivity(), "10312", new OnRewardVideoListener() {
+                        ManGoMobi.getInstance().rewardVideo(getActivity(), "6619561118182211", new com.mango.bidding.listener.OnRewardVideoListener() {
                             @Override
-                            public void onLoad(SdkProviderType type) {
-                                System.out.println(type.getName() + "==============>onLoad");
+                            public void onLoad() {
+
                             }
 
                             @Override
-                            public void onShow(SdkProviderType type, int sdkId) {
+                            public void onShow() {
+
                             }
 
                             @Override
-                            public void onClick(SdkProviderType type, int sdkId) {
+                            public void onClick() {
+
                             }
 
                             @Override
-                            public void onPlayFinished(SdkProviderType type, int sdkId) {
-                                System.out.println(type.getName() + "==============>onPlayFinished");
+                            public void onPlayFinished() {
+
                             }
 
                             @Override
-                            public void onDownloadFinished(SdkProviderType type, int sdkId) {
+                            public void onClose() {
+                                savePoint("rewardVideo");
                             }
 
                             @Override
-                            public void onInstallFinished(SdkProviderType type, int sdkId) {
+                            public void onReward() {
+
                             }
 
                             @Override
-                            public void onLeftApplication(SdkProviderType type, int sdkId) {
-                            }
-
-                            @Override
-                            public void onClose(SdkProviderType type) {
-                                savePoint(type.getName());
-                            }
-
-                            @Override
-                            public void onReward(SdkProviderType type) {
-                            }
-
-                            @Override
-                            public void onError(SdkProviderType type, ErrorMessage message) {
+                            public void onError(ErrorMessage errorMessage) {
                                 myToast("视频准备中，请稍后再试");
                             }
                         });
-//                        myToast("视频准备中，请稍后再试");
+
                     }
                 }
 
@@ -1328,7 +1296,7 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
 
             tv_jf1 = popupView.findViewById(R.id.id_jf1);
             tv_jf2 = popupView.findViewById(R.id.id_jf2);
-            new NativeView(getContext(), (FrameLayout) popupView.findViewById(R.id.sign_banner_layout));
+//            new NativeView(getContext(), (FrameLayout) popupView.findViewById(R.id.sign_banner_layout));
 
             tv_jf1.setText("+" + jf1);
             tv_jf2.setText("" + jf2);

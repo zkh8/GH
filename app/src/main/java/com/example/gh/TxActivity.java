@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.example.gh.util.TextUtil;
 import com.example.gh.util.ViewUtil;
+import com.mango.bidding.ManGoMobi;
 import com.mango.wakeupsdk.ManGoSDK;
 import com.mango.wakeupsdk.open.error.ErrorMessage;
 import com.mango.wakeupsdk.open.listener.OnInterstitialAdListener;
@@ -81,54 +82,42 @@ public class TxActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void interstitialAd() {
-        ManGoSDK.getInstance().interstitialAd(this, "10362", new
-                OnInterstitialAdListener() {
-                    @Override
-                    public void onLoad(SdkProviderType sdkProviderType) {
-                        //广告加载成功
-                    }
+        ManGoMobi.getInstance().interstitialAd(this, "7477721173899665", new com.mango.bidding.listener.OnInterstitialAdListener() {
+            @Override
+            public void onLoad() {
 
-                    @Override
-                    public void onShow(SdkProviderType sdkProviderType, int i) {
-                        //广告曝光
-                    }
+            }
 
-                    @Override
-                    public void onClick(SdkProviderType sdkProviderType, int i) {
-                        //广告点击
-                    }
+            @Override
+            public void onShow() {
 
-                    @Override
-                    public void onPlayFinished(SdkProviderType sdkProviderType, int i) {
-                        //视频广告播放完成
-                    }
+            }
 
-                    @Override
-                    public void onDownloadFinished(SdkProviderType sdkProviderType, int i) {
-                        //应用下载完成
-                    }
+            @Override
+            public void onClick() {
 
-                    @Override
-                    public void onInstallFinished(SdkProviderType sdkProviderType, int i) {
-                        //应用安装完成
-                    }
+            }
 
-                    @Override
-                    public void onLeftApplication(SdkProviderType sdkProviderType, int i) {
-                        //点击广告后跳转至第三方应用
-                    }
+            @Override
+            public void onPlayFinished() {
 
-                    @Override
-                    public void onClose(SdkProviderType sdkProviderType) {
-                        //广告关闭
-                    }
+            }
 
-                    @Override
-                    public void onError(SdkProviderType sdkProviderType, ErrorMessage
-                            errorMessage) {
-                        //广告拉取失败，请打印ErrorMessage对象，提供错误码
-                    }
-                });
+            @Override
+            public void onLeftApplication() {
+
+            }
+
+            @Override
+            public void onClose() {
+
+            }
+
+            @Override
+            public void onError(ErrorMessage errorMessage) {
+
+            }
+        });
     }
 
     @Override
