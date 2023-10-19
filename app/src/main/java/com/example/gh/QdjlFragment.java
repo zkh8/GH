@@ -27,21 +27,20 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.anythink.core.api.ATAdConst;
 import com.anythink.core.api.ATAdInfo;
+import com.anythink.core.api.ATAdSourceStatusListener;
 import com.anythink.core.api.ATNetworkConfirmInfo;
 import com.anythink.core.api.AdError;
 import com.anythink.nativead.api.ATNative;
-import com.anythink.nativead.api.ATNativeAdView;
-import com.anythink.nativead.api.ATNativeNetworkListener;
+import com.anythink.nativead.api.ATNativeView;
 import com.anythink.nativead.api.NativeAd;
-import com.anythink.network.gdt.GDTATConst;
 import com.anythink.rewardvideo.api.ATRewardVideoAd;
 import com.anythink.rewardvideo.api.ATRewardVideoExListener;
 import com.example.gh.bean.ArticleListBean;
 import com.example.gh.util.DateUtil;
 import com.mango.bidding.ManGoMobi;
+import com.mango.bidding.listener.OnNativeExpressAdListener;
 import com.mango.wakeupsdk.open.error.ErrorMessage;
 import com.mob.MobSDK;
-import com.qq.e.ads.nativ.ADSize;
 import com.tencent.mm.opensdk.modelbiz.WXLaunchMiniProgram;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -127,7 +126,7 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
     }
 
     private void interstitialAd() {
-        ManGoMobi.getInstance().interstitialAd(getActivity(), "7477721173899665", new com.mango.bidding.listener.OnInterstitialAdListener() {
+        ManGoMobi.getInstance().interstitialAd(getActivity(), "7438643484385929", new com.mango.bidding.listener.OnInterstitialAdListener() {
             @Override
             public void onLoad() {
 
@@ -397,10 +396,160 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
 //            new NativeView(getContext(), (FrameLayout) rootView.findViewById(R.id.banner_layout));
 
             iniBtn();
+            initATNativeAd();
         }
         return rootView;
     }
 
+    private ATNative mATNative;
+    private ATNativeView mATNativeView;
+    private View mSelfRenderView;
+    private NativeAd mNativeAd;
+    private final List<String> mData = new ArrayList<>();
+
+    private FrameLayout mContainer2;
+
+    private void initATNativeAd() {
+        mATNativeView = rootView.findViewById(R.id.native_ad_view);
+        mSelfRenderView = rootView.findViewById(R.id.native_selfrender_view);
+        mContainer2 = rootView.findViewById(R.id.sign_banner_layout);
+
+//        mATNative = new ATNative(getContext(), "b6262159ae151e", new ATNativeNetworkListener() {
+//            @Override
+//            public void onNativeAdLoaded() {
+//                Log.i(Tag, "onNativeAdLoaded");
+//                ATNative.entryAdScenario("b6262159ae151e", AdConst.SCENARIO_ID.NATIVE_AD_SCENARIO);
+//                if (isAdReady()) {
+////                    showAd();
+//                }
+//            }
+//
+//            @Override
+//            public void onNativeAdLoadFail(AdError adError) {
+//                Log.i(Tag, "onNativeAdLoadFail, " + adError.getFullErrorInfo());
+//            }
+//        });
+//
+//        mATNative.setAdSourceStatusListener(new ATAdSourceStatusListenerImpl());
+//
+//        final int adViewWidth = mATNativeView.getWidth() != 0 ? mATNativeView.getWidth() : getResources().getDisplayMetrics().widthPixels;
+//        final int adViewHeight = adViewWidth * 3 / 4;
+//        loadAd(adViewWidth, adViewHeight);
+
+        ManGoMobi.getInstance().nativeExpressAd(getActivity(), "1765654945211993", mContainer2.getMeasuredWidth(), 1, new OnNativeExpressAdListener() {
+            @Override
+            public void onLoad(List<?> list) {
+                if (list != null && list.size() > 0) {
+                    ManGoMobi.getInstance().nativeExpressAdRender(getActivity(), list.get(0), this);
+                }
+            }
+
+            @Override
+            public void onShow(View view) {
+            }
+
+            @Override
+            public void onClick(View view) {
+            }
+
+            @Override
+            public void onPlayFinished() {
+            }
+
+            @Override
+            public void onLeftApplication() {
+            }
+
+            @Override
+            public void onRenderFail(View view) {
+            }
+
+            @Override
+            public void onRenderSuccess(View view) {
+                mContainer2.removeAllViews();
+                mContainer2.addView(view);
+            }
+
+            @Override
+            public void onError(ErrorMessage errorMessage) {
+            }
+        });
+    }
+
+
+    private void exitNativePanel() {
+        mData.clear();
+        destroyAd();
+    }
+
+    private void destroyAd() {
+        if (mNativeAd != null) {
+            mNativeAd.destory();
+        }
+    }
+
+    private boolean isAdReady() {
+        boolean isReady = mATNative.checkAdStatus().isReady();
+        Log.i(Tag, "isAdReady: " + isReady);
+
+        List<ATAdInfo> atAdInfoList = mATNative.checkValidAdCaches();
+        Log.i(Tag, "Valid Cahce size:" + (atAdInfoList != null ? atAdInfoList.size() : 0));
+        if (atAdInfoList != null) {
+            for (ATAdInfo adInfo : atAdInfoList) {
+                Log.i(Tag, "\nCahce detail:" + adInfo.toString());
+            }
+        }
+
+        return isReady;
+    }
+
+    private void loadAd(int adViewWidth, int adViewHeight) {
+
+        Map<String, Object> localExtra = new HashMap<>();
+        localExtra.put(ATAdConst.KEY.AD_WIDTH, adViewWidth);
+        localExtra.put(ATAdConst.KEY.AD_HEIGHT, adViewHeight);
+
+        mATNative.setLocalExtra(localExtra);
+        mATNative.makeAdRequest();
+    }
+
+    public static class ATAdSourceStatusListenerImpl implements ATAdSourceStatusListener {
+        private final String TAG = getClass().getSimpleName();
+
+        @Override
+        public void onAdSourceBiddingAttempt(ATAdInfo adInfo) {
+            Log.i(TAG, "onAdSourceBiddingAttempt: " + adInfo.toString());
+        }
+
+        @Override
+        public void onAdSourceBiddingFilled(ATAdInfo adInfo) {
+            Log.i(TAG, "onAdSourceBiddingFilled: " + adInfo.toString());
+        }
+
+        @Override
+        public void onAdSourceBiddingFail(ATAdInfo adInfo, AdError adError) {
+            Log.i(TAG, "onAdSourceBiddingFail Info: " + adInfo.toString());
+            if (adError != null) {
+                Log.i(TAG, "onAdSourceBiddingFail error: " + adError.getFullErrorInfo());
+            }
+        }
+
+        @Override
+        public void onAdSourceAttempt(ATAdInfo adInfo) {
+            Log.i(TAG, "onAdSourceAttempt: " + adInfo.toString());
+        }
+
+        @Override
+        public void onAdSourceLoadFilled(ATAdInfo adInfo) {
+            Log.i(TAG, "onAdSourceLoadFilled: " + adInfo.toString());
+        }
+
+        @Override
+        public void onAdSourceLoadFail(ATAdInfo adInfo, AdError adError) {
+            Log.i(TAG, "onAdSourceLoadFail Info: " + adInfo.toString());
+            Log.i(TAG, "onAdSourceLoadFail error: " + adError.getFullErrorInfo());
+        }
+    }
 
 
     private void iniBtn() {
@@ -523,7 +672,6 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
 
                         @Override
                         public void onError(ErrorMessage errorMessage) {
-                            Log.e("xiatao","+++"+errorMessage.message);
                             myToast("视频准备中，请稍后再试");
                         }
                     });
@@ -1241,9 +1389,14 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
 
     }
 
+    private FrameLayout mContainer;
+
+
+
     private void ss_popupWindow_view(int ptype, int jf1, int jf2) {
 
         int lid = R.layout.qdgz_item;
+
 
         int vlpW = ViewGroup.LayoutParams.MATCH_PARENT;
         int vlpH = ViewGroup.LayoutParams.WRAP_CONTENT;
@@ -1260,6 +1413,7 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
         popupWindow_ss.setFocusable(true);
         popupWindow_ss.setOutsideTouchable(false);
         popupWindow_ss.setBackgroundDrawable(null);
+        mContainer = popupView.findViewById(R.id.sign_banner_layout);
 
         popupWindow_ss.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
@@ -1285,11 +1439,42 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
                 @Override
                 public void onClick(View v) {
 
-                    if (mRewardVideoAd != null && mRewardVideoAd.isAdReady()) {
-                        mRewardVideoAd.show(getActivity());
-                    } else {
-                        myToast("视频准备中，请稍后再试");
-                    }
+                    ManGoMobi.getInstance().rewardVideo(getActivity(), "6619561118182211", new com.mango.bidding.listener.OnRewardVideoListener() {
+                        @Override
+                        public void onLoad() {
+
+                        }
+
+                        @Override
+                        public void onShow() {
+
+                        }
+
+                        @Override
+                        public void onClick() {
+
+                        }
+
+                        @Override
+                        public void onPlayFinished() {
+
+                        }
+
+                        @Override
+                        public void onClose() {
+                            savePoint("rewardVideo");
+                        }
+
+                        @Override
+                        public void onReward() {
+
+                        }
+
+                        @Override
+                        public void onError(ErrorMessage errorMessage) {
+                            myToast("视频准备中，请稍后再试");
+                        }
+                    });
                     popupWindow_ss.dismiss();
                 }
             });
@@ -1297,6 +1482,45 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
             tv_jf1 = popupView.findViewById(R.id.id_jf1);
             tv_jf2 = popupView.findViewById(R.id.id_jf2);
 //            new NativeView(getContext(), (FrameLayout) popupView.findViewById(R.id.sign_banner_layout));
+            ManGoMobi.getInstance().nativeExpressAd(getActivity(), "1765654945211993", mContainer.getMeasuredWidth(), 1, new OnNativeExpressAdListener() {
+                @Override
+                public void onLoad(List<?> list) {
+                    if (list != null && list.size() > 0) {
+                        ManGoMobi.getInstance().nativeExpressAdRender(getActivity(), list.get(0), this);
+                    }
+                }
+
+                @Override
+                public void onShow(View view) {
+                }
+
+                @Override
+                public void onClick(View view) {
+                }
+
+                @Override
+                public void onPlayFinished() {
+                }
+
+                @Override
+                public void onLeftApplication() {
+                }
+
+                @Override
+                public void onRenderFail(View view) {
+                }
+
+                @Override
+                public void onRenderSuccess(View view) {
+                    mContainer.removeAllViews();
+                    mContainer.addView(view);
+                }
+
+                @Override
+                public void onError(ErrorMessage errorMessage) {
+                }
+            });
+
 
             tv_jf1.setText("+" + jf1);
             tv_jf2.setText("" + jf2);
@@ -1379,5 +1603,7 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
         params.alpha = 0.3f;
         getActivity().getWindow().setAttributes(params);
         popupWindow_ss.showAtLocation(rootView.findViewById(R.id.id_qd_main), Gravity.CENTER, 0, 0);
+
+
     }
 }

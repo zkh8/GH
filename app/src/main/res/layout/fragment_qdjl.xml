@@ -703,11 +703,28 @@
                     android:layout_marginTop="20.5dp"
                     android:background="@color/bg_b_10" />
 
-                <FrameLayout
-                    android:id="@+id/banner_layout"
+                <com.anythink.nativead.api.ATNativeView
+                    android:id="@+id/native_ad_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"></FrameLayout>
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="5dp"
+                    android:visibility="gone">
+
+                    <include
+                        android:id="@+id/native_selfrender_view"
+                        layout="@layout/layout_native_self" />
+                </com.anythink.nativead.api.ATNativeView>
+
+                <FrameLayout
+                    android:id="@+id/sign_banner_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginRight="20dp"></FrameLayout>
+
 
             </LinearLayout>
 

@@ -68,7 +68,6 @@ public class SplashActivity extends Activity implements ATSplashAdListener {
                 @Override
                 public void onError(ErrorMessage errorMessage) {
                     jumpToMainActivity();
-                    Log.e("xiatao","+++"+errorMessage.message);
                     Log.e(TAG, "==============>" + errorMessage.toString());
                 }
             });

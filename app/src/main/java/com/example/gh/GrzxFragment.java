@@ -84,7 +84,7 @@ public class GrzxFragment extends BaseFragment implements View.OnClickListener {
     }
 
     private void interstitialAd() {
-        ManGoMobi.getInstance().interstitialAd(getActivity(), "7477721173899665", new com.mango.bidding.listener.OnInterstitialAdListener() {
+        ManGoMobi.getInstance().interstitialAd(getActivity(), "7438643484385929", new com.mango.bidding.listener.OnInterstitialAdListener() {
             @Override
             public void onLoad() {
 

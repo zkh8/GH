@@ -12,6 +12,12 @@
     <style name="DownloadConfirmDialogAnimationRight">
         <item name="android:windowEnterAnimation">@anim/download_confirm_dialog_slide_right_in</item>
     </style>
-
+    <style name="style_btn">
+        <item name="android:textSize">@dimen/anythink_title_size</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@drawable/selector_btn</item>
+        <item name="android:background">@drawable/selector_bg_1</item>
+        <item name="android:clickable">true</item>
+    </style>
 
 </resources>
