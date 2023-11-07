@@ -37,6 +37,7 @@ import com.anythink.rewardvideo.api.ATRewardVideoAd;
 import com.anythink.rewardvideo.api.ATRewardVideoExListener;
 import com.example.gh.bean.ArticleListBean;
 import com.example.gh.util.DateUtil;
+import com.example.gh.util.ScreenUtils;
 import com.mango.bidding.ManGoMobi;
 import com.mango.bidding.listener.OnNativeExpressAdListener;
 import com.mango.wakeupsdk.open.error.ErrorMessage;
@@ -436,7 +437,7 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
 //        final int adViewHeight = adViewWidth * 3 / 4;
 //        loadAd(adViewWidth, adViewHeight);
 
-        ManGoMobi.getInstance().nativeExpressAd(getActivity(), "1765654945211993", mContainer2.getMeasuredWidth(), 1, new OnNativeExpressAdListener() {
+        ManGoMobi.getInstance().nativeExpressAd(getActivity(), "1765654945211993", ScreenUtils.getScreenWidth(getContext()), 1, new OnNativeExpressAdListener() {
             @Override
             public void onLoad(List<?> list) {
                 if (list != null && list.size() > 0) {
@@ -1482,7 +1483,8 @@ public class QdjlFragment extends BaseFragment implements View.OnClickListener {
             tv_jf1 = popupView.findViewById(R.id.id_jf1);
             tv_jf2 = popupView.findViewById(R.id.id_jf2);
 //            new NativeView(getContext(), (FrameLayout) popupView.findViewById(R.id.sign_banner_layout));
-            ManGoMobi.getInstance().nativeExpressAd(getActivity(), "1765654945211993", mContainer.getMeasuredWidth(), 1, new OnNativeExpressAdListener() {
+            int width = ScreenUtils.getScreenWidth(getContext()) - ScreenUtils.dpToPx(49);
+            ManGoMobi.getInstance().nativeExpressAd(getActivity(), "1765654945211993", width, 1, new OnNativeExpressAdListener() {
                 @Override
                 public void onLoad(List<?> list) {
                     if (list != null && list.size() > 0) {

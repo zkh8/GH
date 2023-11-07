@@ -524,7 +524,7 @@ public class IndexActivity extends BaseActivity implements View.OnClickListener{
     private void iniWeb(){
 
         mView = findViewById(R.id.id_webview);
-        mView.needLoading(true);
+        mView.needLoading(false);
 
         YouzanSDK.init(this, mainApplication.YZ_clientId,mainApplication.YZ_appkey, new YouZanSDKX5Adapter());
         YouzanSDK.isDebug(true);

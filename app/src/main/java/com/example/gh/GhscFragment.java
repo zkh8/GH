@@ -115,7 +115,7 @@ public class GhscFragment extends BaseFragment {
 
 
             mView = rootView.findViewById(R.id.id_webview);
-            mView.needLoading(true);
+            mView.needLoading(false);
 
             mView.subscribe(new AbsShareEvent() {
                 @Override
